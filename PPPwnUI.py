@@ -28,7 +28,10 @@ class App:
         master.resizable(False, False)
 
         # logo d'application
-        master.iconbitmap("media/logo.ico")
+        if sys.platform == "linux":
+            pass
+        else :
+            master.iconbitmap("media/logo.ico")
 
         self.menu = tk.Menu(master)
         master.config(menu=self.menu)
@@ -47,7 +50,10 @@ class App:
 
         # Menu déroulant pour les interfaces réseau
         self.interface_var = tk.StringVar(master)
-        self.interface_var.set("Ethernet") # .set("Select an interface :") # Réseau pré-sélectionné
+        if sys.platform == "linux":
+            self.interface_var.set("Select an interface :") # Réseau pré-sélectionné
+        else:
+            self.interface_var.set("Ethernet") # .set("Select an interface :") # Réseau pré-sélectionné
         self.interface_menu = tk.OptionMenu(master, self.interface_var, *get_network_interface_names())
         self.interface_menu.pack()
 
@@ -212,20 +218,23 @@ class App:
             if os.path.isfile(stage2_path) == False:
                 messagebox.showerror("Error", "stage2 does not exist")
                 return
-            command = f'python PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
+            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
         elif firmware.find("Goldhen for ") != -1:
             firmware_value = firmware.replace("Goldhen for ","").replace(".", "")
-            command = f'python PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/goldhen/2.4b17.2/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/2.4b17.2/{firmware_value}/stage2.bin"'
+            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/goldhen/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
         else:
             firmware_value = firmware.replace(".", "")
             if firmware_value.isdigit():
-                command = f'python PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/stage2/{firmware_value}/stage2.bin"'
+                command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/stage2/{firmware_value}/stage2.bin"'
             else:
                 messagebox.showerror("Error", "Invalid firmware selection")
                 return
 
         try:
-            subprocess.Popen(command, shell=True)
+            if sys.platform == "linux":
+                subprocess.Popen(f'python3 ' + command, shell=True)
+            else:
+                subprocess.Popen(f'python ' + command, shell=True)
         except subprocess.CalledProcessError as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
 

@@ -835,8 +835,8 @@ def main():
                             '1100'
                         ],
                         default='1100')
-    parser.add_argument('--stage1', default='goldhen/2.4b17.2/1100/stage1.bin')
-    parser.add_argument('--stage2', default='goldhen/2.4b17.2/1100/stage2.bin')
+    parser.add_argument('--stage1', default='goldhen/1100/stage1.bin')
+    parser.add_argument('--stage2', default='goldhen/1100/stage2.bin')
     args = parser.parse_args()
 
     print('[+] PPPwn - PlayStation 4 PPPoE RCE by theflow')
