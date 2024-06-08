@@ -7,12 +7,13 @@ import sys
 
 CUSTOM = "Custom"
 GOLDHEN_900 = "Goldhen for 9.00"
-GOLDHEN_903 = "Goldhen for 9.03"
 GOLDHEN_1000 = "Goldhen for 10.00"
 GOLDHEN_1001 = "Goldhen for 10.01"
-GOLDHEN_1050 = "Goldhen for 10.50"
-GOLDHEN_1070 = "Goldhen for 10.70"
 GOLDHEN_1100 = "Goldhen for 11.00"
+
+VTX_903  = "VTX HEN for 9.03"
+VTX_1050 = "VTX HEN for 10.50"
+VTX_1070 = "VTX HEN for 10.70"
 
 def get_network_interface_names():
     interfaces = psutil.net_if_addrs()
@@ -21,7 +22,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.01 by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.02 by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -137,15 +138,15 @@ class App:
 
         if self.firmware_var.get() == GOLDHEN_900:
             self.selected_fw2 = self.firmware_var.get()
-        if self.firmware_var.get() == GOLDHEN_903:
+        if self.firmware_var.get() == VTX_903:
             self.selected_fw2 = self.firmware_var.get()
         elif self.firmware_var.get() == GOLDHEN_1000:
             self.selected_fw2 = self.firmware_var.get()
         elif self.firmware_var.get() == GOLDHEN_1001:
             self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() == GOLDHEN_1050:
+        elif self.firmware_var.get() == VTX_1050:
             self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() == GOLDHEN_1070:
+        elif self.firmware_var.get() == VTX_1070:
             self.selected_fw2 = self.firmware_var.get()
         elif self.firmware_var.get() == GOLDHEN_1100:
             self.selected_fw2 = self.firmware_var.get()
@@ -187,7 +188,7 @@ class App:
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
         elif self.radio_var.get() == "PPPwn Goldhen":
             # Options de firmware pour PPPwn Goldhen
-            return [GOLDHEN_900, GOLDHEN_903, GOLDHEN_1000, GOLDHEN_1001, GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1100]
+            return [GOLDHEN_900, VTX_903, GOLDHEN_1000, GOLDHEN_1001, VTX_1050, VTX_1070, GOLDHEN_1100]
         elif self.radio_var.get() == CUSTOM:
             # Options de firmware pour PPPwn Goldhen
             return [CUSTOM]
