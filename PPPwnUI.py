@@ -22,7 +22,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.02 by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.03 by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -229,6 +229,9 @@ class App:
                 messagebox.showerror("Error", "stage2 does not exist")
                 return
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
+        elif firmware.find("VTX HEN for ") != -1:
+            firmware_value = firmware.replace("VTX HEN for ","").replace(".", "")
+            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/goldhen/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
         elif firmware.find("Goldhen for ") != -1:
             firmware_value = firmware.replace("Goldhen for ","").replace(".", "")
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/goldhen/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
