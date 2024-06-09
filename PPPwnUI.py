@@ -5,7 +5,10 @@ import subprocess
 import os
 import sys
 
+PPPWN  = "PPPwn"
+PS4HEN = "PPPwn PS4HEN"
 CUSTOM = "Custom"
+
 GOLDHEN_900 = "Goldhen for 9.00"
 GOLDHEN_1000 = "Goldhen for 10.00"
 GOLDHEN_1001 = "Goldhen for 10.01"
@@ -22,7 +25,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.03 by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.03a by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -45,7 +48,7 @@ class App:
         self.file_menu.add_command(label="Exit", command=master.quit)
 
         self.exploit_menu = tk.Menu(self.menu, tearoff=0)
-        self.menu.add_cascade(label="PPPwn", menu=self.exploit_menu)
+        self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
         self.exploit_menu.add_command(label="  Start PPPwn > ", command=self.start_pppwn)
 
         self.help_menu = tk.Menu(self.menu, tearoff=0)
@@ -61,18 +64,18 @@ class App:
         self.interface_menu = tk.OptionMenu(master, self.interface_var, *get_network_interface_names())
         self.interface_menu.pack()
 
-        # Frame pour les boutons radio "PPPwn" et "PPPwn Goldhen"
+        # Frame pour les boutons radio "PPPwn" et "PPPwn Goldhen/PS4HEN VTX"
         self.radio_frame = tk.Frame(master)
         self.radio_frame.pack()
 
         # Variables pour les boutons radio PPPwn et PPPwn Goldhen
-        self.radio_var = tk.StringVar(master, value="PPPwn Goldhen")
+        self.radio_var = tk.StringVar(master, value=PS4HEN)
 
         # Création des boutons radio pour PPPwn et PPPwn Goldhen
-        self.pppwn_radio_button = tk.Radiobutton(self.radio_frame, text="PPPwn", variable=self.radio_var, value="PPPwn", command=self.update_firmware_options)
+        self.pppwn_radio_button = tk.Radiobutton(self.radio_frame, text=PPPWN, variable=self.radio_var, value=PPPWN, command=self.update_firmware_options)
         self.pppwn_radio_button.pack(side=tk.LEFT, padx=5)
 
-        self.goldhen_radio_button = tk.Radiobutton(self.radio_frame, text="PPPwn Goldhen", variable=self.radio_var, value="PPPwn Goldhen", command=self.update_firmware_options)
+        self.goldhen_radio_button = tk.Radiobutton(self.radio_frame, text=PS4HEN, variable=self.radio_var, value=PS4HEN, command=self.update_firmware_options)
         self.goldhen_radio_button.pack(side=tk.LEFT, padx=5)
 
         self.custom_radio_button = tk.Radiobutton(self.radio_frame, text=CUSTOM, variable=self.radio_var, value=CUSTOM, command=self.update_firmware_options)
@@ -160,7 +163,7 @@ class App:
             self.custom_payloads_frame.pack()
         else:
             self.custom_payloads_frame.pack_forget()
-            if self.radio_var.get() == "PPPwn":
+            if self.radio_var.get() == PPPWN:
                 num_columns = 3
                 self.firmware_var.set(self.selected_fw1)
             else:
@@ -180,13 +183,13 @@ class App:
         self.show_payload_options
 
     def get_firmware_options(self):
-        if self.radio_var.get() == "PPPwn":
+        if self.radio_var.get() == PPPWN:
             # Options de firmware pour PPPwn
             return ["7.00", "7.01", "7.02", "7.50", "7.51", "7.55",
                     "8.00", "8.01", "8.03", "8.50", "8.52",
                     "9.00", "9.03", "9.04", "9.50", "9.51", "9.60",
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
-        elif self.radio_var.get() == "PPPwn Goldhen":
+        elif self.radio_var.get() == PS4HEN:
             # Options de firmware pour PPPwn Goldhen
             return [GOLDHEN_900, VTX_903, GOLDHEN_1000, GOLDHEN_1001, VTX_1050, VTX_1070, GOLDHEN_1100]
         elif self.radio_var.get() == CUSTOM:
@@ -231,7 +234,7 @@ class App:
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
         elif firmware.find("VTX HEN for ") != -1:
             firmware_value = firmware.replace("VTX HEN for ","").replace(".", "")
-            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/goldhen/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
+            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/vtx/{firmware_value}/stage1.bin" --stage2="PPPwn/vtx/{firmware_value}/stage2.bin"'
         elif firmware.find("Goldhen for ") != -1:
             firmware_value = firmware.replace("Goldhen for ","").replace(".", "")
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/goldhen/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
