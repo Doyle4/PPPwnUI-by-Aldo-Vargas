@@ -7,6 +7,7 @@ import sys
 
 PPPWN  = "PPPwn"
 PS4HEN = "PPPwn PS4HEN"
+LINUX  = "PPPwn Linux"
 CUSTOM = "Custom"
 
 GOLDHEN_900 = "Goldhen for 9.00"
@@ -20,6 +21,11 @@ VTX_1050 = "VTX HEN for 10.50"
 VTX_1070 = "VTX HEN for 10.70"
 VTX_1071 = "VTX HEN for 10.71"
 
+LINUX_1GB = "Linux 1GB 11.00"
+LINUX_2GB = "Linux 2GB 11.00"
+LINUX_3GB = "Linux 3GB 11.00"
+LINUX_4GB = "Linux 4GB 11.00"
+
 def get_network_interface_names():
     interfaces = psutil.net_if_addrs()
     return interfaces.keys()
@@ -27,7 +33,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.03b by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.04 by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -70,15 +76,19 @@ class App:
         self.radio_frame = tk.Frame(master)
         self.radio_frame.pack()
 
-        # Variables pour les boutons radio PPPwn et PPPwn Goldhen
-        self.radio_var = tk.StringVar(master, value=PS4HEN)
+        # Variables pour les boutons radio PPPwn et PPPwn PS4HEN
+        self.selected_tab = PS4HEN
+        self.radio_var = tk.StringVar(master, value=self.selected_tab)
 
-        # Création des boutons radio pour PPPwn et PPPwn Goldhen
+        # Création des boutons radio pour PPPwn, PPPwn PS4HEN, PPPwn Linux et Custom Payloads
         self.pppwn_radio_button = tk.Radiobutton(self.radio_frame, text=PPPWN, variable=self.radio_var, value=PPPWN, command=self.update_firmware_options)
         self.pppwn_radio_button.pack(side=tk.LEFT, padx=5)
 
         self.goldhen_radio_button = tk.Radiobutton(self.radio_frame, text=PS4HEN, variable=self.radio_var, value=PS4HEN, command=self.update_firmware_options)
         self.goldhen_radio_button.pack(side=tk.LEFT, padx=5)
+
+        self.linux_radio_button = tk.Radiobutton(self.radio_frame, text=LINUX, variable=self.radio_var, value=LINUX, command=self.update_firmware_options)
+        self.linux_radio_button.pack(side=tk.LEFT, padx=5)
 
         self.custom_radio_button = tk.Radiobutton(self.radio_frame, text=CUSTOM, variable=self.radio_var, value=CUSTOM, command=self.update_firmware_options)
         self.custom_radio_button.pack(side=tk.LEFT, padx=5)
@@ -91,10 +101,11 @@ class App:
 
         self.selected_fw1 = "11.00"
         self.selected_fw2 = GOLDHEN_1100
+        self.selected_fw3 = LINUX_4GB
 
         # Firmwares avec noms des versions
         self.firmware_var = tk.StringVar(master)
-        self.firmware_var.set(self.selected_fw1)  # Firmware pré-sélectionné
+        self.firmware_var.set(self.selected_fw2)  # Firmware pré-sélectionné
 
         # Sélection payloads
         self.payload_frame = tk.Frame(master)
@@ -141,45 +152,43 @@ class App:
         # Mettre à jour les options de firmware en fonction de la sélection de l'utilisateur
         firmware_versions = self.get_firmware_options()
 
-        if self.firmware_var.get() == GOLDHEN_900:
-            self.selected_fw2 = self.firmware_var.get()
-        if self.firmware_var.get() == VTX_903:
-            self.selected_fw2 = self.firmware_var.get()
-        if self.firmware_var.get() == VTX_904:
-            self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() == GOLDHEN_1000:
-            self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() == GOLDHEN_1001:
-            self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() == VTX_1050:
-            self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() == VTX_1070:
-            self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() == VTX_1071:
-            self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() == GOLDHEN_1100:
-            self.selected_fw2 = self.firmware_var.get()
-        elif self.firmware_var.get() != CUSTOM:
+        # Mémoriser la dernière option sélectionnée
+        if self.selected_tab == PPPWN:
             self.selected_fw1 = self.firmware_var.get()
+        elif self.selected_tab == PS4HEN:
+            self.selected_fw2 = self.firmware_var.get()
+        elif self.selected_tab == LINUX:
+            self.selected_fw3 = self.firmware_var.get()
+        elif self.selected_tab == CUSTOM:
+            self.custom_payloads_frame.pack_forget() # Supprimer les boutons personnalisés
 
         # Créer les colonnes des boutons radio avec les nouvelles options de firmware
-        if self.radio_var.get() == CUSTOM:
+        if self.radio_var.get() == PPPWN:
+            num_columns = 3
+            self.selected_tab = PPPWN
+            self.firmware_var.set(self.selected_fw1)
+        elif self.radio_var.get() == PS4HEN:
+            num_columns = 1
+            self.selected_tab = PS4HEN
+            self.firmware_var.set(self.selected_fw2)
+        elif self.radio_var.get() == LINUX:
+            num_columns = 1
+            self.selected_tab = LINUX
+            self.firmware_var.set(self.selected_fw3)
+        elif self.radio_var.get() == CUSTOM:
             num_columns = 2
+            self.selected_tab = CUSTOM
             self.firmware_var.set(CUSTOM)
-            self.custom_payloads_frame.pack()
-        else:
-            self.custom_payloads_frame.pack_forget()
-            if self.radio_var.get() == PPPWN:
-                num_columns = 3
-                self.firmware_var.set(self.selected_fw1)
-            else:
-                num_columns = 1
-                self.firmware_var.set(self.selected_fw2)
+            self.custom_payloads_frame.pack() # Créer les boutons personnalisés
 
         column_widgets = []
-        for firmware in firmware_versions:
-            radio_button = tk.Radiobutton(self.columns_container, text=firmware, variable=self.firmware_var, value=firmware, command=self.show_payload_options)
-            column_widgets.append(radio_button)
+        if self.radio_var.get() == CUSTOM:
+            no_label = tk.Label(self.columns_container, text="")
+            column_widgets.append(no_label)
+        else:
+            for firmware in firmware_versions:
+               radio_button = tk.Radiobutton(self.columns_container, text=firmware, variable=self.firmware_var, value=firmware, command=self.show_payload_options)
+               column_widgets.append(radio_button)
     
         for i, widget in enumerate(column_widgets):
             column_index = i % num_columns
@@ -196,10 +205,13 @@ class App:
                     "9.00", "9.03", "9.04", "9.50", "9.51", "9.60",
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
         elif self.radio_var.get() == PS4HEN:
-            # Options de firmware pour PPPwn Goldhen
+            # Options de firmware pour PPPwn PS4HEN
             return [GOLDHEN_900, VTX_903, VTX_904, GOLDHEN_1000, GOLDHEN_1001, VTX_1050, VTX_1070, VTX_1071, GOLDHEN_1100]
+        elif self.radio_var.get() == LINUX:
+            # Options de firmware pour PPPwn Linux
+            return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
         elif self.radio_var.get() == CUSTOM:
-            # Options de firmware pour PPPwn Goldhen
+            # Options de firmware pour Custom Payloads
             return [CUSTOM]
 
     def show_payload_options(self):
@@ -238,6 +250,11 @@ class App:
                 messagebox.showerror("Error", "stage2 does not exist")
                 return
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
+        elif firmware.find("Linux ") != -1:
+            firmware_value = firmware[-5:]
+            size_gb = firmware.replace("Linux ","").replace("GB " + firmware_value, "")
+            firmware_value = firmware_value.replace(".", "")
+            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/Linux/{firmware_value}/stage1.bin" --stage2="PPPwn/Linux/{firmware_value}/stage2-{size_gb}gb.bin"'
         elif firmware.find("VTX HEN for ") != -1:
             firmware_value = firmware.replace("VTX HEN for ","").replace(".", "")
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/vtx/{firmware_value}/stage1.bin" --stage2="PPPwn/vtx/{firmware_value}/stage2.bin"'

@@ -37,7 +37,9 @@ PPPwnUI is a program that adds an UI to the exploit [PPPwn](https://github.com/T
 
 - Or Choose the Goldhen PPPwn (9.00, 10.00, 10.01 & 11.00)
 
-- Or Choose the VTX HEN PPPwn (9.03, 10.50 & 10.70)
+- Or Choose the VTX HEN PPPwn (9.03, 9.04, 10.50, 10.70 & 10.71)
+
+- Or Choose the PPPwn Linux Payloads (Available only for 11.00) 
 
 - You can also add your own custom Payloads. 
 
