@@ -15,8 +15,10 @@ GOLDHEN_1001 = "Goldhen for 10.01"
 GOLDHEN_1100 = "Goldhen for 11.00"
 
 VTX_903  = "VTX HEN for 9.03"
+VTX_904  = "VTX HEN for 9.04"
 VTX_1050 = "VTX HEN for 10.50"
 VTX_1070 = "VTX HEN for 10.70"
+VTX_1071 = "VTX HEN for 10.71"
 
 def get_network_interface_names():
     interfaces = psutil.net_if_addrs()
@@ -25,7 +27,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.03a by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.03b by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -143,6 +145,8 @@ class App:
             self.selected_fw2 = self.firmware_var.get()
         if self.firmware_var.get() == VTX_903:
             self.selected_fw2 = self.firmware_var.get()
+        if self.firmware_var.get() == VTX_904:
+            self.selected_fw2 = self.firmware_var.get()
         elif self.firmware_var.get() == GOLDHEN_1000:
             self.selected_fw2 = self.firmware_var.get()
         elif self.firmware_var.get() == GOLDHEN_1001:
@@ -150,6 +154,8 @@ class App:
         elif self.firmware_var.get() == VTX_1050:
             self.selected_fw2 = self.firmware_var.get()
         elif self.firmware_var.get() == VTX_1070:
+            self.selected_fw2 = self.firmware_var.get()
+        elif self.firmware_var.get() == VTX_1071:
             self.selected_fw2 = self.firmware_var.get()
         elif self.firmware_var.get() == GOLDHEN_1100:
             self.selected_fw2 = self.firmware_var.get()
@@ -174,7 +180,7 @@ class App:
         for firmware in firmware_versions:
             radio_button = tk.Radiobutton(self.columns_container, text=firmware, variable=self.firmware_var, value=firmware, command=self.show_payload_options)
             column_widgets.append(radio_button)
-
+    
         for i, widget in enumerate(column_widgets):
             column_index = i % num_columns
             row_index = i // num_columns
@@ -191,7 +197,7 @@ class App:
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
         elif self.radio_var.get() == PS4HEN:
             # Options de firmware pour PPPwn Goldhen
-            return [GOLDHEN_900, VTX_903, GOLDHEN_1000, GOLDHEN_1001, VTX_1050, VTX_1070, GOLDHEN_1100]
+            return [GOLDHEN_900, VTX_903, VTX_904, GOLDHEN_1000, GOLDHEN_1001, VTX_1050, VTX_1070, VTX_1071, GOLDHEN_1100]
         elif self.radio_var.get() == CUSTOM:
             # Options de firmware pour PPPwn Goldhen
             return [CUSTOM]
