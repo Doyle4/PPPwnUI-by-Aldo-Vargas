@@ -6,8 +6,8 @@ import os
 import sys
 
 PPPWN  = "PPPwn"
-PS4HEN = "PPPwn PS4HEN"
-LINUX  = "PPPwn Linux"
+PS4HEN = "PS4HEN"
+LINUX  = "Linux"
 CUSTOM = "Custom"
 
 GOLDHEN_900 = "Goldhen for 9.00"
@@ -33,7 +33,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.04 by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.05 by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
