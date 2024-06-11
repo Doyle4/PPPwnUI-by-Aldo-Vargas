@@ -5,10 +5,11 @@ import subprocess
 import os
 import sys
 
-PPPWN  = "PPPwn"
-PS4HEN = "PS4HEN"
-LINUX  = "Linux"
-CUSTOM = "Custom"
+PPPWN   = "PPPwn"
+GOLDHEN = "GOLDHEN"
+PS4HEN  = "PS4HEN"
+LINUX   = "Linux"
+CUSTOM  = "Custom"
 
 GOLDHEN_900 = "Goldhen for 9.00"
 GOLDHEN_1000 = "Goldhen for 10.00"
@@ -20,6 +21,7 @@ VTX_904  = "VTX HEN for 9.04"
 VTX_1050 = "VTX HEN for 10.50"
 VTX_1070 = "VTX HEN for 10.70"
 VTX_1071 = "VTX HEN for 10.71"
+VTX_1100 = "VTX HEN for 11.00"
 
 LINUX_1GB = "Linux 1GB 11.00"
 LINUX_2GB = "Linux 2GB 11.00"
@@ -33,7 +35,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.05 by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.05a by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -50,6 +52,7 @@ class App:
 
         self.menu = tk.Menu(master)
         master.config(menu=self.menu)
+        master.bind('<Return>', self.button_click)
 
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
@@ -77,15 +80,18 @@ class App:
         self.radio_frame.pack()
 
         # Variables pour les boutons radio PPPwn et PPPwn PS4HEN
-        self.selected_tab = PS4HEN
+        self.selected_tab = GOLDHEN
         self.radio_var = tk.StringVar(master, value=self.selected_tab)
 
         # Création des boutons radio pour PPPwn, PPPwn PS4HEN, PPPwn Linux et Custom Payloads
         self.pppwn_radio_button = tk.Radiobutton(self.radio_frame, text=PPPWN, variable=self.radio_var, value=PPPWN, command=self.update_firmware_options)
         self.pppwn_radio_button.pack(side=tk.LEFT, padx=5)
 
-        self.goldhen_radio_button = tk.Radiobutton(self.radio_frame, text=PS4HEN, variable=self.radio_var, value=PS4HEN, command=self.update_firmware_options)
+        self.goldhen_radio_button = tk.Radiobutton(self.radio_frame, text=GOLDHEN, variable=self.radio_var, value=GOLDHEN, command=self.update_firmware_options)
         self.goldhen_radio_button.pack(side=tk.LEFT, padx=5)
+
+        self.ps4hen_radio_button = tk.Radiobutton(self.radio_frame, text=PS4HEN, variable=self.radio_var, value=PS4HEN, command=self.update_firmware_options)
+        self.ps4hen_radio_button.pack(side=tk.LEFT, padx=5)
 
         self.linux_radio_button = tk.Radiobutton(self.radio_frame, text=LINUX, variable=self.radio_var, value=LINUX, command=self.update_firmware_options)
         self.linux_radio_button.pack(side=tk.LEFT, padx=5)
@@ -101,7 +107,8 @@ class App:
 
         self.selected_fw1 = "11.00"
         self.selected_fw2 = GOLDHEN_1100
-        self.selected_fw3 = LINUX_4GB
+        self.selected_fw3 = VTX_1100
+        self.selected_fw4 = LINUX_4GB
 
         # Firmwares avec noms des versions
         self.firmware_var = tk.StringVar(master)
@@ -138,7 +145,7 @@ class App:
         self.stage2_browse_button.grid(row=1, column=2, padx=5)
 
         # Start PPPwn
-        self.start_button = tk.Button(master, text="  Start PPPwn > ", bg='white',fg='blue', font = ('Sans','10','bold'), command=self.start_pppwn)
+        self.start_button = tk.Button(master, text="  Start PPPwn > ", bg='white',fg='blue', font = ('Sans','12','bold'), command=self.start_pppwn, default="active")
         self.start_button.pack(side=tk.BOTTOM, pady=10)
         self.start_button.focus()
 
@@ -155,10 +162,12 @@ class App:
         # Mémoriser la dernière option sélectionnée
         if self.selected_tab == PPPWN:
             self.selected_fw1 = self.firmware_var.get()
-        elif self.selected_tab == PS4HEN:
+        elif self.selected_tab == GOLDHEN:
             self.selected_fw2 = self.firmware_var.get()
-        elif self.selected_tab == LINUX:
+        elif self.selected_tab == PS4HEN:
             self.selected_fw3 = self.firmware_var.get()
+        elif self.selected_tab == LINUX:
+            self.selected_fw4 = self.firmware_var.get()
         elif self.selected_tab == CUSTOM:
             self.custom_payloads_frame.pack_forget() # Supprimer les boutons personnalisés
 
@@ -167,14 +176,18 @@ class App:
             num_columns = 3
             self.selected_tab = PPPWN
             self.firmware_var.set(self.selected_fw1)
+        elif self.radio_var.get() == GOLDHEN:
+            num_columns = 1
+            self.selected_tab = GOLDHEN
+            self.firmware_var.set(self.selected_fw2)
         elif self.radio_var.get() == PS4HEN:
             num_columns = 1
             self.selected_tab = PS4HEN
-            self.firmware_var.set(self.selected_fw2)
+            self.firmware_var.set(self.selected_fw3)
         elif self.radio_var.get() == LINUX:
             num_columns = 1
             self.selected_tab = LINUX
-            self.firmware_var.set(self.selected_fw3)
+            self.firmware_var.set(self.selected_fw4)
         elif self.radio_var.get() == CUSTOM:
             num_columns = 2
             self.selected_tab = CUSTOM
@@ -204,9 +217,12 @@ class App:
                     "8.00", "8.01", "8.03", "8.50", "8.52",
                     "9.00", "9.03", "9.04", "9.50", "9.51", "9.60",
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
+        elif self.radio_var.get() == GOLDHEN:
+            # Options de firmware pour PPPwn PS4HEN
+            return [GOLDHEN_900, GOLDHEN_1000, GOLDHEN_1001, GOLDHEN_1100]
         elif self.radio_var.get() == PS4HEN:
             # Options de firmware pour PPPwn PS4HEN
-            return [GOLDHEN_900, VTX_903, VTX_904, GOLDHEN_1000, GOLDHEN_1001, VTX_1050, VTX_1070, VTX_1071, GOLDHEN_1100]
+            return [VTX_903, VTX_904, VTX_1050, VTX_1070, VTX_1071, VTX_1100]
         elif self.radio_var.get() == LINUX:
             # Options de firmware pour PPPwn Linux
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
@@ -229,6 +245,9 @@ class App:
     def select_stage2_file(self):
         stage2_file = filedialog.askopenfilename()
         self.stage2_path.set(stage2_file)
+
+    def button_click(self, event):
+        self.start_pppwn()
 
     def start_pppwn(self):
         interface = self.interface_var.get()
