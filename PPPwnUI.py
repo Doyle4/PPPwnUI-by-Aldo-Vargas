@@ -35,7 +35,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.05a by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.06 by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -149,6 +149,7 @@ class App:
         self.start_button.pack(side=tk.BOTTOM, pady=10)
         self.start_button.focus()
 
+        self.read_last_options()
         self.update_firmware_options()  # Mettre à jour les options de firmware initiales
 
     def update_firmware_options(self):
@@ -246,6 +247,37 @@ class App:
         stage2_file = filedialog.askopenfilename()
         self.stage2_path.set(stage2_file)
 
+    def read_line(self, f):
+        return f.readline().replace('\n','')
+
+    def read_last_options(self):
+        if os.path.isfile("PPPwnUI.dat"):
+            f = open("PPPwnUI.dat", "r")
+            self.interface_var.set(self.read_line(f))
+            self.selected_tab = self.read_line(f)
+            self.radio_var.set(self.selected_tab)
+            self.selected_fw1 = self.read_line(f)
+            self.selected_fw2 = self.read_line(f)
+            self.selected_fw3 = self.read_line(f)
+            self.selected_fw4 = self.read_line(f)
+            self.stage1_path.set(self.read_line(f))
+            self.stage2_path.set(self.read_line(f))
+            self.firmware_var.set(self.read_line(f))
+            f.close()
+
+    def save_last_options(self, interface, firmware):
+        f = open("PPPwnUI.dat", "w")
+        f.write(interface + '\n')
+        f.write(self.selected_tab + '\n')
+        f.write(self.selected_fw1 + '\n')
+        f.write(self.selected_fw2 + '\n')
+        f.write(self.selected_fw3 + '\n')
+        f.write(self.selected_fw4 + '\n')
+        f.write(self.stage1_path.get() + '\n')
+        f.write(self.stage2_path.get() + '\n')
+        f.write(firmware + '\n')
+        f.close()
+
     def button_click(self, event):
         self.start_pppwn()
 
@@ -259,6 +291,8 @@ class App:
         if interface == "Select an interface :":
             messagebox.showerror("Error", "Select a network interface")
             return
+
+        self.save_last_options(interface, firmware)
 
         if firmware == CUSTOM:
             firmware_value = self.selected_fw1.replace(".", "")
