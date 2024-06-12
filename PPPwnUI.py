@@ -12,8 +12,14 @@ LINUX   = "Linux"
 CUSTOM  = "Custom"
 
 GOLDHEN_900 = "Goldhen for 9.00"
+GOLDHEN_950 = "Goldhen for 9.50" # TEST
+GOLDHEN_951 = "Goldhen for 9.51" # TEST
+GOLDHEN_960 = "Goldhen for 9.60" # TEST
 GOLDHEN_1000 = "Goldhen for 10.00"
 GOLDHEN_1001 = "Goldhen for 10.01"
+GOLDHEN_1050 = "Goldhen for 10.50" # TEST
+GOLDHEN_1070 = "Goldhen for 10.70" # TEST
+GOLDHEN_1071 = "Goldhen for 10.71" # TEST
 GOLDHEN_1100 = "Goldhen for 11.00"
 
 VTX_903  = "VTX HEN for 9.03"
@@ -35,7 +41,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.06 by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.06a by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -178,7 +184,7 @@ class App:
             self.selected_tab = PPPWN
             self.firmware_var.set(self.selected_fw1)
         elif self.radio_var.get() == GOLDHEN:
-            num_columns = 1
+            num_columns = 2
             self.selected_tab = GOLDHEN
             self.firmware_var.set(self.selected_fw2)
         elif self.radio_var.get() == PS4HEN:
@@ -220,7 +226,9 @@ class App:
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
         elif self.radio_var.get() == GOLDHEN:
             # Options de firmware pour PPPwn PS4HEN
-            return [GOLDHEN_900, GOLDHEN_1000, GOLDHEN_1001, GOLDHEN_1100]
+            return [GOLDHEN_900, GOLDHEN_950, GOLDHEN_951, GOLDHEN_960,
+                    GOLDHEN_1000, GOLDHEN_1001,
+                    GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071, GOLDHEN_1100]
         elif self.radio_var.get() == PS4HEN:
             # Options de firmware pour PPPwn PS4HEN
             return [VTX_903, VTX_904, VTX_1050, VTX_1070, VTX_1071, VTX_1100]
