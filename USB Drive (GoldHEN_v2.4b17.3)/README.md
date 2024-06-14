@@ -15,6 +15,7 @@
       /_______  /|__/_______  /  |____|  |____|_  /\_________/
               \/            \/                  \/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ```
 ## Supported Firmware
 
@@ -53,12 +54,23 @@
 
 ### Notes
 
-This new release supports both the previous WebKit exploits and the new pppwn, but for this it requires a custom stage2 that I wrote and released the [code](https://github.com/SiSTR0/PPPwn)
+This new release supports both the previous WebKit exploits and the new pppwn, but for this 
+it requires a custom stage2 that I wrote and released the [code](https://github.com/SiSTR0/PPPwn)
+
+The custom version of stage2 first looks for the payload in the root directory of the USB drive,
+and if found, it is copied to the internal HDD at this path: /data/GoldHEN/payloads/goldhen.bin.
+The internal payload is then loaded and is no longer needed on the external USB drive.
+
+The custom stage2 loader only supports payloads with a kernel entrypoint.
 
 ### :warning: Warnings
 
-The BinLoader server is in an experimental phase but in any case there are several payloads around, some even not very well done, which can also be harmful and in the best case only crash the console. So use it with caution.
-I have tried to work out to support all payloads possible but no guarantees can be given on this. Obviously I do not take any responsibility in case of use of payloads not made by me.
+The BinLoader server is in an experimental phase but in any case there are several payloads around,
+some even not very well done, which can also be harmful and in the best case only crash the console.
+So use it with caution.
+
+I have tried to work out to support all payloads possible but no guarantees can be given on this.
+Obviously I do not take any responsibility in case of use of payloads not made by me.
 
 ### :warning: Cheat Menu
 
@@ -87,7 +99,8 @@ Cheat Menu coded by:
 - [OSM](https://github.com/OSM-Made)
 - [SiSTRo](https://github.com/SiSTR0)
 
-Plugin SDK uses [OpenOrbis-PS4-Toolchain](https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain) so thanks to all [OpenOrbis](https://github.com/OpenOrbis) devs
+Plugin SDK uses [OpenOrbis-PS4-Toolchain](https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain)
+so thanks to all [OpenOrbis](https://github.com/OpenOrbis) devs
 
 Special thanks:
 - [golden](https://github.com/jogolden)
@@ -145,7 +158,8 @@ Last but not least, my friends ctn and Kameleon for their continuous support, no
 Thanks also to everyone who supported my project on kofi.
 
 ### Note
-Project source code is currently private because over time I have seen a sad abuse of the source code that I, like the previous devs who worked on it, have been pleased to make it available to everyone to study and maybe improve it.
+Project source code is currently private because over time I have seen a sad abuse of the source code that I,
+like the previous devs who worked on it, have been pleased to make it available to everyone to study and maybe improve it.
 
 ### Donations
 Consider [donating](https://goldhen.github.io/support) if you like GoldHEN and want to support my work
