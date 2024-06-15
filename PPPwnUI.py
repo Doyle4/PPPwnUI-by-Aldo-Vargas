@@ -5,30 +5,40 @@ import subprocess
 import os
 import sys
 
+# Tabs
 PPPWN   = "PPPwn"
 GOLDHEN = "GOLDHEN"
 PS4HEN  = "PS4HEN"
 LINUX   = "Linux"
 CUSTOM  = "Custom"
 
+# GOLDHEN Options
 GOLDHEN_900 = "Goldhen for 9.00"
-GOLDHEN_950 = "Goldhen for 9.50" # TEST
-GOLDHEN_951 = "Goldhen for 9.51" # TEST
-GOLDHEN_960 = "Goldhen for 9.60" # TEST
+GOLDHEN_950 = "Goldhen for 9.50"
+GOLDHEN_951 = "Goldhen for 9.51"
+GOLDHEN_960 = "Goldhen for 9.60"
 GOLDHEN_1000 = "Goldhen for 10.00"
 GOLDHEN_1001 = "Goldhen for 10.01"
-GOLDHEN_1050 = "Goldhen for 10.50" # TEST
-GOLDHEN_1070 = "Goldhen for 10.70" # TEST
-GOLDHEN_1071 = "Goldhen for 10.71" # TEST
+GOLDHEN_1050 = "Goldhen for 10.50"
+GOLDHEN_1070 = "Goldhen for 10.70"
+GOLDHEN_1071 = "Goldhen for 10.71"
 GOLDHEN_1100 = "Goldhen for 11.00"
 
+# PS4HEN Options
+VTX_800  = "VTX HEN for 8.00"
+VTX_803  = "VTX HEN for 8.03"
+VTX_850  = "VTX HEN for 8.50"
+VTX_852  = "VTX HEN for 8.52"
 VTX_903  = "VTX HEN for 9.03"
 VTX_904  = "VTX HEN for 9.04"
+VTX_1000 = "VTX HEN for 10.00"
+VTX_1001 = "VTX HEN for 10.01"
 VTX_1050 = "VTX HEN for 10.50"
 VTX_1070 = "VTX HEN for 10.70"
 VTX_1071 = "VTX HEN for 10.71"
 VTX_1100 = "VTX HEN for 11.00"
 
+# Linux Options
 LINUX_1GB = "Linux 1GB 11.00"
 LINUX_2GB = "Linux 2GB 11.00"
 LINUX_3GB = "Linux 3GB 11.00"
@@ -41,7 +51,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, master):
         self.master = master
-        master.title("PPPwnUI v3.06a by Memz (mod by aldostools)")
+        master.title("PPPwnUI v3.07 by Memz (mod by aldostools)")
 
         # taille de la fenêtre
         master.geometry("420x380")
@@ -77,7 +87,7 @@ class App:
         if sys.platform == "linux":
             self.interface_var.set("Select an interface :") # Réseau pré-sélectionné
         else:
-            self.interface_var.set("Ethernet") # .set("Select an interface :") # Réseau pré-sélectionné
+            self.interface_var.set("Ethernet")
         self.interface_menu = tk.OptionMenu(master, self.interface_var, *get_network_interface_names())
         self.interface_menu.pack()
 
@@ -188,7 +198,7 @@ class App:
             self.selected_tab = GOLDHEN
             self.firmware_var.set(self.selected_fw2)
         elif self.radio_var.get() == PS4HEN:
-            num_columns = 1
+            num_columns = 2
             self.selected_tab = PS4HEN
             self.firmware_var.set(self.selected_fw3)
         elif self.radio_var.get() == LINUX:
@@ -231,7 +241,7 @@ class App:
                     GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071, GOLDHEN_1100]
         elif self.radio_var.get() == PS4HEN:
             # Options de firmware pour PPPwn PS4HEN
-            return [VTX_903, VTX_904, VTX_1050, VTX_1070, VTX_1071, VTX_1100]
+            return [VTX_800, VTX_803, VTX_850, VTX_852, VTX_903, VTX_904, VTX_1000, VTX_1001, VTX_1050, VTX_1070, VTX_1071, VTX_1100]
         elif self.radio_var.get() == LINUX:
             # Options de firmware pour PPPwn Linux
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
