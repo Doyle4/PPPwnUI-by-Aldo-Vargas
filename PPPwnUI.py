@@ -49,30 +49,40 @@ def get_network_interface_names():
     return interfaces.keys()
 
 class App:
-    def __init__(self, master):
-        self.master = master
-        master.title("PPPwnUI v3.07 by Memz (mod by aldostools)")
-
-        # taille de la fenêtre
-        master.geometry("420x380")
-        #master.eval('tk::PlaceWindow . center')
+    def __init__(self, window):
+        self.window = window
+        window.title("PPPwnUI v3.08 by Memz (mod by aldostools)")
 
         # Set the resizable property False
-        master.resizable(False, False)
+        window.resizable(False, False)
+
+        # Center the window
+        window_width = 420
+        window_height = 380
+
+        screen_width = window.winfo_screenwidth()
+        screen_height = window.winfo_screenheight()
+
+        x_cordinate = int((screen_width/2) - (window_width/2))
+        y_cordinate = int((screen_height/2) - (window_height/2))
+
+        window.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
         # logo d'application
         if sys.platform == "linux":
             pass
         else :
-            master.iconbitmap("media/logo.ico")
+            window.iconbitmap("media/logo.ico")
 
-        self.menu = tk.Menu(master)
-        master.config(menu=self.menu)
-        master.bind('<Return>', self.button_click)
+        self.menu = tk.Menu(window)
+        window.config(menu=self.menu)
+        window.bind('<Return>', self.button_click)
+        window.bind('<Escape>', self.window_exit)
 
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
-        self.file_menu.add_command(label="Exit", command=master.quit)
+        self.file_menu.add_command(label="Save", command=self.save_last_options)
+        self.file_menu.add_command(label="Exit", command=window.quit)
 
         self.exploit_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
@@ -83,21 +93,21 @@ class App:
         self.help_menu.add_command(label="About", command=self.about)
 
         # Menu déroulant pour les interfaces réseau
-        self.interface_var = tk.StringVar(master)
+        self.interface_var = tk.StringVar(window)
         if sys.platform == "linux":
             self.interface_var.set("Select an interface :") # Réseau pré-sélectionné
         else:
             self.interface_var.set("Ethernet")
-        self.interface_menu = tk.OptionMenu(master, self.interface_var, *get_network_interface_names())
+        self.interface_menu = tk.OptionMenu(window, self.interface_var, *get_network_interface_names())
         self.interface_menu.pack()
 
         # Frame pour les boutons radio "PPPwn" et "PPPwn Goldhen/PS4HEN VTX"
-        self.radio_frame = tk.Frame(master)
+        self.radio_frame = tk.Frame(window)
         self.radio_frame.pack()
 
         # Variables pour les boutons radio PPPwn et PPPwn PS4HEN
         self.selected_tab = GOLDHEN
-        self.radio_var = tk.StringVar(master, value=self.selected_tab)
+        self.radio_var = tk.StringVar(window, value=self.selected_tab)
 
         # Création des boutons radio pour PPPwn, PPPwn PS4HEN, PPPwn Linux et Custom Payloads
         self.pppwn_radio_button = tk.Radiobutton(self.radio_frame, text=PPPWN, variable=self.radio_var, value=PPPWN, command=self.update_firmware_options)
@@ -116,9 +126,9 @@ class App:
         self.custom_radio_button.pack(side=tk.LEFT, padx=5)
 
         # Conteneur pour les colonnes des firmwares
-        self.firmware_label = tk.Label(master, text="Choose your Firmware:")
+        self.firmware_label = tk.Label(window, text="Choose your Firmware:")
         self.firmware_label.pack()
-        self.columns_container = tk.Frame(master)
+        self.columns_container = tk.Frame(window)
         self.columns_container.pack()
 
         self.selected_fw1 = "11.00"
@@ -127,18 +137,18 @@ class App:
         self.selected_fw4 = LINUX_4GB
 
         # Firmwares avec noms des versions
-        self.firmware_var = tk.StringVar(master)
+        self.firmware_var = tk.StringVar(window)
         self.firmware_var.set(self.selected_fw2)  # Firmware pré-sélectionné
 
         # Sélection payloads
-        self.payload_frame = tk.Frame(master)
+        self.payload_frame = tk.Frame(window)
 
         self.payload_label = tk.Label(self.payload_frame, text="Select Payloads:")
         self.payload_label.pack()
 
-        self.payload_var = tk.StringVar(master)
+        self.payload_var = tk.StringVar(window)
 
-        self.custom_payloads_frame = tk.Frame(master)
+        self.custom_payloads_frame = tk.Frame(window)
 
         self.stage1_label = tk.Label(self.custom_payloads_frame, text="Custom Stage 1:")
         self.stage1_label.grid(row=0, column=0)
@@ -161,12 +171,20 @@ class App:
         self.stage2_browse_button.grid(row=1, column=2, padx=5)
 
         # Start PPPwn
-        self.start_button = tk.Button(master, text="  Start PPPwn > ", bg='white',fg='blue', font = ('Sans','12','bold'), command=self.start_pppwn, default="active")
-        self.start_button.pack(side=tk.BOTTOM, pady=10)
+        self.start_button = tk.Button(window, text="  Start PPPwn > ", bg='white',fg='blue', font = ('Sans','12','bold'), command=self.start_pppwn, default="active")
+        self.start_button.pack(side=tk.BOTTOM, pady=5)
         self.start_button.focus()
+
+        self.autostart_var = tk.StringVar(window)
+        self.autostart_var.set("0")
+        self.autostart_checkbox = tk.Checkbutton(window, text='Auto Start',variable=self.autostart_var, onvalue=1, offvalue=0, fg='gray', font = ('Sans','8'))
+        self.autostart_checkbox.pack(side=tk.BOTTOM)
 
         self.read_last_options()
         self.update_firmware_options()  # Mettre à jour les options de firmware initiales
+
+        if self.autostart_var.get() == "1":
+            self.start_pppwn()
 
     def update_firmware_options(self):
         # Supprimer les boutons radio actuels
@@ -281,11 +299,12 @@ class App:
             self.stage1_path.set(self.read_line(f))
             self.stage2_path.set(self.read_line(f))
             self.firmware_var.set(self.read_line(f))
+            self.autostart_var.set(self.read_line(f))
             f.close()
 
-    def save_last_options(self, interface, firmware):
+    def save_last_options(self):
         f = open("PPPwnUI.dat", "w")
-        f.write(interface + '\n')
+        f.write(self.interface_var.get() + '\n')
         f.write(self.selected_tab + '\n')
         f.write(self.selected_fw1 + '\n')
         f.write(self.selected_fw2 + '\n')
@@ -293,8 +312,12 @@ class App:
         f.write(self.selected_fw4 + '\n')
         f.write(self.stage1_path.get() + '\n')
         f.write(self.stage2_path.get() + '\n')
-        f.write(firmware + '\n')
+        f.write(self.firmware_var.get() + '\n')
+        f.write(self.autostart_var.get() + '\n')
         f.close()
+
+    def window_exit(self, event):
+        self.window.quit()
 
     def button_click(self, event):
         self.start_pppwn()
@@ -310,7 +333,7 @@ class App:
             messagebox.showerror("Error", "Select a network interface")
             return
 
-        self.save_last_options(interface, firmware)
+        self.save_last_options()
 
         if firmware == CUSTOM:
             firmware_value = self.selected_fw1.replace(".", "")
