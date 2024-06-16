@@ -19,16 +19,18 @@ GOLDHEN_951 = "Goldhen for 9.51"
 GOLDHEN_960 = "Goldhen for 9.60"
 GOLDHEN_1000 = "Goldhen for 10.00"
 GOLDHEN_1001 = "Goldhen for 10.01"
-GOLDHEN_1050 = "Goldhen for 10.50"
-GOLDHEN_1070 = "Goldhen for 10.70"
-GOLDHEN_1071 = "Goldhen for 10.71"
+GOLDHEN_1050 = "Goldhen for 10.50" # Not supported yet
+GOLDHEN_1070 = "Goldhen for 10.70" # Not supported yet
+GOLDHEN_1071 = "Goldhen for 10.71" # Not supported yet
 GOLDHEN_1100 = "Goldhen for 11.00"
 
 # PS4HEN Options
+VTX_755  = "VTX HEN for 7.55"
 VTX_800  = "VTX HEN for 8.00"
 VTX_803  = "VTX HEN for 8.03"
 VTX_850  = "VTX HEN for 8.50"
 VTX_852  = "VTX HEN for 8.52"
+VTX_900  = "VTX HEN for 9.00"
 VTX_903  = "VTX HEN for 9.03"
 VTX_904  = "VTX HEN for 9.04"
 VTX_1000 = "VTX HEN for 10.00"
@@ -51,7 +53,7 @@ def get_network_interface_names():
 class App:
     def __init__(self, window):
         self.window = window
-        window.title("PPPwnUI v3.08 by Memz (mod by aldostools)")
+        window.title("PPPwnUI v3.09 by Memz (mod by aldostools)")
 
         # Set the resizable property False
         window.resizable(False, False)
@@ -254,12 +256,16 @@ class App:
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
         elif self.radio_var.get() == GOLDHEN:
             # Options de firmware pour PPPwn PS4HEN
-            return [GOLDHEN_900, GOLDHEN_950, GOLDHEN_951, GOLDHEN_960,
+            return [GOLDHEN_900,
+                    GOLDHEN_950, GOLDHEN_951, GOLDHEN_960,
                     GOLDHEN_1000, GOLDHEN_1001,
-                    GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071, GOLDHEN_1100]
+                  # GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071,
+                    GOLDHEN_1100]
         elif self.radio_var.get() == PS4HEN:
             # Options de firmware pour PPPwn PS4HEN
-            return [VTX_800, VTX_803, VTX_850, VTX_852, VTX_903, VTX_904, VTX_1000, VTX_1001, VTX_1050, VTX_1070, VTX_1071, VTX_1100]
+            return [VTX_755, VTX_800, VTX_803, VTX_850, VTX_852,
+                    VTX_900, VTX_903, VTX_904, VTX_1000, VTX_1001,
+                    VTX_1050, VTX_1070, VTX_1071, VTX_1100]
         elif self.radio_var.get() == LINUX:
             # Options de firmware pour PPPwn Linux
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
@@ -372,7 +378,7 @@ class App:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
     def about(self):
-        messagebox.showinfo("About", "PPPwnUI v3.0 by Memz (mod by aldostools)\nThis app was originally developed by Memz to make PPPwn easier to use.")
+        messagebox.showinfo("About", "PPPwnUI v3.09 by Memz (mod by aldostools)\nThis app was originally developed by Memz to make PPPwn easier to use.")
 
 if sys.platform == "linux" and not os.geteuid() == 0:
     print("You must run this program as administrator.")
