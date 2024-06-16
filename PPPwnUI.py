@@ -5,11 +5,14 @@ import subprocess
 import os
 import sys
 
+GUI_VERSION = "3.11"
+
 # Tabs
 PPPWN   = "PPPwn"
 GOLDHEN = "GOLDHEN"
 PS4HEN  = "PS4HEN"
 LINUX   = "Linux"
+USB     = "USB Loader"
 CUSTOM  = "Custom"
 
 # GOLDHEN Options
@@ -46,6 +49,20 @@ LINUX_2GB = "Linux 2GB 11.00"
 LINUX_3GB = "Linux 3GB 11.00"
 LINUX_4GB = "Linux 4GB 11.00"
 
+# USB BinLoader Options
+USB_800  = "payload.bin for 8.00"
+USB_803  = "payload.bin for 8.03"
+USB_850  = "payload.bin for 8.50"
+USB_852  = "payload.bin for 8.52"
+USB_903  = "payload.bin for 9.03"
+USB_904  = "payload.bin for 9.04"
+USB_1000 = "payload.bin for 10.00"
+USB_1001 = "payload.bin for 10.01"
+USB_1050 = "payload.bin for 10.50"
+USB_1070 = "payload.bin for 10.70"
+USB_1071 = "payload.bin for 10.71"
+USB_1100 = "payload.bin for 11.00"
+
 def get_network_interface_names():
     interfaces = psutil.net_if_addrs()
     return interfaces.keys()
@@ -53,13 +70,13 @@ def get_network_interface_names():
 class App:
     def __init__(self, window):
         self.window = window
-        window.title("PPPwnUI v3.09 by Memz (mod by aldostools)")
+        window.title("PPPwnUI v" + GUI_VERSION + " by Memz (mod by aldostools)")
 
         # Set the resizable property False
         window.resizable(False, False)
 
         # Center the window
-        window_width = 420
+        window_width = 500
         window_height = 380
 
         screen_width = window.winfo_screenwidth()
@@ -124,6 +141,9 @@ class App:
         self.linux_radio_button = tk.Radiobutton(self.radio_frame, text=LINUX, variable=self.radio_var, value=LINUX, command=self.update_firmware_options)
         self.linux_radio_button.pack(side=tk.LEFT, padx=5)
 
+        self.usb_radio_button = tk.Radiobutton(self.radio_frame, text=USB, variable=self.radio_var, value=USB, command=self.update_firmware_options)
+        self.usb_radio_button.pack(side=tk.LEFT, padx=5)
+
         self.custom_radio_button = tk.Radiobutton(self.radio_frame, text=CUSTOM, variable=self.radio_var, value=CUSTOM, command=self.update_firmware_options)
         self.custom_radio_button.pack(side=tk.LEFT, padx=5)
 
@@ -137,6 +157,7 @@ class App:
         self.selected_fw2 = GOLDHEN_1100
         self.selected_fw3 = VTX_1100
         self.selected_fw4 = LINUX_4GB
+        self.selected_fw5 = USB_1100
 
         # Firmwares avec noms des versions
         self.firmware_var = tk.StringVar(window)
@@ -205,6 +226,8 @@ class App:
             self.selected_fw3 = self.firmware_var.get()
         elif self.selected_tab == LINUX:
             self.selected_fw4 = self.firmware_var.get()
+        elif self.selected_tab == USB:
+            self.selected_fw5 = self.firmware_var.get()
         elif self.selected_tab == CUSTOM:
             self.custom_payloads_frame.pack_forget() # Supprimer les boutons personnalisés
 
@@ -225,6 +248,10 @@ class App:
             num_columns = 1
             self.selected_tab = LINUX
             self.firmware_var.set(self.selected_fw4)
+        elif self.radio_var.get() == USB:
+            num_columns = 2
+            self.selected_tab = USB
+            self.firmware_var.set(self.selected_fw5)
         elif self.radio_var.get() == CUSTOM:
             num_columns = 2
             self.selected_tab = CUSTOM
@@ -269,6 +296,11 @@ class App:
         elif self.radio_var.get() == LINUX:
             # Options de firmware pour PPPwn Linux
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
+        elif self.radio_var.get() == USB:
+            # Options de firmware pour USB BinLoader
+            return [USB_800, USB_803, USB_850, USB_852,
+                    USB_903, USB_904, USB_1000, USB_1001,
+                    USB_1050, USB_1070, USB_1071, USB_1100]
         elif self.radio_var.get() == CUSTOM:
             # Options de firmware pour Custom Payloads
             return [CUSTOM]
@@ -295,27 +327,31 @@ class App:
     def read_last_options(self):
         if os.path.isfile("PPPwnUI.dat"):
             f = open("PPPwnUI.dat", "r")
-            self.interface_var.set(self.read_line(f))
-            self.selected_tab = self.read_line(f)
-            self.radio_var.set(self.selected_tab)
-            self.selected_fw1 = self.read_line(f)
-            self.selected_fw2 = self.read_line(f)
-            self.selected_fw3 = self.read_line(f)
-            self.selected_fw4 = self.read_line(f)
-            self.stage1_path.set(self.read_line(f))
-            self.stage2_path.set(self.read_line(f))
-            self.firmware_var.set(self.read_line(f))
-            self.autostart_var.set(self.read_line(f))
+            if self.read_line(f).find("UI Version: ") == 0:
+               self.interface_var.set(self.read_line(f))
+               self.selected_tab = self.read_line(f)
+               self.radio_var.set(self.selected_tab)
+               self.selected_fw1 = self.read_line(f)
+               self.selected_fw2 = self.read_line(f)
+               self.selected_fw3 = self.read_line(f)
+               self.selected_fw4 = self.read_line(f)
+               self.selected_fw5 = self.read_line(f)
+               self.stage1_path.set(self.read_line(f))
+               self.stage2_path.set(self.read_line(f))
+               self.firmware_var.set(self.read_line(f))
+               self.autostart_var.set(self.read_line(f))
             f.close()
 
     def save_last_options(self):
         f = open("PPPwnUI.dat", "w")
+        f.write("UI Version: " + GUI_VERSION + '\n')
         f.write(self.interface_var.get() + '\n')
         f.write(self.selected_tab + '\n')
         f.write(self.selected_fw1 + '\n')
         f.write(self.selected_fw2 + '\n')
         f.write(self.selected_fw3 + '\n')
         f.write(self.selected_fw4 + '\n')
+        f.write(self.selected_fw5 + '\n')
         f.write(self.stage1_path.get() + '\n')
         f.write(self.stage2_path.get() + '\n')
         f.write(self.firmware_var.get() + '\n')
@@ -350,6 +386,9 @@ class App:
                 messagebox.showerror("Error", "stage2 does not exist")
                 return
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
+        elif firmware.find("payload.bin for ") != -1:
+            firmware_value = firmware.replace("payload.bin for ","").replace(".", "")
+            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/usb/{firmware_value}/stage1.bin" --stage2="PPPwn/usb/{firmware_value}/stage2.bin"'
         elif firmware.find("Linux ") != -1:
             firmware_value = firmware[-5:]
             size_gb = firmware.replace("Linux ","").replace("GB " + firmware_value, "")
@@ -378,7 +417,8 @@ class App:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
     def about(self):
-        messagebox.showinfo("About", "PPPwnUI v3.09 by Memz (mod by aldostools)\nThis app was originally developed by Memz to make PPPwn easier to use.")
+        messagebox.showinfo("About", "PPPwnUI v" + GUI_VERSION + " by Memz (mod by aldostools)\n" +
+                            "This app was originally developed by Memz to make PPPwn easier to use.")
 
 if sys.platform == "linux" and not os.geteuid() == 0:
     print("You must run this program as administrator.")
