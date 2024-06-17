@@ -56,6 +56,9 @@ USB_850  = "payload.bin for 8.50"
 USB_852  = "payload.bin for 8.52"
 USB_903  = "payload.bin for 9.03"
 USB_904  = "payload.bin for 9.04"
+USB_950  = "payload.bin for 9.50"
+USB_951  = "payload.bin for 9.51"
+USB_960  = "payload.bin for 9.60"
 USB_1000 = "payload.bin for 10.00"
 USB_1001 = "payload.bin for 10.01"
 USB_1050 = "payload.bin for 10.50"
@@ -299,7 +302,8 @@ class App:
         elif self.radio_var.get() == USB:
             # Options de firmware pour USB BinLoader
             return [USB_800, USB_803, USB_850, USB_852,
-                    USB_903, USB_904, USB_1000, USB_1001,
+                    USB_903, USB_904, USB_950, USB_951, USB_960,
+                    USB_1000, USB_1001,
                     USB_1050, USB_1070, USB_1071, USB_1100]
         elif self.radio_var.get() == CUSTOM:
             # Options de firmware pour Custom Payloads
