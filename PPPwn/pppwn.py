@@ -12,6 +12,7 @@ from struct import pack, unpack
 from sys import exit
 from time import sleep
 from offsets import *
+import os
 
 # PPPoE constants
 
@@ -822,6 +823,8 @@ class Exploit():
 
         print('[+] Done!')
 
+        if os.path.isfile("PPPwn/retry"):
+            os.remove("PPPwn/retry")
 
 def main():
     parser = ArgumentParser('pppwn.py')

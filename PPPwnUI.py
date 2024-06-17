@@ -5,7 +5,7 @@ import subprocess
 import os
 import sys
 
-GUI_VERSION = "3.11"
+GUI_VERSION = "3.12"
 
 # Tabs
 PPPWN   = "PPPwn"
@@ -66,6 +66,16 @@ USB_1070 = "payload.bin for 10.70"
 USB_1071 = "payload.bin for 10.71"
 USB_1100 = "payload.bin for 11.00"
 
+retry_file = "PPPwn/retry"
+
+def create_file(filepath):
+    f = open(filepath, "w")
+    f.close()
+
+def remove_file(filepath):
+    if os.path.isfile(filepath):
+        os.remove(filepath)
+
 def get_network_interface_names():
     interfaces = psutil.net_if_addrs()
     return interfaces.keys()
@@ -104,10 +114,14 @@ class App:
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
         self.file_menu.add_command(label="Save", command=self.save_last_options)
-        self.file_menu.add_command(label="Exit", command=window.quit)
+        self.file_menu.add_command(label="Exit", command=self.menu_exit)
+
+        self.retry_var = tk.StringVar(window)
+        self.retry_var.set("1")
 
         self.exploit_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
+        self.exploit_menu.add_checkbutton(label="  Retry PPPwn ", onvalue="1", offvalue="0", variable=self.retry_var)
         self.exploit_menu.add_command(label="  Start PPPwn > ", command=self.start_pppwn)
 
         self.help_menu = tk.Menu(self.menu, tearoff=0)
@@ -208,6 +222,7 @@ class App:
 
         self.read_last_options()
         self.update_firmware_options()  # Mettre à jour les options de firmware initiales
+        window.update() 
 
         if self.autostart_var.get() == "1":
             self.start_pppwn()
@@ -344,6 +359,7 @@ class App:
                self.stage2_path.set(self.read_line(f))
                self.firmware_var.set(self.read_line(f))
                self.autostart_var.set(self.read_line(f))
+               self.retry_var.set(self.read_line(f))
             f.close()
 
     def save_last_options(self):
@@ -360,10 +376,15 @@ class App:
         f.write(self.stage2_path.get() + '\n')
         f.write(self.firmware_var.get() + '\n')
         f.write(self.autostart_var.get() + '\n')
+        f.write(self.retry_var.get() + '\n')
         f.close()
 
-    def window_exit(self, event):
+    def menu_exit(self):
+        remove_file(retry_file)
         self.window.quit()
+
+    def window_exit(self, event):
+        self.menu_exit()
 
     def button_click(self, event):
         self.start_pppwn()
@@ -412,13 +433,25 @@ class App:
                 messagebox.showerror("Error", "Invalid firmware selection")
                 return
 
-        try:
-            if sys.platform == "linux":
-                subprocess.Popen(f'python3 ' + command, shell=True)
-            else:
-                subprocess.Popen(f'python ' + command, shell=True)
-        except subprocess.CalledProcessError as e:
-            messagebox.showerror("Error", f"An error occurred: {e}")
+        if self.retry_var.get() == "1":
+            create_file(retry_file)
+            while(os.path.isfile(retry_file)):
+                try:
+                    if sys.platform == "linux":
+                        subprocess.Popen(f'python3 ' + command, shell=True).wait()
+                    else:
+                        subprocess.Popen(f'python ' + command, shell=True).wait()
+                except subprocess.CalledProcessError as e:
+                    messagebox.showerror("Error", f"An error occurred: {e}")
+        else:
+            remove_file(retry_file)
+            try:
+                if sys.platform == "linux":
+                    subprocess.Popen(f'python3 ' + command, shell=True)
+                else:
+                    subprocess.Popen(f'python ' + command, shell=True)
+            except subprocess.CalledProcessError as e:
+                messagebox.showerror("Error", f"An error occurred: {e}")
 
     def about(self):
         messagebox.showinfo("About", "PPPwnUI v" + GUI_VERSION + " by Memz (mod by aldostools)\n" +
