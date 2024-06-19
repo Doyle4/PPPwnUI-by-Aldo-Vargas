@@ -11,6 +11,8 @@ PPPwnUI is a program that adds an UI to the exploit [PPPwn](https://github.com/T
 
 ```pip install -r requirements.txt```
 
+- On Windows: download & install [Packet capture library for Windows](https://npcap.com/dist/npcap-1.79.exe)
+
 ## Usage
 
 - Launch the app with
