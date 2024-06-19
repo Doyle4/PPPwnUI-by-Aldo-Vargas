@@ -5,7 +5,7 @@ import subprocess
 import os
 import sys
 
-GUI_VERSION = "3.12"
+GUI_VERSION = "3.15"
 
 # Tabs
 PPPWN   = "PPPwn"
@@ -13,6 +13,7 @@ GOLDHEN = "GOLDHEN"
 PS4HEN  = "PS4HEN"
 LINUX   = "Linux"
 USB     = "USB Loader"
+NOBD    = "NOBD"
 CUSTOM  = "Custom"
 
 # GOLDHEN Options
@@ -50,21 +51,38 @@ LINUX_3GB = "Linux 3GB 11.00"
 LINUX_4GB = "Linux 4GB 11.00"
 
 # USB BinLoader Options
-USB_800  = "payload.bin for 8.00"
-USB_803  = "payload.bin for 8.03"
-USB_850  = "payload.bin for 8.50"
-USB_852  = "payload.bin for 8.52"
-USB_903  = "payload.bin for 9.03"
-USB_904  = "payload.bin for 9.04"
-USB_950  = "payload.bin for 9.50"
-USB_951  = "payload.bin for 9.51"
-USB_960  = "payload.bin for 9.60"
+USB_755  = "payload.bin for 7.55" 
+USB_803  = "payload.bin for 8.03" 
+USB_850  = "payload.bin for 8.50" 
+USB_852  = "payload.bin for 8.52" 
+USB_900  = "payload.bin for 9.00" 
+USB_903  = "payload.bin for 9.03" 
+USB_904  = "payload.bin for 9.04" 
+USB_950  = "payload.bin for 9.50" 
+USB_960  = "payload.bin for 9.60" 
 USB_1000 = "payload.bin for 10.00"
 USB_1001 = "payload.bin for 10.01"
 USB_1050 = "payload.bin for 10.50"
 USB_1070 = "payload.bin for 10.70"
 USB_1071 = "payload.bin for 10.71"
 USB_1100 = "payload.bin for 11.00"
+
+# USB NOBD BinLoader Options
+NOBD_755  = "payload.bin for NOBD 7.55" 
+NOBD_803  = "payload.bin for NOBD 8.03" 
+NOBD_850  = "payload.bin for NOBD 8.50" 
+NOBD_852  = "payload.bin for NOBD 8.52" 
+NOBD_900  = "payload.bin for NOBD 9.00" 
+NOBD_903  = "payload.bin for NOBD 9.03" 
+NOBD_904  = "payload.bin for NOBD 9.04" 
+NOBD_950  = "payload.bin for NOBD 9.50" 
+NOBD_960  = "payload.bin for NOBD 9.60" 
+NOBD_1000 = "payload.bin for NOBD 10.00"
+NOBD_1001 = "payload.bin for NOBD 10.01"
+NOBD_1050 = "payload.bin for NOBD 10.50"
+NOBD_1070 = "payload.bin for NOBD 10.70"
+NOBD_1071 = "payload.bin for NOBD 10.71"
+NOBD_1100 = "payload.bin for NOBD 11.00"
 
 retry_file = "PPPwn/retry"
 
@@ -89,7 +107,7 @@ class App:
         window.resizable(False, False)
 
         # Center the window
-        window_width = 500
+        window_width = 570
         window_height = 380
 
         screen_width = window.winfo_screenwidth()
@@ -161,6 +179,9 @@ class App:
         self.usb_radio_button = tk.Radiobutton(self.radio_frame, text=USB, variable=self.radio_var, value=USB, command=self.update_firmware_options)
         self.usb_radio_button.pack(side=tk.LEFT, padx=5)
 
+        self.nobd_radio_button = tk.Radiobutton(self.radio_frame, text=NOBD, variable=self.radio_var, value=NOBD, command=self.update_firmware_options)
+        self.nobd_radio_button.pack(side=tk.LEFT, padx=5)
+
         self.custom_radio_button = tk.Radiobutton(self.radio_frame, text=CUSTOM, variable=self.radio_var, value=CUSTOM, command=self.update_firmware_options)
         self.custom_radio_button.pack(side=tk.LEFT, padx=5)
 
@@ -175,6 +196,7 @@ class App:
         self.selected_fw3 = VTX_1100
         self.selected_fw4 = LINUX_4GB
         self.selected_fw5 = USB_1100
+        self.selected_fw6 = NOBD_1100
 
         # Firmwares avec noms des versions
         self.firmware_var = tk.StringVar(window)
@@ -246,6 +268,8 @@ class App:
             self.selected_fw4 = self.firmware_var.get()
         elif self.selected_tab == USB:
             self.selected_fw5 = self.firmware_var.get()
+        elif self.selected_tab == NOBD:
+            self.selected_fw6 = self.firmware_var.get()
         elif self.selected_tab == CUSTOM:
             self.custom_payloads_frame.pack_forget() # Supprimer les boutons personnalisés
 
@@ -270,6 +294,10 @@ class App:
             num_columns = 2
             self.selected_tab = USB
             self.firmware_var.set(self.selected_fw5)
+        elif self.radio_var.get() == NOBD:
+            num_columns = 2
+            self.selected_tab = NOBD
+            self.firmware_var.set(self.selected_fw6)
         elif self.radio_var.get() == CUSTOM:
             num_columns = 2
             self.selected_tab = CUSTOM
@@ -316,10 +344,16 @@ class App:
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
         elif self.radio_var.get() == USB:
             # Options de firmware pour USB BinLoader
-            return [USB_800, USB_803, USB_850, USB_852,
-                    USB_903, USB_904, USB_950, USB_951, USB_960,
-                    USB_1000, USB_1001,
-                    USB_1050, USB_1070, USB_1071, USB_1100]
+            return [USB_755, USB_803, USB_850, USB_852,
+                    USB_900, USB_903, USB_904, USB_950, USB_960,
+                    USB_1000, USB_1001, USB_1050, USB_1070, USB_1071,
+                    USB_1100]
+        elif self.radio_var.get() == NOBD:
+            # Options de firmware NOBD pour USB BinLoader
+            return [NOBD_755, NOBD_803, NOBD_850, NOBD_852,
+                    NOBD_900, NOBD_903, NOBD_904, NOBD_950, NOBD_960,
+                    NOBD_1000, NOBD_1001, NOBD_1050, NOBD_1070, NOBD_1071,
+                    NOBD_1100]
         elif self.radio_var.get() == CUSTOM:
             # Options de firmware pour Custom Payloads
             return [CUSTOM]
@@ -360,6 +394,7 @@ class App:
                self.firmware_var.set(self.read_line(f))
                self.autostart_var.set(self.read_line(f))
                self.retry_var.set(self.read_line(f))
+               self.selected_fw6 = self.read_line(f)
             f.close()
 
     def save_last_options(self):
@@ -377,6 +412,7 @@ class App:
         f.write(self.firmware_var.get() + '\n')
         f.write(self.autostart_var.get() + '\n')
         f.write(self.retry_var.get() + '\n')
+        f.write(self.selected_fw6 + '\n')
         f.close()
 
     def menu_exit(self):
@@ -411,6 +447,9 @@ class App:
                 messagebox.showerror("Error", "stage2 does not exist")
                 return
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
+        elif firmware.find("payload.bin for NOBD ") != -1:
+            firmware_value = firmware.replace("payload.bin for NOBD ","").replace(".", "")
+            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/nobd/{firmware_value}/stage1.bin" --stage2="PPPwn/nobd/{firmware_value}/stage2.bin"'
         elif firmware.find("payload.bin for ") != -1:
             firmware_value = firmware.replace("payload.bin for ","").replace(".", "")
             command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/usb/{firmware_value}/stage1.bin" --stage2="PPPwn/usb/{firmware_value}/stage2.bin"'

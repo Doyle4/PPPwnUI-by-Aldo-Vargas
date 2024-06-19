@@ -39,6 +39,8 @@ PPPwnUI is a program that adds an UI to the exploit [PPPwn](https://github.com/T
 
 - Or Choose the VTX HEN PPPwn (8.00, 8.03, 8.50, 8.52, 9.03, 9.04, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00)
 
+- Or use USB BinLoader / NOBD BinLoader (7.55, 8.03, 8.50, 8.52, 9.00, 9.03, 9.04, 9.50, 9.60, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00)
+
 - Or Choose the PPPwn Linux Payloads (Available only for 11.00)
 
 - You can also add your own custom Payloads.
@@ -87,6 +89,11 @@ Check https://ps4linux.com/ps4-linux-11-0-payloads-pppwn-tutorial/ for detailed 
 
 Credits to EinTim23, LightningMods, sleirsgolvy, the Psxita Team, TheFl0w and all the contributos to https://github.com/EinTim23/PS4-Linux-Loader
 
+### USB BinLoader / NOBD BinLoader (7.55, 8.03, 8.50, 8.52, 9.00, 9.03, 9.04, 9.50, 9.60, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00)
+Stage2 by LightningMods & EchoStrech with BinLoader integraded for normal and NOBD consoles.
+
+Rename the PS4-VTX-HEN_PPPwn payload by EchoStrech and BestPig or Additional Payload by LightningMods as payload.bin
+Copy payload.bin to the root directory of USB EXFAT drive and start PPPwn USB BinLoader or NODB
 
 ## PPPwn Usage
 
