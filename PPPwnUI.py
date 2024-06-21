@@ -5,7 +5,7 @@ import subprocess
 import os
 import sys
 
-GUI_VERSION = "3.15"
+GUI_VERSION = "3.16"
 
 # Tabs
 PPPWN   = "PPPwn"
@@ -51,15 +51,17 @@ LINUX_3GB = "Linux 3GB 11.00"
 LINUX_4GB = "Linux 4GB 11.00"
 
 # USB BinLoader Options
-USB_755  = "payload.bin for 7.55" 
-USB_803  = "payload.bin for 8.03" 
-USB_850  = "payload.bin for 8.50" 
-USB_852  = "payload.bin for 8.52" 
-USB_900  = "payload.bin for 9.00" 
-USB_903  = "payload.bin for 9.03" 
-USB_904  = "payload.bin for 9.04" 
-USB_950  = "payload.bin for 9.50" 
-USB_960  = "payload.bin for 9.60" 
+USB_755  = "payload.bin for 7.55"
+USB_800  = "payload.bin for 8.00"
+USB_801  = "payload.bin for 8.01"
+USB_803  = "payload.bin for 8.03"
+USB_850  = "payload.bin for 8.50"
+USB_852  = "payload.bin for 8.52"
+USB_900  = "payload.bin for 9.00"
+USB_903  = "payload.bin for 9.03"
+USB_904  = "payload.bin for 9.04"
+USB_950  = "payload.bin for 9.50"
+USB_960  = "payload.bin for 9.60"
 USB_1000 = "payload.bin for 10.00"
 USB_1001 = "payload.bin for 10.01"
 USB_1050 = "payload.bin for 10.50"
@@ -68,15 +70,17 @@ USB_1071 = "payload.bin for 10.71"
 USB_1100 = "payload.bin for 11.00"
 
 # USB NOBD BinLoader Options
-NOBD_755  = "payload.bin for NOBD 7.55" 
-NOBD_803  = "payload.bin for NOBD 8.03" 
-NOBD_850  = "payload.bin for NOBD 8.50" 
-NOBD_852  = "payload.bin for NOBD 8.52" 
-NOBD_900  = "payload.bin for NOBD 9.00" 
-NOBD_903  = "payload.bin for NOBD 9.03" 
-NOBD_904  = "payload.bin for NOBD 9.04" 
-NOBD_950  = "payload.bin for NOBD 9.50" 
-NOBD_960  = "payload.bin for NOBD 9.60" 
+NOBD_755  = "payload.bin for NOBD 7.55"
+NOBD_800  = "payload.bin for NOBD 8.00"
+NOBD_801  = "payload.bin for NOBD 8.01"
+NOBD_803  = "payload.bin for NOBD 8.03"
+NOBD_850  = "payload.bin for NOBD 8.50"
+NOBD_852  = "payload.bin for NOBD 8.52"
+NOBD_900  = "payload.bin for NOBD 9.00"
+NOBD_903  = "payload.bin for NOBD 9.03"
+NOBD_904  = "payload.bin for NOBD 9.04"
+NOBD_950  = "payload.bin for NOBD 9.50"
+NOBD_960  = "payload.bin for NOBD 9.60"
 NOBD_1000 = "payload.bin for NOBD 10.00"
 NOBD_1001 = "payload.bin for NOBD 10.01"
 NOBD_1050 = "payload.bin for NOBD 10.50"
@@ -108,7 +112,7 @@ class App:
 
         # Center the window
         window_width = 570
-        window_height = 380
+        window_height = 400
 
         screen_width = window.winfo_screenwidth()
         screen_height = window.winfo_screenheight()
@@ -244,7 +248,7 @@ class App:
 
         self.read_last_options()
         self.update_firmware_options()  # Mettre à jour les options de firmware initiales
-        window.update() 
+        window.update()
 
         if self.autostart_var.get() == "1":
             self.start_pppwn()
@@ -312,7 +316,7 @@ class App:
             for firmware in firmware_versions:
                radio_button = tk.Radiobutton(self.columns_container, text=firmware, variable=self.firmware_var, value=firmware, command=self.show_payload_options)
                column_widgets.append(radio_button)
-    
+
         for i, widget in enumerate(column_widgets):
             column_index = i % num_columns
             row_index = i // num_columns
@@ -344,13 +348,13 @@ class App:
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
         elif self.radio_var.get() == USB:
             # Options de firmware pour USB BinLoader
-            return [USB_755, USB_803, USB_850, USB_852,
+            return [USB_755, USB_800, USB_801, USB_803, USB_850, USB_852,
                     USB_900, USB_903, USB_904, USB_950, USB_960,
                     USB_1000, USB_1001, USB_1050, USB_1070, USB_1071,
                     USB_1100]
         elif self.radio_var.get() == NOBD:
             # Options de firmware NOBD pour USB BinLoader
-            return [NOBD_755, NOBD_803, NOBD_850, NOBD_852,
+            return [NOBD_755, NOBD_800, NOBD_801, NOBD_803, NOBD_850, NOBD_852,
                     NOBD_900, NOBD_903, NOBD_904, NOBD_950, NOBD_960,
                     NOBD_1000, NOBD_1001, NOBD_1050, NOBD_1070, NOBD_1071,
                     NOBD_1100]
