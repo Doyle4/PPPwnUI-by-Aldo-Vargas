@@ -91,7 +91,7 @@ Special thanks to xVortex, SiSTR0, EchoStrecth and BestPig for his releases in D
 This payload lets run PS4 Linux on 11.0 firmware. If you're on 9.00, it's recommended to stay in that version.
 Check https://ps4linux.com/ps4-linux-11-0-payloads-pppwn-tutorial/ for detailed information.
 
-Credits to EinTim23, LightningMods, sleirsgolvy, the Psxita Team, TheFl0w and all the contributos to https://github.com/EinTim23/PS4-Linux-Loader
+Credits to EinTim23, LightningMods, sleirsgolvy, the Psxita Team, TheFlow0 and all the contributos to https://github.com/EinTim23/PS4-Linux-Loader
 
 ### USB BinLoader / NOBD BinLoader (7.55 to 11.00)
 Stage2 by LightningMods & EchoStrech with BinLoader integraded for normal and NOBD consoles.
