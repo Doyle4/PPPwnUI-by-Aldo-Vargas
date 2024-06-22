@@ -1,11 +1,12 @@
 import tkinter as tk
-from tkinter import messagebox, filedialog
+from tkinter import ttk, font
+from tkinter import messagebox, filedialog, Canvas, PhotoImage
 import psutil
 import subprocess
 import os
 import sys
 
-GUI_VERSION = "3.16"
+GUI_VERSION = "3.20"
 
 # Tabs
 PPPWN   = "PPPwn"
@@ -111,8 +112,12 @@ class App:
         window.resizable(False, False)
 
         # Center the window
-        window_width = 570
-        window_height = 400
+        window_width = 580
+        window_height = 450
+
+        if sys.platform != "linux":
+            self.defaultFont = font.nametofont("TkDefaultFont") 
+            self.defaultFont.configure(family="Tahoma", size=10)
 
         screen_width = window.winfo_screenwidth()
         screen_height = window.winfo_screenheight()
@@ -149,6 +154,10 @@ class App:
         self.help_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Help", menu=self.help_menu)
         self.help_menu.add_command(label="About", command=self.about)
+
+        self.image = tk.PhotoImage(file="media/logo.png")
+        self.label = ttk.Label(image=self.image)
+        self.label.pack(side=tk.TOP, padx=5)
 
         # Menu déroulant pour les interfaces réseau
         self.interface_var = tk.StringVar(window)
