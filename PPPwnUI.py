@@ -116,7 +116,7 @@ class App:
         window_width = 580
         window_height = 460
 
-        if sys.platform != "linux":
+        if sys.platform == "win32":
             self.defaultFont = font.nametofont("TkDefaultFont") 
             self.defaultFont.configure(family="Tahoma", size=10)
 
@@ -426,6 +426,14 @@ class App:
         f.write(self.selected_fw6 + '\n')
         f.close()
 
+    def create_reset_network_script(self):
+        interface = self.interface_var.get()
+        f = open("ResetNetwork.bat", "w")
+        f.write(f'@netsh interface set interface "{interface}" disable && echo {interface} resetted\n')
+        f.write(f'@netsh interface set interface "{interface}" enable\n')
+        f.write(f'@pause\n')
+        f.close()
+
     def menu_exit(self):
         remove_file(retry_file)
         self.window.quit()
@@ -448,6 +456,8 @@ class App:
             return
 
         self.save_last_options()
+        if sys.platform == "win32":
+            self.create_reset_network_script()
 
         if firmware == CUSTOM:
             firmware_value = self.selected_fw1.replace(".", "")
