@@ -96,7 +96,7 @@ Stage2 by LightningMods & EchoStrech with BinLoader integraded for normal and NO
 FW Versions: 7.55, 8.00, 8.01, 8.03, 8.50, 8.52, 9.00, 9.03, 9.04, 9.50, 9.60, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00
 
 Rename the PS4-VTX-HEN_PPPwn payload by EchoStrech and BestPig or Additional Payload by LightningMods as payload.bin
-Copy payload.bin to the root directory of USB EXFAT drive and start PPPwn USB BinLoader or NODB
+Copy `payload.bin` to the root directory of USB EXFAT drive and start PPPwn from USB Loader or NODB tabs.
 
 ## PPPwn Usage
 
