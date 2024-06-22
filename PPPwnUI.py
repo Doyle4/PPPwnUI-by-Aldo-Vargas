@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import *
 from tkinter import ttk, font
 from tkinter import messagebox, filedialog, Canvas, PhotoImage
 import psutil
@@ -113,7 +114,7 @@ class App:
 
         # Center the window
         window_width = 580
-        window_height = 450
+        window_height = 460
 
         if sys.platform != "linux":
             self.defaultFont = font.nametofont("TkDefaultFont") 
@@ -176,30 +177,21 @@ class App:
         self.selected_tab = GOLDHEN
         self.radio_var = tk.StringVar(window, value=self.selected_tab)
 
+        tabs = [PPPWN, GOLDHEN, PS4HEN, LINUX, USB, NOBD, CUSTOM ]
+
         # Création des boutons radio pour PPPwn, PPPwn PS4HEN, PPPwn Linux et Custom Payloads
-        self.pppwn_radio_button = tk.Radiobutton(self.radio_frame, text=PPPWN, variable=self.radio_var, value=PPPWN, command=self.update_firmware_options)
-        self.pppwn_radio_button.pack(side=tk.LEFT, padx=5)
-
-        self.goldhen_radio_button = tk.Radiobutton(self.radio_frame, text=GOLDHEN, variable=self.radio_var, value=GOLDHEN, command=self.update_firmware_options)
-        self.goldhen_radio_button.pack(side=tk.LEFT, padx=5)
-
-        self.ps4hen_radio_button = tk.Radiobutton(self.radio_frame, text=PS4HEN, variable=self.radio_var, value=PS4HEN, command=self.update_firmware_options)
-        self.ps4hen_radio_button.pack(side=tk.LEFT, padx=5)
-
-        self.linux_radio_button = tk.Radiobutton(self.radio_frame, text=LINUX, variable=self.radio_var, value=LINUX, command=self.update_firmware_options)
-        self.linux_radio_button.pack(side=tk.LEFT, padx=5)
-
-        self.usb_radio_button = tk.Radiobutton(self.radio_frame, text=USB, variable=self.radio_var, value=USB, command=self.update_firmware_options)
-        self.usb_radio_button.pack(side=tk.LEFT, padx=5)
-
-        self.nobd_radio_button = tk.Radiobutton(self.radio_frame, text=NOBD, variable=self.radio_var, value=NOBD, command=self.update_firmware_options)
-        self.nobd_radio_button.pack(side=tk.LEFT, padx=5)
-
-        self.custom_radio_button = tk.Radiobutton(self.radio_frame, text=CUSTOM, variable=self.radio_var, value=CUSTOM, command=self.update_firmware_options)
-        self.custom_radio_button.pack(side=tk.LEFT, padx=5)
+        self.radios = []
+        for option in tabs:
+            radio = tk.Radiobutton(self.radio_frame, text = '  ' + option + '  ', 
+                                   value = option, variable = self.radio_var, indicator = 0,
+                                   command=self.update_firmware_options,
+                                   background = "white",
+                                   font = ('Sans','11', font.BOLD))
+            self.radios.append(radio)
+            radio.pack(side=tk.LEFT, padx=0)
 
         # Conteneur pour les colonnes des firmwares
-        self.firmware_label = tk.Label(window, text="Choose your Firmware:")
+        self.firmware_label = tk.Label(window, text="Choose your Firmware:", pady=5)
         self.firmware_label.pack()
         self.columns_container = tk.Frame(window)
         self.columns_container.pack()
@@ -286,39 +278,44 @@ class App:
         elif self.selected_tab == CUSTOM:
             self.custom_payloads_frame.pack_forget() # Supprimer les boutons personnalisés
 
+        # hilight current option
+        current_tab = self.radio_var.get()
+        for radio in self.radios:
+            radio.configure(foreground = "blue" if radio.cget('value') == current_tab else "black")
+
         # Créer les colonnes des boutons radio avec les nouvelles options de firmware
-        if self.radio_var.get() == PPPWN:
+        if current_tab == PPPWN:
             num_columns = 3
             self.selected_tab = PPPWN
             self.firmware_var.set(self.selected_fw1)
-        elif self.radio_var.get() == GOLDHEN:
+        elif current_tab == GOLDHEN:
             num_columns = 2
             self.selected_tab = GOLDHEN
             self.firmware_var.set(self.selected_fw2)
-        elif self.radio_var.get() == PS4HEN:
+        elif current_tab == PS4HEN:
             num_columns = 2
             self.selected_tab = PS4HEN
             self.firmware_var.set(self.selected_fw3)
-        elif self.radio_var.get() == LINUX:
+        elif current_tab == LINUX:
             num_columns = 1
             self.selected_tab = LINUX
             self.firmware_var.set(self.selected_fw4)
-        elif self.radio_var.get() == USB:
+        elif current_tab == USB:
             num_columns = 2
             self.selected_tab = USB
             self.firmware_var.set(self.selected_fw5)
-        elif self.radio_var.get() == NOBD:
+        elif current_tab == NOBD:
             num_columns = 2
             self.selected_tab = NOBD
             self.firmware_var.set(self.selected_fw6)
-        elif self.radio_var.get() == CUSTOM:
+        elif current_tab == CUSTOM:
             num_columns = 2
             self.selected_tab = CUSTOM
             self.firmware_var.set(CUSTOM)
             self.custom_payloads_frame.pack() # Créer les boutons personnalisés
 
         column_widgets = []
-        if self.radio_var.get() == CUSTOM:
+        if current_tab == CUSTOM:
             no_label = tk.Label(self.columns_container, text="")
             column_widgets.append(no_label)
         else:
@@ -334,40 +331,41 @@ class App:
         self.show_payload_options
 
     def get_firmware_options(self):
-        if self.radio_var.get() == PPPWN:
+        current_tab = self.radio_var.get()
+        if current_tab == PPPWN:
             # Options de firmware pour PPPwn
             return ["7.00", "7.01", "7.02", "7.50", "7.51", "7.55",
                     "8.00", "8.01", "8.03", "8.50", "8.52",
                     "9.00", "9.03", "9.04", "9.50", "9.51", "9.60",
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
-        elif self.radio_var.get() == GOLDHEN:
+        elif current_tab == GOLDHEN:
             # Options de firmware pour PPPwn PS4HEN
             return [GOLDHEN_900,
                     GOLDHEN_950, GOLDHEN_951, GOLDHEN_960,
                     GOLDHEN_1000, GOLDHEN_1001,
                   # GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071,
                     GOLDHEN_1100]
-        elif self.radio_var.get() == PS4HEN:
+        elif current_tab == PS4HEN:
             # Options de firmware pour PPPwn PS4HEN
             return [VTX_755, VTX_800, VTX_803, VTX_850, VTX_852,
                     VTX_900, VTX_903, VTX_904, VTX_1000, VTX_1001,
                     VTX_1050, VTX_1070, VTX_1071, VTX_1100]
-        elif self.radio_var.get() == LINUX:
+        elif current_tab == LINUX:
             # Options de firmware pour PPPwn Linux
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
-        elif self.radio_var.get() == USB:
+        elif current_tab == USB:
             # Options de firmware pour USB BinLoader
             return [USB_755, USB_800, USB_801, USB_803, USB_850, USB_852,
                     USB_900, USB_903, USB_904, USB_950, USB_960,
                     USB_1000, USB_1001, USB_1050, USB_1070, USB_1071,
                     USB_1100]
-        elif self.radio_var.get() == NOBD:
+        elif current_tab == NOBD:
             # Options de firmware NOBD pour USB BinLoader
             return [NOBD_755, NOBD_800, NOBD_801, NOBD_803, NOBD_850, NOBD_852,
                     NOBD_900, NOBD_903, NOBD_904, NOBD_950, NOBD_960,
                     NOBD_1000, NOBD_1001, NOBD_1050, NOBD_1070, NOBD_1071,
                     NOBD_1100]
-        elif self.radio_var.get() == CUSTOM:
+        elif current_tab == CUSTOM:
             # Options de firmware pour Custom Payloads
             return [CUSTOM]
 
