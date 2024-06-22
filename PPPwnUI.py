@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk, font
 from tkinter import messagebox, filedialog, Canvas, PhotoImage
+from urllib.request import urlretrieve
 import psutil
 import subprocess
 import os
@@ -154,6 +155,7 @@ class App:
 
         self.help_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Help", menu=self.help_menu)
+        self.help_menu.add_command(label="Download PPPwnUI", command=self.download_update)
         self.help_menu.add_command(label="About", command=self.about)
 
         self.image = tk.PhotoImage(file="media/logo.png")
@@ -512,6 +514,11 @@ class App:
                     subprocess.Popen(f'python ' + command, shell=True)
             except subprocess.CalledProcessError as e:
                 messagebox.showerror("Error", f"An error occurred: {e}")
+
+    def download_update(self):
+        urlretrieve("https://github.com/aldostools/PPPwnUI/archive/refs/heads/main.zip", "PPPwnUI.zip")
+        if sys.platform == "win32":
+            subprocess.Popen('explorer "PPPwnUI.zip"')
 
     def about(self):
         messagebox.showinfo("About", "PPPwnUI v" + GUI_VERSION + " by Memz (mod by aldostools)\n" +
