@@ -135,6 +135,7 @@ class App:
         else :
             window.iconbitmap("media/logo.ico")
 
+        self.hwnd = 0
         self.menu = tk.Menu(window)
         window.config(menu=self.menu)
         window.bind('<Return>', self.button_click)
@@ -143,8 +144,17 @@ class App:
         if sys.platform == "win32":
             self.hwnd = user32.FindWindowW(None, u"C:\\WINDOWS\\system32\\cmd.exe")
             user32.ShowWindow(self.hwnd, 0)
+
+            GWL_STYLE = -16
+            WS_BORDER = 0x00800000 # window with border
+            WS_DLGFRAME = 0x00400000 # window with double border but no title
+            WS_CAPTION = WS_BORDER | WS_DLGFRAME # window with a title bar
+
+            style = user32.GetWindowLongW(self.hwnd, GWL_STYLE);
+            user32.SetWindowLongW(self.hwnd, GWL_STYLE, (style & ~WS_CAPTION));
+
             user32.SetWindowTextW(self.hwnd, "PPPwnUI v" + GUI_VERSION)
-            user32.MoveWindow(self.hwnd, x_cordinate, y_cordinate + 160, window_width + 18, 300, 1)
+            user32.MoveWindow(self.hwnd, x_cordinate, y_cordinate + 160, window_width + 16, 300, 1)
 
             self.defaultFont = font.nametofont("TkDefaultFont") 
             self.defaultFont.configure(family="Tahoma", size=10)
