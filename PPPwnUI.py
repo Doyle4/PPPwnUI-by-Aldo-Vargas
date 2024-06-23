@@ -555,7 +555,7 @@ class App:
                 messagebox.showerror("Error", f"An error occurred: {e}")
 
         if(self.runbat_var.get() == "1" and os.path.isfile(done_file)):
-            subprocess.Popen(done_file, shell=True)
+            subprocess.Popen('./' + done_file, shell=True)
             self.menu_exit()
 
     def download_update(self):
