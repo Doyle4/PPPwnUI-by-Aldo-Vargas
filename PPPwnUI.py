@@ -95,7 +95,8 @@ NOBD_1100 = "payload.bin for NOBD 11.00"
 done_file = "done.bat"
 retry_file = "PPPwn/retry"
 
-user32 = ctypes.windll.user32
+if sys.platform == "win32":
+    user32 = ctypes.windll.user32
 
 def create_file(filepath):
     f = open(filepath, "w")
