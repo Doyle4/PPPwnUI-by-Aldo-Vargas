@@ -137,11 +137,13 @@ class App:
         else :
             window.iconbitmap("media/logo.ico")
 
-        self.hwnd = 0
         self.menu = tk.Menu(window)
         window.config(menu=self.menu)
         window.bind('<Return>', self.button_click)
         window.bind('<Escape>', self.window_exit)
+
+        self.hwnd = 0
+        self.allow_hide = False
 
         if sys.platform == "win32":
             self.hwnd = user32.FindWindowW(None, u"C:\\WINDOWS\\system32\\cmd.exe")
@@ -156,10 +158,13 @@ class App:
             user32.SetWindowLongW(self.hwnd, GWL_STYLE, (style & ~WS_CAPTION));
 
             user32.SetWindowTextW(self.hwnd, "PPPwnUI v" + GUI_VERSION)
-            user32.MoveWindow(self.hwnd, x_cordinate, y_cordinate + 160, window_width + 16, 300, 1)
+            user32.MoveWindow(self.hwnd, window.winfo_x(), window.winfo_y() + 160, window_width + 16, 300, 1)
 
             self.defaultFont = font.nametofont("TkDefaultFont") 
             self.defaultFont.configure(family="Tahoma", size=10)
+
+            window.bind('<Button-1>', self.hide_console)
+            window.bind('<Configure>', self.hide_console)
 
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
@@ -199,6 +204,8 @@ class App:
         self.image = tk.PhotoImage(file="media/logo.png")
         self.label = ttk.Label(image=self.image)
         self.label.pack(side=tk.TOP, padx=5)
+        if sys.platform == "win32":
+            self.label.bind('<Button-1>', self.image_click)
 
         # Menu déroulant pour les interfaces réseau
         self.interface_var = tk.StringVar(window)
@@ -470,14 +477,6 @@ class App:
         f.write(self.tool_var.get() + '\n')
         f.close()
 
-    def create_reset_network_script(self):
-        interface = self.interface_var.get()
-        f = open("ResetNetwork.bat", "w")
-        f.write(f'@netsh interface set interface "{interface}" disable && echo {interface} resetted\n')
-        f.write(f'@netsh interface set interface "{interface}" enable\n')
-        f.write(f'@pause\n')
-        f.close()
-
     def menu_exit(self):
         remove_file(retry_file)
         self.window.quit()
@@ -488,10 +487,30 @@ class App:
     def button_click(self, event):
         self.start_pppwn()
 
+    #### Windows functions
+    def create_reset_network_script(self):
+        interface = self.interface_var.get()
+        f = open("ResetNetwork.bat", "w")
+        f.write(f'@netsh interface set interface "{interface}" disable && echo {interface} resetted\n')
+        f.write(f'@netsh interface set interface "{interface}" enable\n')
+        f.write(f'@pause\n')
+        f.close()
+
     def show_console(self):
+        user32.MoveWindow(self.hwnd, root.winfo_x(), root.winfo_y() + 160, root.winfo_width() + 16, 300, 1)
         user32.ShowWindow(self.hwnd, 5)
         user32.SetForegroundWindow(self.hwnd)
         self.create_reset_network_script()
+
+    def hide_console(self, event):
+        if self.allow_hide:
+            user32.ShowWindow(self.hwnd, 0)
+        self.allow_hide = True
+
+    def image_click(self, event):
+        self.allow_hide = False
+        self.show_console()
+    ####
 
     def start_pppwn(self):
         interface = self.interface_var.get()
