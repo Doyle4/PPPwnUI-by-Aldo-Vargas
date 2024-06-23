@@ -530,6 +530,7 @@ class App:
 
         if(self.runbat_var.get() == "1" and os.path.isfile(done_file)):
             subprocess.Popen(done_file, shell=True)
+            self.menu_exit()
 
     def download_update(self):
         urlretrieve("https://github.com/aldostools/PPPwnUI/archive/refs/heads/main.zip", "PPPwnUI.zip")
