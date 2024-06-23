@@ -516,7 +516,8 @@ class App:
                     messagebox.showerror("Error", f"An error occurred: {e}")
                     return
                 if self.retry_var.get() == "0":
-                    remove_file(retry_file)
+                    if os.path.isfile(retry_file):
+                        return
         else:
             remove_file(retry_file)
             try:
@@ -528,7 +529,7 @@ class App:
                 messagebox.showerror("Error", f"An error occurred: {e}")
 
         if(self.runbat_var.get() == "1" and os.path.isfile(done_file)):
-            subprocess.Popen(fdone_file, shell=True)
+            subprocess.Popen(done_file, shell=True)
 
     def download_update(self):
         urlretrieve("https://github.com/aldostools/PPPwnUI/archive/refs/heads/main.zip", "PPPwnUI.zip")
