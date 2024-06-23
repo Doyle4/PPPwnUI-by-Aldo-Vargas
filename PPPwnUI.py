@@ -7,8 +7,9 @@ import psutil
 import subprocess
 import os
 import sys
+import ctypes
 
-GUI_VERSION = "3.21"
+GUI_VERSION = "3.22"
 
 # Tabs
 PPPWN   = "PPPwn"
@@ -94,6 +95,8 @@ NOBD_1100 = "payload.bin for NOBD 11.00"
 done_file = "done.bat"
 retry_file = "PPPwn/retry"
 
+user32 = ctypes.windll.user32
+
 def create_file(filepath):
     f = open(filepath, "w")
     f.close()
@@ -118,10 +121,6 @@ class App:
         window_width = 580
         window_height = 460
 
-        if sys.platform == "win32":
-            self.defaultFont = font.nametofont("TkDefaultFont") 
-            self.defaultFont.configure(family="Tahoma", size=10)
-
         screen_width = window.winfo_screenwidth()
         screen_height = window.winfo_screenheight()
 
@@ -141,6 +140,15 @@ class App:
         window.bind('<Return>', self.button_click)
         window.bind('<Escape>', self.window_exit)
 
+        if sys.platform == "win32":
+            self.hwnd = user32.FindWindowW(None, u"C:\\WINDOWS\\system32\\cmd.exe")
+            user32.ShowWindow(self.hwnd, 0)
+            user32.SetWindowTextW(self.hwnd, "PPPwnUI v" + GUI_VERSION)
+            user32.MoveWindow(self.hwnd, x_cordinate, y_cordinate + 160, window_width + 18, 300, 1)
+
+            self.defaultFont = font.nametofont("TkDefaultFont") 
+            self.defaultFont.configure(family="Tahoma", size=10)
+
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
         self.file_menu.add_command(label="Save", command=self.save_last_options)
@@ -156,6 +164,8 @@ class App:
         self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
         self.exploit_menu.add_checkbutton(label=f"  Retry PPPwn ", onvalue="1", offvalue="0", variable=self.retry_var)
         self.exploit_menu.add_checkbutton(label=f"  Run {done_file} on Success ", onvalue="1", offvalue="0", variable=self.runbat_var)
+        if sys.platform == "win32":
+            self.exploit_menu.add_command(label="  Show Console ", command=self.show_console)
         self.exploit_menu.add_separator()
         self.exploit_menu.add_command(label="  Start PPPwn > ", command=self.start_pppwn, font = ('Sans','12','bold'))
 
@@ -455,6 +465,11 @@ class App:
     def button_click(self, event):
         self.start_pppwn()
 
+    def show_console(self):
+        user32.ShowWindow(self.hwnd, 5)
+        user32.SetForegroundWindow(self.hwnd)
+        self.create_reset_network_script()
+
     def start_pppwn(self):
         interface = self.interface_var.get()
         firmware = self.firmware_var.get()
@@ -468,7 +483,7 @@ class App:
 
         self.save_last_options()
         if sys.platform == "win32":
-            self.create_reset_network_script()
+            self.show_console()
 
         if firmware == CUSTOM:
             firmware_value = self.selected_fw1.replace(".", "")
