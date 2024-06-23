@@ -8,7 +8,7 @@ import subprocess
 import os
 import sys
 
-GUI_VERSION = "3.20"
+GUI_VERSION = "3.21"
 
 # Tabs
 PPPWN   = "PPPwn"
@@ -91,6 +91,7 @@ NOBD_1070 = "payload.bin for NOBD 10.70"
 NOBD_1071 = "payload.bin for NOBD 10.71"
 NOBD_1100 = "payload.bin for NOBD 11.00"
 
+done_file = "done.bat"
 retry_file = "PPPwn/retry"
 
 def create_file(filepath):
@@ -148,14 +149,20 @@ class App:
         self.retry_var = tk.StringVar(window)
         self.retry_var.set("1")
 
+        self.runbat_var = tk.StringVar(window)
+        self.runbat_var.set("1")
+
         self.exploit_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
-        self.exploit_menu.add_checkbutton(label="  Retry PPPwn ", onvalue="1", offvalue="0", variable=self.retry_var)
-        self.exploit_menu.add_command(label="  Start PPPwn > ", command=self.start_pppwn)
+        self.exploit_menu.add_checkbutton(label=f"  Retry PPPwn ", onvalue="1", offvalue="0", variable=self.retry_var)
+        self.exploit_menu.add_checkbutton(label=f"  Run {done_file} on Success ", onvalue="1", offvalue="0", variable=self.runbat_var)
+        self.exploit_menu.add_separator()
+        self.exploit_menu.add_command(label="  Start PPPwn > ", command=self.start_pppwn, font = ('Sans','12','bold'))
 
         self.help_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Help", menu=self.help_menu)
         self.help_menu.add_command(label="Download PPPwnUI", command=self.download_update)
+        self.help_menu.add_separator()
         self.help_menu.add_command(label="About", command=self.about)
 
         self.image = tk.PhotoImage(file="media/logo.png")
@@ -408,6 +415,7 @@ class App:
                self.autostart_var.set(self.read_line(f))
                self.retry_var.set(self.read_line(f))
                self.selected_fw6 = self.read_line(f)
+               self.runbat_var.set(self.read_line(f))
             f.close()
 
     def save_last_options(self):
@@ -426,6 +434,7 @@ class App:
         f.write(self.autostart_var.get() + '\n')
         f.write(self.retry_var.get() + '\n')
         f.write(self.selected_fw6 + '\n')
+        f.write(self.runbat_var.get() + '\n')
         f.close()
 
     def create_reset_network_script(self):
@@ -495,7 +504,7 @@ class App:
                 messagebox.showerror("Error", "Invalid firmware selection")
                 return
 
-        if self.retry_var.get() == "1":
+        if self.retry_var.get() == "1" or self.runbat_var.get() == "1":
             create_file(retry_file)
             while(os.path.isfile(retry_file)):
                 try:
@@ -505,6 +514,9 @@ class App:
                         subprocess.Popen(f'python ' + command, shell=True).wait()
                 except subprocess.CalledProcessError as e:
                     messagebox.showerror("Error", f"An error occurred: {e}")
+                    return
+                if self.retry_var.get() == "0":
+                    remove_file(retry_file)
         else:
             remove_file(retry_file)
             try:
@@ -514,6 +526,9 @@ class App:
                     subprocess.Popen(f'python ' + command, shell=True)
             except subprocess.CalledProcessError as e:
                 messagebox.showerror("Error", f"An error occurred: {e}")
+
+        if(self.runbat_var.get() == "1" and os.path.isfile(done_file)):
+            subprocess.Popen(fdone_file, shell=True)
 
     def download_update(self):
         urlretrieve("https://github.com/aldostools/PPPwnUI/archive/refs/heads/main.zip", "PPPwnUI.zip")
