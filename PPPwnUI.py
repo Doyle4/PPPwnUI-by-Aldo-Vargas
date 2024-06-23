@@ -9,7 +9,7 @@ import os
 import sys
 import ctypes
 
-GUI_VERSION = "3.22"
+GUI_VERSION = "3.23"
 
 # Tabs
 PPPWN   = "PPPwn"
@@ -172,6 +172,9 @@ class App:
         self.runbat_var = tk.StringVar(window)
         self.runbat_var.set("1")
 
+        self.tool_var = tk.StringVar(window)
+        self.tool_var.set("0")
+
         self.exploit_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
         self.exploit_menu.add_checkbutton(label=f"  Retry PPPwn ", onvalue="1", offvalue="0", variable=self.retry_var)
@@ -180,6 +183,12 @@ class App:
             self.exploit_menu.add_command(label="  Show Console ", command=self.show_console)
         self.exploit_menu.add_separator()
         self.exploit_menu.add_command(label="  Start PPPwn > ", command=self.start_pppwn, font = ('Sans','12','bold'))
+
+        self.tool_menu = tk.Menu(self.menu, tearoff=0)
+        self.menu.add_cascade(label="Tool", menu=self.tool_menu)
+        self.tool_menu.add_radiobutton(label="  PPPwn.py ",  value="0", variable=self.tool_var)
+        self.tool_menu.add_radiobutton(label="  PPPwn GO ",  value="1", variable=self.tool_var)
+      # self.tool_menu.add_radiobutton(label="  PPPwn C++ ", value="2", variable=self.tool_var)
 
         self.help_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Help", menu=self.help_menu)
@@ -438,6 +447,7 @@ class App:
                self.retry_var.set(self.read_line(f))
                self.selected_fw6 = self.read_line(f)
                self.runbat_var.set(self.read_line(f))
+               self.tool_var.set(self.read_line(f))
             f.close()
 
     def save_last_options(self):
@@ -457,6 +467,7 @@ class App:
         f.write(self.retry_var.get() + '\n')
         f.write(self.selected_fw6 + '\n')
         f.write(self.runbat_var.get() + '\n')
+        f.write(self.tool_var.get() + '\n')
         f.close()
 
     def create_reset_network_script(self):
@@ -497,6 +508,21 @@ class App:
         if sys.platform == "win32":
             self.show_console()
 
+        if sys.platform == "linux":
+            if self.tool_var.get() == "1":
+                program = './PPPwn/pppwn_go '
+            elif self.tool_var.get() == "2":
+                program = f'./PPPwn/pppwn_cpp --interface {interface} '
+            else:
+                program = f'python3 PPPwn/pppwn.py --interface="{interface}" '
+        else:
+            if self.tool_var.get() == "1":
+                program = 'PPPwn\\pppwn_go.exe '
+            elif self.tool_var.get() == "2":
+                program = f'PPPwn\\pppwn_cpp.exe --interface {interface} '
+            else:
+                program = f'python PPPwn/pppwn.py --interface="{interface}" '
+
         if firmware == CUSTOM:
             firmware_value = self.selected_fw1.replace(".", "")
             if os.path.isfile(stage1_path) == False:
@@ -505,40 +531,40 @@ class App:
             if os.path.isfile(stage2_path) == False:
                 messagebox.showerror("Error", "stage2 does not exist")
                 return
-            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
+            command = f'--fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
         elif firmware.find("payload.bin for NOBD ") != -1:
             firmware_value = firmware.replace("payload.bin for NOBD ","").replace(".", "")
-            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/nobd/{firmware_value}/stage2.bin"'
+            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/nobd/{firmware_value}/stage2.bin"'
         elif firmware.find("payload.bin for ") != -1:
             firmware_value = firmware.replace("payload.bin for ","").replace(".", "")
-            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/usb/{firmware_value}/stage2.bin"'
+            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/usb/{firmware_value}/stage2.bin"'
         elif firmware.find("Linux ") != -1:
             firmware_value = firmware[-5:]
             size_gb = firmware.replace("Linux ","").replace("GB " + firmware_value, "")
             firmware_value = firmware_value.replace(".", "")
-            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/Linux/{firmware_value}/stage1.bin" --stage2="PPPwn/Linux/{firmware_value}/stage2-{size_gb}gb.bin"'
+            command = f'--fw="{firmware_value}" --stage1="PPPwn/Linux/{firmware_value}/stage1.bin" --stage2="PPPwn/Linux/{firmware_value}/stage2-{size_gb}gb.bin"'
         elif firmware.find("VTX HEN for ") != -1:
             firmware_value = firmware.replace("VTX HEN for ","").replace(".", "")
-            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/vtx/{firmware_value}/stage2.bin"'
+            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/vtx/{firmware_value}/stage2.bin"'
         elif firmware.find("Goldhen for ") != -1:
             firmware_value = firmware.replace("Goldhen for ","").replace(".", "")
-            command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
+            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
         else:
             firmware_value = firmware.replace(".", "")
             if firmware_value.isdigit():
-                command = f'PPPwn/pppwn.py --interface="{interface}" --fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/stage2/{firmware_value}/stage2.bin"'
+                command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/stage2/{firmware_value}/stage2.bin"'
             else:
                 messagebox.showerror("Error", "Invalid firmware selection")
                 return
+
+        if self.tool_var.get() == "2":
+            command = command.replace("=", " ")
 
         if self.retry_var.get() == "1" or self.runbat_var.get() == "1":
             create_file(retry_file)
             while(os.path.isfile(retry_file)):
                 try:
-                    if sys.platform == "linux":
-                        subprocess.Popen(f'python3 ' + command, shell=True).wait()
-                    else:
-                        subprocess.Popen(f'python ' + command, shell=True).wait()
+                    subprocess.Popen(program + command, shell=True).wait()
                 except subprocess.CalledProcessError as e:
                     messagebox.showerror("Error", f"An error occurred: {e}")
                     return
@@ -548,10 +574,7 @@ class App:
         else:
             remove_file(retry_file)
             try:
-                if sys.platform == "linux":
-                    subprocess.Popen(f'python3 ' + command, shell=True)
-                else:
-                    subprocess.Popen(f'python ' + command, shell=True)
+                subprocess.Popen(program + command, shell=True)
             except subprocess.CalledProcessError as e:
                 messagebox.showerror("Error", f"An error occurred: {e}")
 
