@@ -5,6 +5,7 @@ from tkinter import messagebox, filedialog, Canvas, PhotoImage
 from urllib.request import urlretrieve
 import psutil
 import subprocess
+import tempfile
 import os
 import sys
 import ctypes
@@ -212,7 +213,7 @@ class App:
         self.menu.add_cascade(label="Tool", menu=self.tool_menu)
         self.tool_menu.add_radiobutton(label="  PPPwn.py ",  value="0", variable=self.tool_var)
         self.tool_menu.add_radiobutton(label="  PPPwn GO ",  value="1", variable=self.tool_var)
-      # self.tool_menu.add_radiobutton(label="  PPPwn C++ ", value="2", variable=self.tool_var)
+        self.tool_menu.add_radiobutton(label="  PPPwn C++ ", value="2", variable=self.tool_var)
 
         self.help_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Help", menu=self.help_menu)
@@ -531,6 +532,34 @@ class App:
         self.show_console()
     ####
 
+    def get_netid_from_list(self, interface):
+        # use first term in interface name for match
+        name = interface.partition(' ')[0].lower()
+
+        if sys.platform == "linux":
+            program = './PPPwn/pppwn_cpp list'
+        else:
+            program = 'PPPwn\\pppwn_cpp.exe list'
+
+        with tempfile.TemporaryFile() as stdout:
+            # get interface list
+            proc = subprocess.Popen(program, stdout=stdout).wait()
+            stdout.seek(0)
+            lines = stdout.read()
+            
+            # find interface name in list
+            for line in lines.splitlines():
+                line = str(line).replace('\\\\','\\').partition(' ')
+                if line[2].lower().find(name) >= 0:
+                    # print interface name
+                    print(line[2])
+                    # return interface id
+                    return line[0][4:]
+            # print interface name
+            print(line[2])
+            # return interface id
+            return line[0][4:]
+
     def start_pppwn(self):
         interface = self.interface_var.get()
         firmware = self.firmware_var.get()
@@ -559,6 +588,7 @@ class App:
             if self.tool_var.get() == "1":
                 program = 'PPPwn\\pppwn_go.exe '
             elif self.tool_var.get() == "2":
+                interface = self.get_netid_from_list(interface)
                 program = f'PPPwn\\pppwn_cpp.exe --interface {interface} '
             else:
                 program = f'python PPPwn/pppwn.py --interface="{interface}" '
