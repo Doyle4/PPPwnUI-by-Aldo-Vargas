@@ -532,6 +532,12 @@ class App:
         self.show_console()
     ####
 
+    def clear_console(self):
+        if sys.platform == "linux":
+            os.system('clear')
+        else:
+            os.system('cls')
+
     def get_netid_from_list(self, interface):
         # use first term in interface name for match
         name = interface.partition(' ')[0].lower()
@@ -556,6 +562,7 @@ class App:
                     # return interface id
                     return line[0][4:]
             # print interface name
+            self.clear_console()
             print(line[2])
             # return interface id
             return line[0][4:]
@@ -575,8 +582,9 @@ class App:
         if sys.platform == "win32":
             self.show_console()
 
+        self.clear_console()
+
         if sys.platform == "linux":
-            os.system('clear')
             if self.tool_var.get() == "1":
                 program = './PPPwn/pppwn_go '
             elif self.tool_var.get() == "2":
@@ -584,7 +592,6 @@ class App:
             else:
                 program = f'python3 PPPwn/pppwn.py --interface="{interface}" '
         else:
-            os.system('cls')
             if self.tool_var.get() == "1":
                 program = 'PPPwn\\pppwn_go.exe '
             elif self.tool_var.get() == "2":
@@ -630,7 +637,9 @@ class App:
         if self.tool_var.get() == "2":
             command = command.replace("=", " ")
 
-        if (self.retry_var.get() == "1" or self.runbat_var.get() == "1") and self.tool_var.get() == "1":
+        runbat = (self.runbat_var.get() == "1" and os.path.isfile(done_file))
+
+        if (runbat == True or self.retry_var.get() == "1") and self.tool_var.get() == "1":
             create_file(retry_file)
             while(os.path.isfile(retry_file)):
                 try:
@@ -644,12 +653,18 @@ class App:
         else:
             remove_file(retry_file)
             try:
-                subprocess.Popen(program + command, shell=True)
+                if runbat == True and self.tool_var.get() >= "1":
+                    subprocess.Popen(program + command, shell=True).wait() # wait for PPPwn_GO or PPPwn_C++
+                else:
+                    subprocess.Popen(program + command, shell=True)
             except subprocess.CalledProcessError as e:
                 messagebox.showerror("Error", f"An error occurred: {e}")
 
-        if(self.runbat_var.get() == "1" and os.path.isfile(done_file)):
-            subprocess.Popen('./' + done_file, shell=True)
+        if(runbat == True):
+            if sys.platform == "linux":
+                subprocess.Popen('./' + done_file, shell=True)
+            else:
+                subprocess.Popen(done_file, shell=True)
             self.menu_exit()
 
     def download_update(self):
