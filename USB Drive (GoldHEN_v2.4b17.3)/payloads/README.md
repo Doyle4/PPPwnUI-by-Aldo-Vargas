@@ -1,4 +1,4 @@
-# PS4HEN v2.1.3
+# PS4HEN v2.1.4
 
 Copy the payload file `ps4-hen-xxxx-PPPwn-vtx-1.0xxx.bin` corresponding to the PS4 firmware to the root directory of USB drive exFAT.
 
@@ -6,7 +6,7 @@ Rename the payload file to `payload.bin`.
 
 Insert the USB drive with the payload into the PS4 USB port 0, 1 or 2.
 
-Start PPPwn with the stage2 from USB Loader or NOBD tabs in PPPwnUI.
+Start PPPwn with the stage2 from USB Loader in PPPwnUI (NOBD is now handled by stage2 in USB Loader)
 
 ## Github Repository
 https://github.com/EchoStretch/ps4-hen-vtx
@@ -21,7 +21,7 @@ https://github.com/EchoStretch/ps4-hen-vtx
 - Remote Package Install
 - Rest Mode Support
 - External HDD Format 7.xx Support
-- FW Version Spoof to 7.51
+- Bypass Firmware Checks
 - Debug Trophies Support
 - sys_dynlib_dlsym Patch
 - UART Enabler

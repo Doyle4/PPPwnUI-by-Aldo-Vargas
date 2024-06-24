@@ -547,6 +547,7 @@ class App:
             self.show_console()
 
         if sys.platform == "linux":
+            os.system('clear')
             if self.tool_var.get() == "1":
                 program = './PPPwn/pppwn_go '
             elif self.tool_var.get() == "2":
@@ -554,6 +555,7 @@ class App:
             else:
                 program = f'python3 PPPwn/pppwn.py --interface="{interface}" '
         else:
+            os.system('cls')
             if self.tool_var.get() == "1":
                 program = 'PPPwn\\pppwn_go.exe '
             elif self.tool_var.get() == "2":
