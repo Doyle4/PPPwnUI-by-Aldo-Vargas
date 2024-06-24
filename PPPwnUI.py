@@ -98,7 +98,8 @@ retry_file = "PPPwn/retry"
 
 if sys.platform == "win32":
     user32 = ctypes.windll.user32
-
+    kernel32 = ctypes.windll.kernel32
+    
 def create_file(filepath):
     f = open(filepath, "w")
     f.close()
@@ -146,9 +147,11 @@ class App:
         self.allow_hide = False
 
         if sys.platform == "win32":
-            self.hwnd = user32.FindWindowW(None, u"C:\\WINDOWS\\system32\\cmd.exe")
+            # Hide Console
+            self.hwnd = kernel32.GetConsoleWindow()
             user32.ShowWindow(self.hwnd, 0)
 
+            # Hide Console Title
             GWL_STYLE = -16
             WS_BORDER = 0x00800000 # window with border
             WS_DLGFRAME = 0x00400000 # window with double border but no title
@@ -157,12 +160,28 @@ class App:
             style = user32.GetWindowLongW(self.hwnd, GWL_STYLE);
             user32.SetWindowLongW(self.hwnd, GWL_STYLE, (style & ~WS_CAPTION));
 
+            # Set Console Title
             user32.SetWindowTextW(self.hwnd, "PPPwnUI v" + GUI_VERSION)
+
+            # Move & Resize Console
             user32.MoveWindow(self.hwnd, window.winfo_x(), window.winfo_y() + 160, window_width + 16, 300, 1)
 
+            # Disable Console Resize
+            MF_BYCOMMAND = 0x00000000
+            SC_MINIMIZE = 0xF020
+            SC_MAXIMIZE = 0xF030
+            SC_SIZE = 0xF000
+
+            sysMenu = user32.GetSystemMenu(self.hwnd, False)
+            user32.DeleteMenu(sysMenu, SC_MINIMIZE, MF_BYCOMMAND)
+            user32.DeleteMenu(sysMenu, SC_MAXIMIZE, MF_BYCOMMAND)
+            user32.DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND)
+
+            # Change Default Font
             self.defaultFont = font.nametofont("TkDefaultFont") 
             self.defaultFont.configure(family="Tahoma", size=10)
 
+            # Hide console window on click & on move / click title
             window.bind('<Button-1>', self.hide_console)
             window.bind('<Configure>', self.hide_console)
 
