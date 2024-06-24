@@ -630,7 +630,7 @@ class App:
         if self.tool_var.get() == "2":
             command = command.replace("=", " ")
 
-        if self.retry_var.get() == "1" or self.runbat_var.get() == "1":
+        if (self.retry_var.get() == "1" or self.runbat_var.get() == "1") and self.tool_var.get() == "1":
             create_file(retry_file)
             while(os.path.isfile(retry_file)):
                 try:
