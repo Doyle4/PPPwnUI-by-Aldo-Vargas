@@ -203,7 +203,7 @@ class App:
         self.exploit_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
         self.exploit_menu.add_checkbutton(label=f"  Retry PPPwn ", onvalue="1", offvalue="0", variable=self.retry_var)
-        self.exploit_menu.add_checkbutton(label=f"  Run {done_file} on Success ", onvalue="1", offvalue="0", variable=self.runbat_var)
+        self.exploit_menu.add_checkbutton(label=f"  Run {done_file} & Exit when done ", onvalue="1", offvalue="0", variable=self.runbat_var)
         if sys.platform == "win32":
             self.exploit_menu.add_command(label="  Show Console ", command=self.show_console)
         self.exploit_menu.add_separator()
