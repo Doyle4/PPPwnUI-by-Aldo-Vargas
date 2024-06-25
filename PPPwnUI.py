@@ -639,7 +639,7 @@ class App:
 
         runbat = (self.runbat_var.get() == "1" and os.path.isfile(done_file))
 
-        if (runbat == True or self.retry_var.get() == "1") and self.tool_var.get() == "1":
+        if (runbat == True or self.retry_var.get() == "1") and self.tool_var.get() == "0":
             create_file(retry_file)
             while(os.path.isfile(retry_file)):
                 try:
