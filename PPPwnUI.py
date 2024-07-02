@@ -10,7 +10,7 @@ import os
 import sys
 import ctypes
 
-GUI_VERSION = "3.23"
+GUI_VERSION = "3.23a"
 
 # Tabs
 PPPWN   = "PPPwn"
