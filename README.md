@@ -79,10 +79,16 @@ GoldHEN for is still in development for 10.50, 10.70, 10.71. A lite version for 
 
 Credits to SiSTR0 and devs that contributed to his repository https://github.com/SiSTR0/PPPwn
 
-### VTX HEN PPPwn (8.00, 8.03, 8.50, 8.52, 9.03, 9.04, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00)
-VTX HEN payloads include Homebrew Enabler, Jailbreak, Debug Settings, Remote Package Install among other features found in Goldhen.
+### PS4HEN VTX / NOBD (7.55 to 11.00)
+Stage2 by @LightningMods & @EchoStrech with BinLoader integraded for normal and NOBD consoles.
+FW Versions: 7.55, 8.00, 8.01, 8.03, 8.50, 8.52, 9.00, 9.03, 9.04, 9.50, 9.60, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00
+
+PS4HEN VTX payloads by @EchoStrech & @BestPig include Homebrew Enabler, Jailbreak, Debug Settings, Remote Package Install among other features found in Goldhen.
 It doesn't include FTP Server, BinLoader, FPS Counter, Integrated Cheat Menu, FW Update Block, Plugins Support, Internal pkg installation among other features.
 This is only an alternative method to GoldHEN and a temporary solution specially for the firmware versions not supported yet by GoldHEN payload.
+
+The GUI now copies the PS4-HEN-PPPwn-VTX payload to "USB Drive" folder. Or rename the one of the payloads in "Additional Payloads" by LightningMods as `payload.bin`
+Copy `payload.bin` to the root directory of USB EXFAT drive and start PPPwn from PS4HEN VTX or PS4HEN NODB tabs.
 
 Credits to all contributors in ps4-hen-vtx.
 Special thanks to xVortex, SiSTR0, EchoStrecth and BestPig for his releases in Discord and https://github.com/EchoStretch/ps4-hen-vtx
@@ -92,13 +98,6 @@ This payload lets run PS4 Linux on 11.0 firmware. If you're on 9.00, it's recomm
 Check https://ps4linux.com/ps4-linux-11-0-payloads-pppwn-tutorial/ for detailed information.
 
 Credits to EinTim23, LightningMods, sleirsgolvy, the Psxita Team, TheFlow0 and all the contributos to https://github.com/EinTim23/PS4-Linux-Loader
-
-### USB BinLoader / NOBD BinLoader (7.55 to 11.00)
-Stage2 by LightningMods & EchoStrech with BinLoader integraded for normal and NOBD consoles.
-FW Versions: 7.55, 8.00, 8.01, 8.03, 8.50, 8.52, 9.00, 9.03, 9.04, 9.50, 9.60, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00
-
-Rename the PS4-VTX-HEN_PPPwn payload by EchoStrech and BestPig or Additional Payload by LightningMods as payload.bin
-Copy `payload.bin` to the root directory of USB EXFAT drive and start PPPwn from USB Loader or NODB tabs.
 
 ## PPPwn Usage
 
@@ -204,11 +203,6 @@ On your Computer:
 [*] Sending stage2 payload...
 [+] Done!
 ```
-##### To do :
-
-- Auto Updater
-- PPPwn Logs in the program directly
-- Code optimisation
 
 This Program was originally made with ❤️ by [Memz](https://github.com/B-Dem) for [Sighya](https://sighya.fr).
 

@@ -9,16 +9,18 @@ import tempfile
 import os
 import sys
 import ctypes
+import shutil
 
-GUI_VERSION = "3.23a+"
+GUI_VERSION = "3.25"
+hen_version = "1.0299"
+destination_path = "USB Drive (GoldHEN_v2.4b17.3)"
 
 # Tabs
 PPPWN   = "PPPwn"
 GOLDHEN = "GOLDHEN"
-PS4HEN  = "PS4HEN"
+PS4HEN  = "PS4HEN VTX"
+NOBD    = "PS4HEN NOBD"
 LINUX   = "Linux"
-USB     = "USB Loader"
-NOBD    = "NOBD"
 CUSTOM  = "Custom"
 
 # GOLDHEN Options
@@ -33,49 +35,27 @@ GOLDHEN_1070 = "Goldhen for 10.70" # Not supported yet
 GOLDHEN_1071 = "Goldhen for 10.71" # Not supported yet
 GOLDHEN_1100 = "Goldhen for 11.00"
 
-# PS4HEN Options
-VTX_755  = "VTX HEN for 7.55"
-VTX_800  = "VTX HEN for 8.00"
-VTX_803  = "VTX HEN for 8.03"
-VTX_850  = "VTX HEN for 8.50"
-VTX_852  = "VTX HEN for 8.52"
-VTX_900  = "VTX HEN for 9.00"
-VTX_903  = "VTX HEN for 9.03"
-VTX_904  = "VTX HEN for 9.04"
-VTX_1000 = "VTX HEN for 10.00"
-VTX_1001 = "VTX HEN for 10.01"
-VTX_1050 = "VTX HEN for 10.50"
-VTX_1070 = "VTX HEN for 10.70"
-VTX_1071 = "VTX HEN for 10.71"
-VTX_1100 = "VTX HEN for 11.00"
+# PS4HEN VTX + USB BinLoader Options
+PS4HEN_755  = "payload.bin for 7.55"
+PS4HEN_800  = "payload.bin for 8.00"
+PS4HEN_801  = "payload.bin for 8.01"
+PS4HEN_803  = "payload.bin for 8.03"
+PS4HEN_850  = "payload.bin for 8.50"
+PS4HEN_852  = "payload.bin for 8.52"
+PS4HEN_900  = "payload.bin for 9.00"
+PS4HEN_903  = "payload.bin for 9.03"
+PS4HEN_904  = "payload.bin for 9.04"
+PS4HEN_950  = "payload.bin for 9.50"
+PS4HEN_951  = "payload.bin for 9.51"
+PS4HEN_960  = "payload.bin for 9.60"
+PS4HEN_1000 = "payload.bin for 10.00"
+PS4HEN_1001 = "payload.bin for 10.01"
+PS4HEN_1050 = "payload.bin for 10.50"
+PS4HEN_1070 = "payload.bin for 10.70"
+PS4HEN_1071 = "payload.bin for 10.71"
+PS4HEN_1100 = "payload.bin for 11.00"
 
-# Linux Options
-LINUX_1GB = "Linux 1GB 11.00"
-LINUX_2GB = "Linux 2GB 11.00"
-LINUX_3GB = "Linux 3GB 11.00"
-LINUX_4GB = "Linux 4GB 11.00"
-
-# USB BinLoader Options
-USB_755  = "payload.bin for 7.55"
-USB_800  = "payload.bin for 8.00"
-USB_801  = "payload.bin for 8.01"
-USB_803  = "payload.bin for 8.03"
-USB_850  = "payload.bin for 8.50"
-USB_852  = "payload.bin for 8.52"
-USB_900  = "payload.bin for 9.00"
-USB_903  = "payload.bin for 9.03"
-USB_904  = "payload.bin for 9.04"
-USB_950  = "payload.bin for 9.50"
-USB_951  = "payload.bin for 9.51"
-USB_960  = "payload.bin for 9.60"
-USB_1000 = "payload.bin for 10.00"
-USB_1001 = "payload.bin for 10.01"
-USB_1050 = "payload.bin for 10.50"
-USB_1070 = "payload.bin for 10.70"
-USB_1071 = "payload.bin for 10.71"
-USB_1100 = "payload.bin for 11.00"
-
-# USB NOBD BinLoader Options
+# PS4HEN NOBD + USB BinLoader Options
 NOBD_755  = "payload.bin for NOBD 7.55"
 NOBD_800  = "payload.bin for NOBD 8.00"
 NOBD_801  = "payload.bin for NOBD 8.01"
@@ -86,6 +66,7 @@ NOBD_900  = "payload.bin for NOBD 9.00"
 NOBD_903  = "payload.bin for NOBD 9.03"
 NOBD_904  = "payload.bin for NOBD 9.04"
 NOBD_950  = "payload.bin for NOBD 9.50"
+NOBD_951  = "payload.bin for NOBD 9.51"
 NOBD_960  = "payload.bin for NOBD 9.60"
 NOBD_1000 = "payload.bin for NOBD 10.00"
 NOBD_1001 = "payload.bin for NOBD 10.01"
@@ -93,6 +74,12 @@ NOBD_1050 = "payload.bin for NOBD 10.50"
 NOBD_1070 = "payload.bin for NOBD 10.70"
 NOBD_1071 = "payload.bin for NOBD 10.71"
 NOBD_1100 = "payload.bin for NOBD 11.00"
+
+# Linux Options
+LINUX_1GB = "Linux 1GB 11.00"
+LINUX_2GB = "Linux 2GB 11.00"
+LINUX_3GB = "Linux 3GB 11.00"
+LINUX_4GB = "Linux 4GB 11.00"
 
 done_file = "done.bat"
 retry_file = "PPPwn/retry"
@@ -143,6 +130,7 @@ class App:
         window.config(menu=self.menu)
         window.bind('<Return>', self.button_click)
         window.bind('<Escape>', self.window_exit)
+        window.bind('<Control-s>', self.save_settings)
 
         self.hwnd = 0
         self.allow_hide = False
@@ -188,8 +176,9 @@ class App:
 
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
-        self.file_menu.add_command(label="Save", command=self.save_last_options)
-        self.file_menu.add_command(label="Exit", command=self.menu_exit)
+        self.file_menu.add_command(label="Save       Ctrl+S", command=self.save_last_options)
+        self.file_menu.add_separator()
+        self.file_menu.add_command(label="Exit         Esc", command=self.menu_exit)
 
         self.retry_var = tk.StringVar(window)
         self.retry_var.set("1")
@@ -244,7 +233,7 @@ class App:
         self.selected_tab = GOLDHEN
         self.radio_var = tk.StringVar(window, value=self.selected_tab)
 
-        tabs = [PPPWN, GOLDHEN, PS4HEN, LINUX, USB, NOBD, CUSTOM ]
+        tabs = [PPPWN, GOLDHEN, PS4HEN, NOBD, LINUX, CUSTOM ]
 
         # Création des boutons radio pour PPPwn, PPPwn PS4HEN, PPPwn Linux et Custom Payloads
         self.radios = []
@@ -265,10 +254,9 @@ class App:
 
         self.selected_fw1 = "11.00"
         self.selected_fw2 = GOLDHEN_1100
-        self.selected_fw3 = VTX_1100
-        self.selected_fw4 = LINUX_4GB
-        self.selected_fw5 = USB_1100
-        self.selected_fw6 = NOBD_1100
+        self.selected_fw3 = PS4HEN_1100
+        self.selected_fw4 = NOBD_1100
+        self.selected_fw5 = LINUX_4GB
 
         # Firmwares avec noms des versions
         self.firmware_var = tk.StringVar(window)
@@ -336,12 +324,10 @@ class App:
             self.selected_fw2 = self.firmware_var.get()
         elif self.selected_tab == PS4HEN:
             self.selected_fw3 = self.firmware_var.get()
-        elif self.selected_tab == LINUX:
-            self.selected_fw4 = self.firmware_var.get()
-        elif self.selected_tab == USB:
-            self.selected_fw5 = self.firmware_var.get()
         elif self.selected_tab == NOBD:
-            self.selected_fw6 = self.firmware_var.get()
+            self.selected_fw4 = self.firmware_var.get()
+        elif self.selected_tab == LINUX:
+            self.selected_fw5 = self.firmware_var.get()
         elif self.selected_tab == CUSTOM:
             self.custom_payloads_frame.pack_forget() # Supprimer les boutons personnalisés
 
@@ -363,18 +349,14 @@ class App:
             num_columns = 2
             self.selected_tab = PS4HEN
             self.firmware_var.set(self.selected_fw3)
-        elif current_tab == LINUX:
-            num_columns = 1
-            self.selected_tab = LINUX
-            self.firmware_var.set(self.selected_fw4)
-        elif current_tab == USB:
-            num_columns = 2
-            self.selected_tab = USB
-            self.firmware_var.set(self.selected_fw5)
         elif current_tab == NOBD:
             num_columns = 2
             self.selected_tab = NOBD
-            self.firmware_var.set(self.selected_fw6)
+            self.firmware_var.set(self.selected_fw4)
+        elif current_tab == LINUX:
+            num_columns = 1
+            self.selected_tab = LINUX
+            self.firmware_var.set(self.selected_fw5)
         elif current_tab == CUSTOM:
             num_columns = 2
             self.selected_tab = CUSTOM
@@ -413,25 +395,20 @@ class App:
                   # GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071,
                     GOLDHEN_1100]
         elif current_tab == PS4HEN:
-            # Options de firmware pour PPPwn PS4HEN
-            return [VTX_755, VTX_800, VTX_803, VTX_850, VTX_852,
-                    VTX_900, VTX_903, VTX_904, VTX_1000, VTX_1001,
-                    VTX_1050, VTX_1070, VTX_1071, VTX_1100]
+            # Options de firmware pour PS4HEN VTX + USB BinLoader
+            return [PS4HEN_755, PS4HEN_800, PS4HEN_801, PS4HEN_803, PS4HEN_850, PS4HEN_852,
+                    PS4HEN_900, PS4HEN_903, PS4HEN_904, PS4HEN_950, PS4HEN_951, PS4HEN_960,
+                    PS4HEN_1000, PS4HEN_1001, PS4HEN_1050, PS4HEN_1070, PS4HEN_1071,
+                    PS4HEN_1100]
+        elif current_tab == NOBD:
+            # Options de firmware pour PS4HEN NOBD + USB BinLoader
+            return [NOBD_755, NOBD_800, NOBD_801, NOBD_803, NOBD_850, NOBD_852,
+                    NOBD_900, NOBD_903, NOBD_904, NOBD_950, NOBD_951, NOBD_960,
+                    NOBD_1000, NOBD_1001, NOBD_1050, NOBD_1070, NOBD_1071,
+                    NOBD_1100]
         elif current_tab == LINUX:
             # Options de firmware pour PPPwn Linux
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
-        elif current_tab == USB:
-            # Options de firmware pour USB BinLoader
-            return [USB_755, USB_800, USB_801, USB_803, USB_850, USB_852,
-                    USB_900, USB_903, USB_904, USB_950, USB_951, USB_960,
-                    USB_1000, USB_1001, USB_1050, USB_1070, USB_1071,
-                    USB_1100]
-        elif current_tab == NOBD:
-            # Options de firmware NOBD pour USB BinLoader
-            return [NOBD_755, NOBD_800, NOBD_801, NOBD_803, NOBD_850, NOBD_852,
-                    NOBD_900, NOBD_903, NOBD_904, NOBD_950, NOBD_960,
-                    NOBD_1000, NOBD_1001, NOBD_1050, NOBD_1070, NOBD_1071,
-                    NOBD_1100]
         elif current_tab == CUSTOM:
             # Options de firmware pour Custom Payloads
             return [CUSTOM]
@@ -458,7 +435,7 @@ class App:
     def read_last_options(self):
         if os.path.isfile("PPPwnUI.dat"):
             f = open("PPPwnUI.dat", "r")
-            if self.read_line(f).find("UI Version: ") == 0:
+            if self.read_line(f).find("UI Version: +") == 0:
                self.interface_var.set(self.read_line(f))
                self.selected_tab = self.read_line(f)
                self.radio_var.set(self.selected_tab)
@@ -472,14 +449,13 @@ class App:
                self.firmware_var.set(self.read_line(f))
                self.autostart_var.set(self.read_line(f))
                self.retry_var.set(self.read_line(f))
-               self.selected_fw6 = self.read_line(f)
                self.runbat_var.set(self.read_line(f))
                self.tool_var.set(self.read_line(f))
             f.close()
 
     def save_last_options(self):
         f = open("PPPwnUI.dat", "w")
-        f.write("UI Version: " + GUI_VERSION + '\n')
+        f.write("UI Version: +" + GUI_VERSION + '\n')
         f.write(self.interface_var.get() + '\n')
         f.write(self.selected_tab + '\n')
         f.write(self.selected_fw1 + '\n')
@@ -492,7 +468,6 @@ class App:
         f.write(self.firmware_var.get() + '\n')
         f.write(self.autostart_var.get() + '\n')
         f.write(self.retry_var.get() + '\n')
-        f.write(self.selected_fw6 + '\n')
         f.write(self.runbat_var.get() + '\n')
         f.write(self.tool_var.get() + '\n')
         f.close()
@@ -506,6 +481,9 @@ class App:
 
     def button_click(self, event):
         self.start_pppwn()
+
+    def save_settings(self, event):
+        self.save_last_options()
 
     #### Windows functions
     def create_reset_network_script(self):
@@ -609,23 +587,24 @@ class App:
                 messagebox.showerror("Error", "stage2 does not exist")
                 return
             command = f'--fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
+        elif firmware.find("Goldhen for ") != -1:
+            firmware_value = firmware.replace("Goldhen for ","").replace(".", "")
+            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
         elif firmware.find("payload.bin for NOBD ") != -1:
             firmware_value = firmware.replace("payload.bin for NOBD ","").replace(".", "")
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/nobd/{firmware_value}/stage2.bin"'
+            source_payload = f"./{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-{hen_version}.bin"
+            shutil.copy(source_payload, destination_path + "/payload.bin")
         elif firmware.find("payload.bin for ") != -1:
             firmware_value = firmware.replace("payload.bin for ","").replace(".", "")
-            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/usb/{firmware_value}/stage2.bin"'
+            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/ps4hen/{firmware_value}/stage2.bin"'
+            source_payload = f"./{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-{hen_version}.bin"
+            shutil.copy(source_payload, destination_path + "/payload.bin")
         elif firmware.find("Linux ") != -1:
             firmware_value = firmware[-5:]
             size_gb = firmware.replace("Linux ","").replace("GB " + firmware_value, "")
             firmware_value = firmware_value.replace(".", "")
             command = f'--fw="{firmware_value}" --stage1="PPPwn/Linux/{firmware_value}/stage1.bin" --stage2="PPPwn/Linux/{firmware_value}/stage2-{size_gb}gb.bin"'
-        elif firmware.find("VTX HEN for ") != -1:
-            firmware_value = firmware.replace("VTX HEN for ","").replace(".", "")
-            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/vtx/{firmware_value}/stage2.bin"'
-        elif firmware.find("Goldhen for ") != -1:
-            firmware_value = firmware.replace("Goldhen for ","").replace(".", "")
-            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
         else:
             firmware_value = firmware.replace(".", "")
             if firmware_value.isdigit():
