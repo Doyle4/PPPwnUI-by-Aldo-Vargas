@@ -12,7 +12,7 @@ import ctypes
 import shutil
 
 GUI_VERSION = "3.25"
-hen_version = "1.0299"
+hen_version = "1.0300"
 destination_path = "USB Drive (GoldHEN_v2.4b17.3)"
 
 # Tabs
