@@ -546,46 +546,20 @@ class App:
             return line[0][4:]
 
     def start_pppwn(self):
+        # Get parameters
         interface = self.interface_var.get()
         firmware = self.firmware_var.get()
 
-        stage1_path = self.stage1_path.get()
-        stage2_path = self.stage2_path.get()
-
+        # Check network interface
         if interface == "Select an interface :":
             messagebox.showerror("Error", "Select a network interface")
             return
 
-        self.save_last_options()
-        if sys.platform == "win32":
-            self.show_console()
-
-        self.clear_console()
-
-        if sys.platform == "linux":
-            if self.tool_var.get() == "1":
-                program = './PPPwn/pppwn_go '
-            elif self.tool_var.get() == "2":
-                program = f'./PPPwn/pppwn_cpp --interface {interface} '
-            else:
-                program = f'python3 PPPwn/pppwn.py --interface="{interface}" '
-        else:
-            if self.tool_var.get() == "1":
-                program = 'PPPwn\\pppwn_go.exe '
-            elif self.tool_var.get() == "2":
-                interface = self.get_netid_from_list(interface)
-                program = f'PPPwn\\pppwn_cpp.exe --interface {interface} '
-            else:
-                program = f'python PPPwn/pppwn.py --interface="{interface}" '
-
+        # Get firmware version and set parameters
         if firmware == CUSTOM:
             firmware_value = self.selected_fw1.replace(".", "")
-            if os.path.isfile(stage1_path) == False:
-                messagebox.showerror("Error", "stage1 does not exist")
-                return
-            if os.path.isfile(stage2_path) == False:
-                messagebox.showerror("Error", "stage2 does not exist")
-                return
+            stage1_path = self.stage1_path.get()
+            stage2_path = self.stage2_path.get()
             command = f'--fw="{firmware_value}" --stage1="{stage1_path}" --stage2="{stage2_path}"'
         elif firmware.find("Goldhen for ") != -1:
             firmware_value = firmware.replace("Goldhen for ","").replace(".", "")
@@ -593,13 +567,9 @@ class App:
         elif firmware.find("payload.bin for NOBD ") != -1:
             firmware_value = firmware.replace("payload.bin for NOBD ","").replace(".", "")
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/nobd/{firmware_value}/stage2.bin"'
-            source_payload = f"./{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-{hen_version}.bin"
-            shutil.copy(source_payload, destination_path + "/payload.bin")
         elif firmware.find("payload.bin for ") != -1:
             firmware_value = firmware.replace("payload.bin for ","").replace(".", "")
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/ps4hen/{firmware_value}/stage2.bin"'
-            source_payload = f"./{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-{hen_version}.bin"
-            shutil.copy(source_payload, destination_path + "/payload.bin")
         elif firmware.find("Linux ") != -1:
             firmware_value = firmware[-5:]
             size_gb = firmware.replace("Linux ","").replace("GB " + firmware_value, "")
@@ -613,12 +583,57 @@ class App:
                 messagebox.showerror("Error", "Invalid firmware selection")
                 return
 
-        if self.tool_var.get() == "2":
-            command = command.replace("=", " ")
+        # Check stage1 exists
+        stage1_path = command.split('"')[1::2][1]
+        if os.path.isfile(stage1_path) == False:
+            messagebox.showerror("Error", "stage1 does not exist")
+            return
 
+        # Check stage2 exists
+        stage2_path = command.split('"')[1::2][2]
+        if os.path.isfile(stage2_path) == False:
+            messagebox.showerror("Error", "stage2 does not exist")
+            return
+
+        # Get program path
+        if sys.platform == "linux":
+            if self.tool_var.get() == "1":
+                program = './PPPwn/pppwn_go '
+            elif self.tool_var.get() == "2":
+                program = f'./PPPwn/pppwn_cpp --interface {interface} '
+                command = command.replace("=", " ")
+            else:
+                program = f'python3 PPPwn/pppwn.py --interface="{interface}" '
+        else:
+            if self.tool_var.get() == "1":
+                program = 'PPPwn\\pppwn_go.exe '
+            elif self.tool_var.get() == "2":
+                interface = self.get_netid_from_list(interface)
+                program = f'PPPwn\\pppwn_cpp.exe --interface {interface} '
+                command = command.replace("=", " ")
+            else:
+                program = f'python PPPwn/pppwn.py --interface="{interface}" '
+
+        # Save settings
+        self.save_last_options()
+
+        # Show clear console
+        if sys.platform == "win32":
+            self.show_console()
+        self.clear_console()
+
+        # Copy payload.bin for PS4HEN
+        if firmware.find("payload.bin for ") != -1:
+            source_payload = f"./{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-{hen_version}.bin"
+            if os.path.isfile(source_payload) and os.path.isdir(destination_path):
+                shutil.copy(source_payload, destination_path + "/payload.bin")
+
+        # Get setting for done.bat & quit GUI
         runbat = (self.runbat_var.get() == "1" and os.path.isfile(done_file))
 
+        # PPPwn
         if (runbat == True or self.retry_var.get() == "1") and self.tool_var.get() == "0":
+            # Run PPPwn.py and wait until payload is done (keep trying)
             create_file(retry_file)
             while(os.path.isfile(retry_file)):
                 try:
@@ -630,15 +645,17 @@ class App:
                     if os.path.isfile(retry_file):
                         return
         else:
+            # Run PPPwn and wait until payload is done
             remove_file(retry_file)
             try:
                 if runbat == True and self.tool_var.get() >= "1":
-                    subprocess.Popen(program + command, shell=True).wait() # wait for PPPwn_GO or PPPwn_C++
+                    subprocess.Popen(program + command, shell=True).wait() # wait for PPPwn_GO or PPPwn_CPP
                 else:
                     subprocess.Popen(program + command, shell=True)
             except subprocess.CalledProcessError as e:
                 messagebox.showerror("Error", f"An error occurred: {e}")
 
+        # Quit GUI
         if(runbat == True):
             if sys.platform == "linux":
                 subprocess.Popen('./' + done_file, shell=True)
