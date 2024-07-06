@@ -1,0 +1,6 @@
+[submodule "ps4-hen-vtx"]
+	path = ps4-hen-vtx
+	url = https://github.com/EchoStretch/ps4-hen-vtx
+[submodule "GoldHEN"]
+	path = GoldHEN
+	url = https://github.com/GoldHEN/GoldHEN
