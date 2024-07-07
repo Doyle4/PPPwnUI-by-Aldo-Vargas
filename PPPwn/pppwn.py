@@ -838,7 +838,7 @@ def main():
                             '1100'
                         ],
                         default='1100')
-    parser.add_argument('--stage1', default='goldhen/1100/stage1.bin')
+    parser.add_argument('--stage1', default='stage1/1100/stage1.bin')
     parser.add_argument('--stage2', default='goldhen/1100/stage2.bin')
     args = parser.parse_args()
 

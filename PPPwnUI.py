@@ -186,8 +186,10 @@ class App:
         self.tool_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Tool", menu=self.tool_menu)
         self.tool_menu.add_radiobutton(label="  PPPwn.py ",  value="0", variable=self.tool_var)
-        self.tool_menu.add_radiobutton(label="  PPPwn GO ",  value="1", variable=self.tool_var)
-        self.tool_menu.add_radiobutton(label="  PPPwn C++ ", value="2", variable=self.tool_var)
+        if os.path.isfile("PPPwn/pppwn_go.exe") or os.path.isfile("PPPwn/pppwn_go"):
+            self.tool_menu.add_radiobutton(label="  PPPwn GO ",  value="1", variable=self.tool_var)
+        if os.path.isfile("PPPwn/pppwn_cpp.exe") or os.path.isfile("PPPwn/pppwn_cpp"):
+            self.tool_menu.add_radiobutton(label="  PPPwn C++ ", value="2", variable=self.tool_var)
 
         self.help_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Help", menu=self.help_menu)
