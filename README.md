@@ -41,7 +41,7 @@ PPPwnUI is a program that adds an UI to the exploit [PPPwn](https://github.com/T
 
 - Or Choose the Goldhen PPPwn (9.00, 9.50, 9.51, 9.60, 10.00, 10.01 & 11.00)
 
-- Or use PS4HEN VTX with USB BinLoader (7.00 to 11.00) / PS4HEN NOBD with USB BinLoader (7.55 to 11.00)
+- Or use PS4HEN VTX with USB payload.bin Loader (7.00 to 11.00)
 
 - Or Choose the PPPwn Linux Payloads (Available only for 11.00)
 
@@ -77,7 +77,7 @@ GoldHEN for is still in development for 10.50, 10.70, 10.71. A lite version for 
 
 Credits to SiSTR0 and devs that contributed to his repository https://github.com/SiSTR0/PPPwn
 
-### PS4HEN VTX  (7.00 to 11.00) / NOBD (7.55 to 11.00)
+### PS4HEN VTX  (7.00 to 11.00)
 Stage2 by @LightningMods & @EchoStrech with BinLoader integraded for normal and NOBD consoles.
 PS4HEN is available for the 23 firmwares supported by PPPwn.
 

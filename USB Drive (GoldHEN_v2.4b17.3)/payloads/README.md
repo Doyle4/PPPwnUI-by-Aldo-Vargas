@@ -6,7 +6,7 @@ Rename the payload file to `payload.bin`.
 
 Insert the USB drive with the payload into the PS4 USB port 0, 1 or 2.
 
-Start PPPwn with the stage2 from USB Loader in PPPwnUI (NOBD is now handled by stage2 in USB Loader)
+Start PPPwn with the stage2 from PS4HEN VTX or NOBD in PPPwnUI (NOBD is now also handled by stage2 in PS4HEN VTX)
 
 ## Github Repository
 https://github.com/EchoStretch/ps4-hen-vtx

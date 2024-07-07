@@ -11,7 +11,7 @@ import sys
 import ctypes
 import shutil
 
-GUI_VERSION = "3.25a"
+GUI_VERSION = "3.25a+"
 hen_version = "1.0309"
 destination_path = "USB Drive (GoldHEN_v2.4b17.3)"
 
@@ -19,7 +19,7 @@ destination_path = "USB Drive (GoldHEN_v2.4b17.3)"
 PPPWN   = "PPPwn"
 GOLDHEN = "GOLDHEN"
 PS4HEN  = "PS4HEN VTX"
-NOBD    = "PS4HEN NOBD"
+NOBD    = "PS4HEN NOBD" # PS4HEN VTX also supports NOBD
 LINUX   = "Linux"
 CUSTOM  = "Custom"
 
@@ -59,26 +59,6 @@ PS4HEN_1050 = "payload.bin for 10.50"
 PS4HEN_1070 = "payload.bin for 10.70"
 PS4HEN_1071 = "payload.bin for 10.71"
 PS4HEN_1100 = "payload.bin for 11.00"
-
-# PS4HEN NOBD + USB BinLoader Options
-NOBD_755  = "payload.bin for NOBD 7.55"
-NOBD_800  = "payload.bin for NOBD 8.00"
-NOBD_801  = "payload.bin for NOBD 8.01"
-NOBD_803  = "payload.bin for NOBD 8.03"
-NOBD_850  = "payload.bin for NOBD 8.50"
-NOBD_852  = "payload.bin for NOBD 8.52"
-NOBD_900  = "payload.bin for NOBD 9.00"
-NOBD_903  = "payload.bin for NOBD 9.03"
-NOBD_904  = "payload.bin for NOBD 9.04"
-NOBD_950  = "payload.bin for NOBD 9.50"
-NOBD_951  = "payload.bin for NOBD 9.51"
-NOBD_960  = "payload.bin for NOBD 9.60"
-NOBD_1000 = "payload.bin for NOBD 10.00"
-NOBD_1001 = "payload.bin for NOBD 10.01"
-NOBD_1050 = "payload.bin for NOBD 10.50"
-NOBD_1070 = "payload.bin for NOBD 10.70"
-NOBD_1071 = "payload.bin for NOBD 10.71"
-NOBD_1100 = "payload.bin for NOBD 11.00"
 
 # Linux Options
 LINUX_1GB = "Linux 1GB 11.00"
@@ -260,7 +240,7 @@ class App:
         self.selected_fw1 = "11.00"
         self.selected_fw2 = GOLDHEN_1100
         self.selected_fw3 = PS4HEN_1100
-        self.selected_fw4 = NOBD_1100
+        self.selected_fw4 = PS4HEN_1100
         self.selected_fw5 = LINUX_4GB
 
         # Firmwares avec noms des versions
@@ -355,7 +335,7 @@ class App:
             self.selected_tab = PS4HEN
             self.firmware_var.set(self.selected_fw3)
         elif current_tab == NOBD:
-            num_columns = 2
+            num_columns = 3
             self.selected_tab = NOBD
             self.firmware_var.set(self.selected_fw4)
         elif current_tab == LINUX:
@@ -403,19 +383,13 @@ class App:
                     GOLDHEN_1000, GOLDHEN_1001,
                   # GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071,
                     GOLDHEN_1100]
-        elif current_tab == PS4HEN:
+        elif current_tab == PS4HEN or current_tab == NOBD:
             # Options de firmware pour PS4HEN VTX + USB BinLoader
             return [PS4HEN_700, PS4HEN_701, PS4HEN_702, PS4HEN_750, PS4HEN_751, PS4HEN_755,
                     PS4HEN_800, PS4HEN_801, PS4HEN_803, PS4HEN_850, PS4HEN_852, "",
                     PS4HEN_900, PS4HEN_903, PS4HEN_904, PS4HEN_950, PS4HEN_951, PS4HEN_960,
                     PS4HEN_1000, PS4HEN_1001, PS4HEN_1050, PS4HEN_1070, PS4HEN_1071,
                     PS4HEN_1100]
-        elif current_tab == NOBD:
-            # Options de firmware pour PS4HEN NOBD + USB BinLoader
-            return [NOBD_755, NOBD_800, NOBD_801, NOBD_803, NOBD_850, NOBD_852,
-                    NOBD_900, NOBD_903, NOBD_904, NOBD_950, NOBD_951, NOBD_960,
-                    NOBD_1000, NOBD_1001, NOBD_1050, NOBD_1070, NOBD_1071,
-                    NOBD_1100]
         elif current_tab == LINUX:
             # Options de firmware pour PPPwn Linux
             return [LINUX_1GB, LINUX_2GB, LINUX_3GB, LINUX_4GB]
@@ -452,11 +426,11 @@ class App:
                self.selected_fw1 = self.read_line(f)
                self.selected_fw2 = self.read_line(f)
                self.selected_fw3 = self.read_line(f)
-               self.selected_fw4 = self.read_line(f)
+               self.selected_fw4 = self.read_line(f).replace("NOBD ", "")
                self.selected_fw5 = self.read_line(f)
                self.stage1_path.set(self.read_line(f))
                self.stage2_path.set(self.read_line(f))
-               self.firmware_var.set(self.read_line(f))
+               self.firmware_var.set(self.read_line(f).replace("NOBD ", ""))
                self.autostart_var.set(self.read_line(f))
                self.retry_var.set(self.read_line(f))
                self.runbat_var.set(self.read_line(f))
@@ -574,9 +548,6 @@ class App:
         elif firmware.find("Goldhen for ") != -1:
             firmware_value = firmware.replace("Goldhen for ","").replace(".", "")
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
-        elif firmware.find("payload.bin for NOBD ") != -1:
-            firmware_value = firmware.replace("payload.bin for NOBD ","").replace(".", "")
-            command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/nobd/{firmware_value}/stage2.bin"'
         elif firmware.find("payload.bin for ") != -1:
             firmware_value = firmware.replace("payload.bin for ","").replace(".", "")
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/ps4hen/{firmware_value}/stage2.bin"'
