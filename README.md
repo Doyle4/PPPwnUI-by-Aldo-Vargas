@@ -41,9 +41,7 @@ PPPwnUI is a program that adds an UI to the exploit [PPPwn](https://github.com/T
 
 - Or Choose the Goldhen PPPwn (9.00, 9.50, 9.51, 9.60, 10.00, 10.01 & 11.00)
 
-- Or Choose the VTX HEN PPPwn (8.00, 8.03, 8.50, 8.52, 9.03, 9.04, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00)
-
-- Or use USB BinLoader / NOBD BinLoader (7.55 to 11.00)
+- Or use PS4HEN VTX with USB BinLoader (7.00 to 11.00) / PS4HEN NOBD with USB BinLoader (7.55 to 11.00)
 
 - Or Choose the PPPwn Linux Payloads (Available only for 11.00)
 
@@ -57,7 +55,7 @@ PPPwn is a kernel remote code execution exploit for PlayStation 4 up to FW 11.00
 The exploit only prints PPPwned on your PS4 as a proof-of-concept. In order to launch homebrew, use GoldHEN, VTX HEN or a custom stage2.bin payload.
 Credits to TheFlow0 and devs that contributed to his repository https://github.com/TheOfficialFloW/PPPwn
 
-PPPwn is available for the following firmwares:
+PPPwn is available for the following 23 firmwares:
 * 7.00, 7.01, 7.02
 * 7.50, 7.51, 7.55
 * 8.00, 8.01, 8.03
@@ -79,15 +77,15 @@ GoldHEN for is still in development for 10.50, 10.70, 10.71. A lite version for 
 
 Credits to SiSTR0 and devs that contributed to his repository https://github.com/SiSTR0/PPPwn
 
-### PS4HEN VTX / NOBD (7.55 to 11.00)
+### PS4HEN VTX  (7.00 to 11.00) / NOBD (7.55 to 11.00)
 Stage2 by @LightningMods & @EchoStrech with BinLoader integraded for normal and NOBD consoles.
-FW Versions: 7.55, 8.00, 8.01, 8.03, 8.50, 8.52, 9.00, 9.03, 9.04, 9.50, 9.60, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00
+PS4HEN is available for the 23 firmwares supported by PPPwn.
 
 PS4HEN VTX payloads by @EchoStrech & @BestPig include Homebrew Enabler, Jailbreak, Debug Settings, Remote Package Install among other features found in Goldhen.
 It doesn't include FTP Server, BinLoader, FPS Counter, Integrated Cheat Menu, FW Update Block, Plugins Support, Internal pkg installation among other features.
 This is only an alternative method to GoldHEN and a temporary solution specially for the firmware versions not supported yet by GoldHEN payload.
 
-The GUI now copies the PS4-HEN-PPPwn-VTX payload to "USB Drive" folder. Or rename the one of the payloads in "Additional Payloads" by LightningMods as `payload.bin`
+PPPwnUI now copies the PS4-HEN-PPPwn-VTX payload to "USB Drive" folder. Or rename the one of the payloads in "Additional Payloads" by LightningMods as `payload.bin`
 Copy `payload.bin` to the root directory of USB EXFAT drive and start PPPwn from PS4HEN VTX or PS4HEN NODB tabs.
 
 Credits to all contributors in ps4-hen-vtx.

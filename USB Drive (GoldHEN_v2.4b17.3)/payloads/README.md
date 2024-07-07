@@ -1,4 +1,4 @@
-# PS4HEN v2.1.4
+# PS4HEN v2.1.5
 
 Copy the payload file `ps4-hen-xxxx-PPPwn-vtx-1.0xxx.bin` corresponding to the PS4 firmware to the root directory of USB drive exFAT.
 
@@ -12,6 +12,7 @@ Start PPPwn with the stage2 from USB Loader in PPPwnUI (NOBD is now handled by s
 https://github.com/EchoStretch/ps4-hen-vtx
 
 ## Features
+- Current Supports 7.00 - 11.00
 - Homebrew Enabler
 - Jailbreak
 - Sandbox Escape
@@ -50,10 +51,13 @@ Massive Thanks to the following:
 - [LM](https://twitter.com/LightningMods)
 - [Al-Azif](https://github.com/Al-Azif)
 - [zecoxao](https://twitter.com/notzecoxao)
+- [illusion0001](https://twitter.com/illusion0002)
 
-## Testers
-- [SCORPION](https://twitter.com/SCORPION1399)
-- [KiiWii](https://twitter.com/defaultdnb)
-- [Leeful74](https://twitter.com/leeful74)
-- [opoisso893](https://twitter.com/opoisso893)
-- Anonymous
+## Changelog:
+
+### PPPwn-1.0309
+Add some syscalls for Apollo compatibility
+Added 7xx Firmwares
+
+Huge thanks to everyone involved with ps4debug, and special appreciation to @bestpig for figuring this out!
+https://github.com/BestPig/ps4-hen-vtx

@@ -11,8 +11,8 @@ import sys
 import ctypes
 import shutil
 
-GUI_VERSION = "3.25+"
-hen_version = "1.0306"
+GUI_VERSION = "3.25a"
+hen_version = "1.0309"
 destination_path = "USB Drive (GoldHEN_v2.4b17.3)"
 
 # Tabs
@@ -36,6 +36,9 @@ GOLDHEN_1071 = "Goldhen for 10.71" # Not supported yet
 GOLDHEN_1100 = "Goldhen for 11.00"
 
 # PS4HEN VTX + USB BinLoader Options
+PS4HEN_700  = "payload.bin for 7.00"
+PS4HEN_701  = "payload.bin for 7.01"
+PS4HEN_702  = "payload.bin for 7.02"
 PS4HEN_750  = "payload.bin for 7.50"
 PS4HEN_751  = "payload.bin for 7.51"
 PS4HEN_755  = "payload.bin for 7.55"
@@ -402,7 +405,7 @@ class App:
                     GOLDHEN_1100]
         elif current_tab == PS4HEN:
             # Options de firmware pour PS4HEN VTX + USB BinLoader
-            return [PS4HEN_750, PS4HEN_751, PS4HEN_755,
+            return [PS4HEN_700, PS4HEN_701, PS4HEN_702, PS4HEN_750, PS4HEN_751, PS4HEN_755,
                     PS4HEN_800, PS4HEN_801, PS4HEN_803, PS4HEN_850, PS4HEN_852, "",
                     PS4HEN_900, PS4HEN_903, PS4HEN_904, PS4HEN_950, PS4HEN_951, PS4HEN_960,
                     PS4HEN_1000, PS4HEN_1001, PS4HEN_1050, PS4HEN_1070, PS4HEN_1071,
