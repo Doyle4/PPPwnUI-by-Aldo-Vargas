@@ -11,8 +11,8 @@ import sys
 import ctypes
 import shutil
 
-GUI_VERSION = "3.25"
-hen_version = "1.0300"
+GUI_VERSION = "3.25+"
+hen_version = "1.0306"
 destination_path = "USB Drive (GoldHEN_v2.4b17.3)"
 
 # Tabs
@@ -36,6 +36,8 @@ GOLDHEN_1071 = "Goldhen for 10.71" # Not supported yet
 GOLDHEN_1100 = "Goldhen for 11.00"
 
 # PS4HEN VTX + USB BinLoader Options
+PS4HEN_750  = "payload.bin for 7.50"
+PS4HEN_751  = "payload.bin for 7.51"
 PS4HEN_755  = "payload.bin for 7.55"
 PS4HEN_800  = "payload.bin for 8.00"
 PS4HEN_801  = "payload.bin for 8.01"
@@ -346,7 +348,7 @@ class App:
             self.selected_tab = GOLDHEN
             self.firmware_var.set(self.selected_fw2)
         elif current_tab == PS4HEN:
-            num_columns = 2
+            num_columns = 3
             self.selected_tab = PS4HEN
             self.firmware_var.set(self.selected_fw3)
         elif current_tab == NOBD:
@@ -369,8 +371,12 @@ class App:
             column_widgets.append(no_label)
         else:
             for firmware in firmware_versions:
-               radio_button = tk.Radiobutton(self.columns_container, text=firmware, variable=self.firmware_var, value=firmware, command=self.show_payload_options)
-               column_widgets.append(radio_button)
+               if firmware == "":
+                   no_label = tk.Label(self.columns_container, text="")
+                   column_widgets.append(no_label)
+               else:
+                   radio_button = tk.Radiobutton(self.columns_container, text=firmware, variable=self.firmware_var, value=firmware, command=self.show_payload_options)
+                   column_widgets.append(radio_button)
 
         for i, widget in enumerate(column_widgets):
             column_index = i % num_columns
@@ -396,7 +402,8 @@ class App:
                     GOLDHEN_1100]
         elif current_tab == PS4HEN:
             # Options de firmware pour PS4HEN VTX + USB BinLoader
-            return [PS4HEN_755, PS4HEN_800, PS4HEN_801, PS4HEN_803, PS4HEN_850, PS4HEN_852,
+            return [PS4HEN_750, PS4HEN_751, PS4HEN_755,
+                    PS4HEN_800, PS4HEN_801, PS4HEN_803, PS4HEN_850, PS4HEN_852, "",
                     PS4HEN_900, PS4HEN_903, PS4HEN_904, PS4HEN_950, PS4HEN_951, PS4HEN_960,
                     PS4HEN_1000, PS4HEN_1001, PS4HEN_1050, PS4HEN_1070, PS4HEN_1071,
                     PS4HEN_1100]
@@ -670,7 +677,11 @@ class App:
 
     def about(self):
         messagebox.showinfo("About", "PPPwnUI v" + GUI_VERSION + " by Memz (mod by aldostools)\n" +
-                            "This app was originally developed by Memz to make PPPwn easier to use.")
+                            "This app was originally developed by Memz to make PPPwn easier to use.\n\n" +
+                             "PPPwn by Andy Nguyen (TheFlow)\n" +
+                             destination_path[destination_path.find("(")+1:destination_path.find(")")] + " by SiSTR0\n" +
+                             "PS4HEN PPPwn VTX v" + hen_version + " by EchoStretch & BestPig\n" +
+                             "Special thanks to LightningMods, EinTim23, Memz")
 
 if sys.platform == "linux" and not os.geteuid() == 0:
     print("You must run this program as administrator.")
