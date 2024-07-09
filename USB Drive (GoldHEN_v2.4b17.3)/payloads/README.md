@@ -55,6 +55,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0310
+Fixed Offsets For 7.0x
+
 ### PPPwn-1.0309
 Add some syscalls for Apollo compatibility
 Added 7xx Firmwares
