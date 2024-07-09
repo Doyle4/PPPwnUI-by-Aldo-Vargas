@@ -55,8 +55,11 @@ Massive Thanks to the following:
 
 ## Changelog:
 
-### PPPwn-1.0310
-Fixed Offsets For 7.0x
+### PPPwn-1.0312
+PPPwn Update By @BestPig, Can now load more then once
+
+### PPPwn-1.0310-1.0311
+Fixed Offsets For 7.xx
 
 ### PPPwn-1.0309
 Add some syscalls for Apollo compatibility
