@@ -55,6 +55,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0317
+Eliminated old files and utilizes the SDK
+
 ### PPPwn-1.0312
 PPPwn Update By @BestPig, Can now load more then once
 
