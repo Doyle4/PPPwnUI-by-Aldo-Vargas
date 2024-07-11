@@ -10,10 +10,10 @@ import os
 import sys
 import ctypes
 import shutil
+import urllib
 
-GUI_VERSION = "3.25a+"
-hen_version = "1.0317"
-destination_path = "USB Drive (GoldHEN_v2.4b17.3)"
+GUI_VERSION = "3.30"
+destination_path = "USB_Drive"
 
 # Tabs
 PPPWN   = "PPPwn"
@@ -165,6 +165,9 @@ class App:
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit         Esc", command=self.menu_exit)
 
+        self.download_ps4hen = tk.StringVar(window)
+        self.download_ps4hen.set("1")
+
         self.retry_var = tk.StringVar(window)
         self.retry_var.set("1")
 
@@ -176,6 +179,7 @@ class App:
 
         self.exploit_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
+        self.exploit_menu.add_checkbutton(label=f"  Download PS4HEN", onvalue="1", offvalue="0", variable=self.download_ps4hen)
         self.exploit_menu.add_checkbutton(label=f"  Retry PPPwn ", onvalue="1", offvalue="0", variable=self.retry_var)
         self.exploit_menu.add_checkbutton(label=f"  Run {done_file} & Exit when done ", onvalue="1", offvalue="0", variable=self.runbat_var)
         if sys.platform == "win32":
@@ -437,6 +441,7 @@ class App:
                self.retry_var.set(self.read_line(f))
                self.runbat_var.set(self.read_line(f))
                self.tool_var.set(self.read_line(f))
+               self.download_ps4hen.set(self.read_line(f))
             f.close()
 
     def save_last_options(self):
@@ -456,6 +461,7 @@ class App:
         f.write(self.retry_var.get() + '\n')
         f.write(self.runbat_var.get() + '\n')
         f.write(self.tool_var.get() + '\n')
+        f.write(self.download_ps4hen.get() + '\n')
         f.close()
 
     def menu_exit(self):
@@ -481,10 +487,11 @@ class App:
         f.close()
 
     def show_console(self):
-        user32.MoveWindow(self.hwnd, root.winfo_x(), root.winfo_y() + 160, root.winfo_width() + 16, 300, 1)
-        user32.ShowWindow(self.hwnd, 5)
-        user32.SetForegroundWindow(self.hwnd)
-        self.create_reset_network_script()
+        if sys.platform == "win32":
+            user32.MoveWindow(self.hwnd, root.winfo_x(), root.winfo_y() + 160, root.winfo_width() + 16, 300, 1)
+            user32.ShowWindow(self.hwnd, 5)
+            user32.SetForegroundWindow(self.hwnd)
+            self.create_reset_network_script()
 
     def hide_console(self, event):
         if self.allow_hide:
@@ -552,7 +559,29 @@ class App:
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
         elif firmware.find("payload.bin for ") != -1:
             firmware_value = firmware.replace("payload.bin for ","").replace(".", "")
+            source_payload = f"{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-vtx.bin"
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/ps4hen/{firmware_value}/stage2.bin"'
+
+            # Update payload folders
+            if self.download_ps4hen.get() == "1":
+                self.show_console()
+
+                try:
+                    # Download stage2 for PS4HEN
+                    url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/PPPwn/custom/stage2/stage2_{firmware_value}.bin'
+                    stage2  = f'PPPwn/ps4hen/{firmware_value}/stage2.bin'
+                    urlretrieve(url, stage2)
+
+                    # Download payload for PS4HEN
+                    url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-vtx.bin'
+                    urlretrieve(url, source_payload)
+                except urllib.error.HTTPError as e:
+                    pass
+
+            # Copy payload.bin for PS4HEN
+            if os.path.isfile(source_payload) and os.path.isdir(destination_path):
+                shutil.copy(source_payload, destination_path + "/payload.bin")
+
         elif firmware.find("Linux ") != -1:
             firmware_value = firmware[-5:]
             size_gb = firmware.replace("Linux ","").replace("GB " + firmware_value, "")
@@ -601,15 +630,8 @@ class App:
         self.save_last_options()
 
         # Show clear console
-        if sys.platform == "win32":
-            self.show_console()
         self.clear_console()
-
-        # Copy payload.bin for PS4HEN
-        if firmware.find("payload.bin for ") != -1:
-            source_payload = f"./{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-{hen_version}.bin"
-            if os.path.isfile(source_payload) and os.path.isdir(destination_path):
-                shutil.copy(source_payload, destination_path + "/payload.bin")
+        self.show_console()
 
         # Get setting for done.bat & quit GUI
         runbat = (self.runbat_var.get() == "1" and os.path.isfile(done_file))
@@ -656,7 +678,7 @@ class App:
                             "This app was originally developed by Memz to make PPPwn easier to use.\n\n" +
                              "PPPwn by Andy Nguyen (TheFlow)\n" +
                              destination_path[destination_path.find("(")+1:destination_path.find(")")] + " by SiSTR0\n" +
-                             "PS4HEN PPPwn VTX v" + hen_version + " by EchoStretch & BestPig\n" +
+                             "PS4HEN PPPwn VTX by EchoStretch & BestPig\n" +
                              "Special thanks to LightningMods, EinTim23, Memz")
 
 if sys.platform == "linux" and not os.geteuid() == 0:
