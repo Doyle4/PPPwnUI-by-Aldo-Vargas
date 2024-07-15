@@ -55,6 +55,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0319
+Tried to fix rest mode, but it's not very effective.
+
 ### PPPwn-1.0317
 Eliminated old files and utilizes the SDK
 
