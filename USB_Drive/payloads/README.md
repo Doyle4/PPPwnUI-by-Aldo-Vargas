@@ -55,8 +55,14 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0320
+Fixed a compilation warning
+
 ### PPPwn-1.0319
 Tried to fix rest mode, but it's not very effective.
+
+### PPPwn-1.0318
+Updating the submodule PPPwn to the latest version
 
 ### PPPwn-1.0317
 Eliminated old files and utilizes the SDK
