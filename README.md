@@ -1,7 +1,7 @@
 # PPPwnUI
 PPPwnUI is a program that adds an UI to the exploit [PPPwn](https://github.com/TheOfficialFloW/PPPwn/) created by [TheFlow](https://github.com/TheOfficialFloW/).
 
-![image](https://github.com/user-attachments/assets/cf0e3b4a-f514-4cf9-aaa8-931fd797d140)
+![image](https://github.com/user-attachments/assets/b99bc827-c76d-4362-93e3-8c2d4cc1e421)
 
 ## Installation
 
