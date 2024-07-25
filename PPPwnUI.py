@@ -11,8 +11,9 @@ import sys
 import ctypes
 import shutil
 import urllib
+import random
 
-GUI_VERSION = "3.30"
+GUI_VERSION = "3.30a"
 destination_path = "USB_Drive"
 
 # Tabs
@@ -113,6 +114,7 @@ class App:
 
         self.menu = tk.Menu(window)
         window.config(menu=self.menu)
+        window.bind('<F5>', self.refresh_logo)
         window.bind('<Return>', self.button_click)
         window.bind('<Escape>', self.window_exit)
         window.bind('<Control-s>', self.save_settings)
@@ -159,9 +161,13 @@ class App:
             window.bind('<Button-1>', self.hide_console)
             window.bind('<Configure>', self.hide_console)
 
+        self.random_logo = tk.StringVar(window)
+        self.random_logo.set("0")
+
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
         self.file_menu.add_command(label="Save       Ctrl+S", command=self.save_last_options)
+        self.file_menu.add_checkbutton(label="Random Logo", onvalue="1", offvalue="0", variable=self.random_logo, command=self.update_logo)
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit         Esc", command=self.menu_exit)
 
@@ -295,6 +301,10 @@ class App:
 
         self.read_last_options()
         self.update_firmware_options()  # Mettre à jour les options de firmware initiales
+
+        if self.random_logo.get() == "1":
+            self.refresh_logo(None) # randomize logo
+
         window.update()
 
         if self.autostart_var.get() == "1":
@@ -442,6 +452,7 @@ class App:
                self.runbat_var.set(self.read_line(f))
                self.tool_var.set(self.read_line(f))
                self.download_ps4hen.set(self.read_line(f))
+               self.random_logo.set(self.read_line(f))
             f.close()
 
     def save_last_options(self):
@@ -462,6 +473,7 @@ class App:
         f.write(self.runbat_var.get() + '\n')
         f.write(self.tool_var.get() + '\n')
         f.write(self.download_ps4hen.get() + '\n')
+        f.write(self.random_logo.get() + '\n')
         f.close()
 
     def menu_exit(self):
@@ -475,6 +487,18 @@ class App:
         self.start_pppwn()
 
     def save_settings(self, event):
+        self.save_last_options()
+
+    def refresh_logo(self, event):
+        logo = "media/logo.png"
+        while self.random_logo.get() == "1":
+            logo = f"media/logo{random.randrange(8)}.png".replace("0","")
+            if os.path.isfile(logo): break
+        self.image = tk.PhotoImage(file=logo)
+        self.label.configure(image=self.image)
+        
+    def update_logo(self):
+        self.refresh_logo(None)
         self.save_last_options()
 
     #### Windows functions
