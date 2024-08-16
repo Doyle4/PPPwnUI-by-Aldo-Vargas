@@ -13,7 +13,7 @@ import shutil
 import urllib
 import random
 
-GUI_VERSION = "3.30a"
+GUI_VERSION = "3.30b"
 destination_path = "USB_Drive"
 
 # Tabs
@@ -701,7 +701,7 @@ class App:
         messagebox.showinfo("About", "PPPwnUI v" + GUI_VERSION + " by Memz (mod by aldostools)\n" +
                             "This app was originally developed by Memz to make PPPwn easier to use.\n\n" +
                              "PPPwn by Andy Nguyen (TheFlow)\n" +
-                             destination_path[destination_path.find("(")+1:destination_path.find(")")] + " by SiSTR0\n" +
+                             "GoldHEN by SiSTR0\n" +
                              "PS4HEN PPPwn VTX by EchoStretch & BestPig\n" +
                              "Special thanks to LightningMods, EinTim23, Memz")
 

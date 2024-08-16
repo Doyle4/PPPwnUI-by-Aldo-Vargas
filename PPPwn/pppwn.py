@@ -826,10 +826,19 @@ class Exploit():
         if os.path.isfile("PPPwn/retry"):
             os.remove("PPPwn/retry")
 
+def default_fw():
+    for i in range(len(sys.argv)):
+        if sys.argv[i].isnumeric():
+            return sys.argv[i]
+    return '1100'
+
 def main():
+    firmware = default_fw()
+    folder = 'goldhen' if firmware in ['900', '960', '1000', '1001', '1100'] else 'ps4hen'
+
     parser = ArgumentParser('pppwn.py')
-    parser.add_argument('--interface', default="Ethernet")
-    parser.add_argument('--fw',
+    parser.add_argument('--interface', '-i', default="Ethernet")
+    parser.add_argument('--fw','-fw', '-f',
                         choices=[
                             '700','701','702','750', '751', '755',
                             '800', '801', '803', '850', '852',
@@ -837,9 +846,9 @@ def main():
                             '1000', '1001', '1050', '1070', '1071',
                             '1100'
                         ],
-                        default='1100')
-    parser.add_argument('--stage1', default='stage1/1100/stage1.bin')
-    parser.add_argument('--stage2', default='goldhen/1100/stage2.bin')
+                        default=firmware)
+    parser.add_argument('--stage1', default=f'stage1/{firmware}/stage1.bin')
+    parser.add_argument('--stage2', default=f'{folder}/{firmware}/stage2.bin')
     args = parser.parse_args()
 
     print('[+] PPPwn - PlayStation 4 PPPoE RCE by theflow')

@@ -55,6 +55,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0323
+Payload Guest Fix Thanks @BestPig
+
 ### PPPwn-1.0322
 Reverted to 1.0320
 
