@@ -1,7 +1,7 @@
 # PPPwnUI
 PPPwnUI is a program that adds an UI to the exploit [PPPwn](https://github.com/TheOfficialFloW/PPPwn/) created by [TheFlow](https://github.com/TheOfficialFloW/).
 
-![image](https://github.com/user-attachments/assets/b99bc827-c76d-4362-93e3-8c2d4cc1e421)
+![image](https://github.com/user-attachments/assets/52f5ff46-8d34-4fd3-9c1d-72135de140be)
 
 ## Installation
 
@@ -73,7 +73,7 @@ If found, it is copied to the internal HDD at this path: /data/GoldHEN/payloads/
 After the installation, the file is not longer needed in the USB drive.
 Check the folder USB Drive (GoldHEN_v2.4b17.3) for additional information.
 
-Using stage2 version 1.02. GoldHEN for is still in development for 9.50, 9.51, 10.50, 10.70, 10.71. A lite version for 9.00 is included.
+Using stage2 version 1.02 by SiSTR0. GoldHEN is still in development for 9.50, 9.51, 10.50, 10.70, 10.71. A lite version for 9.00 is included.
 
 Credits to SiSTR0 and devs that contributed to his repository https://github.com/SiSTR0/PPPwn
 

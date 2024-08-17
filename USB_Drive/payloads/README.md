@@ -55,6 +55,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0324
+Fixed FW 8.52
+
 ### PPPwn-1.0323
 Payload Guest Fix Thanks @BestPig
 
