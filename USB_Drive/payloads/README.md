@@ -55,6 +55,14 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0328
+Added patches from mira
+
+Added more patches from the mira project with hope of fixing some issues
+Thanks Mira Team
+https://github.com/OpenOrbis/mira-project
+Thanks @BestPig for help with offsets
+
 ### PPPwn-1.0324
 Fixed FW 8.52
 
