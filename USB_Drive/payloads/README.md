@@ -55,6 +55,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0329
+Fixed 9.00
+
 ### PPPwn-1.0328
 Added patches from mira
 
