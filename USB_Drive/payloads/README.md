@@ -55,6 +55,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0331
+Added support for more payloads using Payload Guest application.
+
 ### PPPwn-1.0329
 Fixed 9.00
 
