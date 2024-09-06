@@ -13,7 +13,7 @@ import shutil
 import urllib
 import random
 
-GUI_VERSION = "3.30b"
+GUI_VERSION = "3.31"
 destination_path = "USB_Drive"
 
 # Tabs
@@ -31,9 +31,9 @@ GOLDHEN_951 = "Goldhen for 9.51"
 GOLDHEN_960 = "Goldhen for 9.60"
 GOLDHEN_1000 = "Goldhen for 10.00"
 GOLDHEN_1001 = "Goldhen for 10.01"
-GOLDHEN_1050 = "Goldhen for 10.50" # Not supported yet
-GOLDHEN_1070 = "Goldhen for 10.70" # Not supported yet
-GOLDHEN_1071 = "Goldhen for 10.71" # Not supported yet
+GOLDHEN_1050 = "Goldhen for 10.50"
+GOLDHEN_1070 = "Goldhen for 10.70"
+GOLDHEN_1071 = "Goldhen for 10.71"
 GOLDHEN_1100 = "Goldhen for 11.00"
 
 # PS4HEN VTX + USB BinLoader Options
@@ -397,7 +397,7 @@ class App:
             return [GOLDHEN_900,
                     GOLDHEN_950, GOLDHEN_951, GOLDHEN_960,
                     GOLDHEN_1000, GOLDHEN_1001,
-                  # GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071,
+                    GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071,
                     GOLDHEN_1100]
         elif current_tab == PS4HEN or current_tab == NOBD:
             # Options de firmware pour PS4HEN VTX + USB BinLoader

@@ -39,7 +39,7 @@ PPPwnUI is a program that adds an UI to the exploit [PPPwn](https://github.com/T
 
 - Choose PPPwn (7.00 to 11.00)
 
-- Or Choose the Goldhen PPPwn (9.00, 9.50, 9.51, 9.60, 10.00, 10.01 & 11.00)
+- Or Choose the Goldhen PPPwn (9.00, 9.50, 9.51, 9.60, 10.00, 10.01, 10.50, 10.70, 10.71 & 11.00)
 
 - Or use PS4HEN VTX with USB payload.bin Loader (7.00 to 11.00)
 
@@ -73,7 +73,7 @@ If found, it is copied to the internal HDD at this path: /data/GoldHEN/payloads/
 After the installation, the file is not longer needed in the USB drive.
 Check the folder USB Drive (GoldHEN_v2.4b17.3) for additional information.
 
-Using stage2 version 1.02 by SiSTR0. GoldHEN is still in development for 9.50, 9.51, 10.50, 10.70, 10.71. A lite version for 9.00 is included.
+Using stage2 version 1.03 by SiSTR0. GoldHEN is still in development for 9.50, 9.51. Next version will be 9.03. A lite version for 9.00 is included.
 
 Credits to SiSTR0 and devs that contributed to his repository https://github.com/SiSTR0/PPPwn
 
