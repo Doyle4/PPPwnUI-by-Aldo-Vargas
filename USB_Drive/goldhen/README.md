@@ -15,16 +15,7 @@
       /_______  /|__/_______  /  |____|  |____|_  /\_________/
               \/            \/                  \/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 ```
-## Supported Firmware
-
-- 5.05
-- 6.71 / 6.72
-- 9.00
-- 9.60
-- 10.00 / 10.01
-- 11.00
 
 ## Features
 
@@ -52,25 +43,14 @@
 - Scanlines overlay
 - Internal pkg installation support (/data/pkg) (Thanks to [OSM](https://github.com/OSM-Made))
 
-### Notes
-
-This new release supports both the previous WebKit exploits and the new pppwn, but for this 
-it requires a custom stage2 that I wrote and released the [code](https://github.com/SiSTR0/PPPwn)
-
-The custom version of stage2 first looks for the payload in the root directory of the USB drive,
-and if found, it is copied to the internal HDD at this path: /data/GoldHEN/payloads/goldhen.bin.
-The internal payload is then loaded and is no longer needed on the external USB drive.
-
-The custom stage2 loader only supports payloads with a kernel entrypoint.
-
 ### :warning: Warnings
 
-The BinLoader server is in an experimental phase but in any case there are several payloads around,
-some even not very well done, which can also be harmful and in the best case only crash the console.
-So use it with caution.
+The BinLoader server is in an experimental phase but in any case there are several payloads around, some even not very well done, which can also be harmful and in the best case only crash the console. So use it with caution.
+I have tried to work out to support all payloads possible but no guarantees can be given on this. Obviously I do not take any responsibility in case of use of payloads not made by me.
 
-I have tried to work out to support all payloads possible but no guarantees can be given on this.
-Obviously I do not take any responsibility in case of use of payloads not made by me.
+### :warning: Known Issues
+
+Applications such as Apollo, Itemzflow, and Orbis Toolbox may cause the PS4 console to crash/malfunction during entering/exiting rest mode.
 
 ### :warning: Cheat Menu
 
@@ -99,8 +79,7 @@ Cheat Menu coded by:
 - [OSM](https://github.com/OSM-Made)
 - [SiSTRo](https://github.com/SiSTR0)
 
-Plugin SDK uses [OpenOrbis-PS4-Toolchain](https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain)
-so thanks to all [OpenOrbis](https://github.com/OpenOrbis) devs
+Plugin SDK uses [OpenOrbis-PS4-Toolchain](https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain) so thanks to all [OpenOrbis](https://github.com/OpenOrbis) devs
 
 Special thanks:
 - [golden](https://github.com/jogolden)
@@ -131,35 +110,8 @@ Greeting to QA/Testers:
 - [MGS_PS4_PS5_HB_Tester](https://twitter.com/MSZ_MGS)
 - [Pharaoh2k](https://github.com/Pharaoh2k)
 
-Greeting Notes:
-I'd like to take this opportunity to thank the people without whom we wouldn't have this (and other) release today:
-- TheFlow for releasing his exploit (and not just this one) to everyone.
-- flat_z for conceiving and publishing the hen for ps4 with a writeup.
-- vortex for implementing the first versions of the hen.
-- golden for creating projects that helped me understand many things.
-- OSM for his cool Orbis Toolbox.
-- Hippie68 for his work on the new FTP server.
-- Al_Azif for providing various necessary resources.
-- SocraticBliss for his RE scripts.
-- Illusion for his game patches and more.
-- bucanero for his work on the cheat manager.
-- All the cheat developers who shared their trainers with everyone.
-
-Thanks to the testers who had so much patience:
-- Big_Wadger
-- EchoStretch
-- Opoisso893
-- mbcrumb
-- MODDED WARFARE
-- vapour
-
-Last but not least, my friends ctn and Kameleon for their continuous support, not only technical!
-
-Thanks also to everyone who supported my project on kofi.
-
 ### Note
-Project source code is currently private because over time I have seen a sad abuse of the source code that I,
-like the previous devs who worked on it, have been pleased to make it available to everyone to study and maybe improve it.
+Project source code is currently private because over time I have seen a sad abuse of the source code that I, like the previous devs who worked on it, have been pleased to make it available to everyone to study and maybe improve it.
 
 ### Donations
 Consider [donating](https://goldhen.github.io/support) if you like GoldHEN and want to support my work

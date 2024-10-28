@@ -71,9 +71,10 @@ PPPwn is available for the following 23 firmwares:
 Put golden.bin in the root of USB Drive and plug it in USB port before start the payload.
 If found, it is copied to the internal HDD at this path: /data/GoldHEN/payloads/goldhen.bin.
 After the installation, the file is not longer needed in the USB drive.
-Check the folder USB Drive (GoldHEN_v2.4b17.3) for additional information.
+Check the folder USB Drive (GoldHEN_v2.4b18) for additional information.
 
-Using stage2 version 1.03 by SiSTR0. GoldHEN is still in development for 9.50, 9.51. Next version will be 9.03. A lite version for 9.00 is included.
+Using stage2 version 1.03 by SiSTR0. GoldHEN is still in development for 9.50, 9.51.
+Next fw version to be added will be 9.03. A lite version for 9.00 is included.
 
 Credits to SiSTR0 and devs that contributed to his repository https://github.com/SiSTR0/PPPwn
 

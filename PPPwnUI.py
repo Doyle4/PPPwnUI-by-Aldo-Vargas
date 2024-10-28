@@ -13,7 +13,7 @@ import shutil
 import urllib
 import random
 
-GUI_VERSION = "3.31"
+GUI_VERSION = "3.32"
 destination_path = "USB_Drive"
 
 # Tabs
