@@ -636,7 +636,7 @@ class App:
             if self.tool_var.get() == "1":
                 program = './PPPwn/pppwn_go '
             elif self.tool_var.get() == "2":
-                program = f'./PPPwn/pppwn_cpp --interface {interface} '
+                program = f'./PPPwn/pppwn_cpp --interface {interface} -a '
                 command = command.replace("=", " ")
             else:
                 program = f'python3 PPPwn/pppwn.py --interface="{interface}" '
@@ -645,7 +645,7 @@ class App:
                 program = 'PPPwn\\pppwn_go.exe '
             elif self.tool_var.get() == "2":
                 interface = self.get_netid_from_list(interface)
-                program = f'PPPwn\\pppwn_cpp.exe --interface {interface} '
+                program = f'PPPwn\\pppwn_cpp.exe --interface {interface} -a '
                 command = command.replace("=", " ")
             else:
                 program = f'python PPPwn/pppwn.py --interface="{interface}" '
