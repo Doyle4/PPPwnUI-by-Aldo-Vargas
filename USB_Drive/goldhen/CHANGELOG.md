@@ -1,7 +1,12 @@
 # Changelog
 
+## v2.4b18.2
+- Added PPPoE Patch to avoid multiple exploitations
+- Package Scanning Improvements:
+  Added support for excluding folders during package scanning. Folders starting with a dot (e.g., ".test") and those containing a ".ignore" file will be automatically skipped.
+
 ## v2.4b18
-- Added Cheat Downloader (Thanks to [ctn](https://github.com/ctn123))
+- Added Cheat Downloader
 - Added support for 10.50, 10.70 and 10.71
 - Improved rest mode support
 - Fixed network servers configuration save
