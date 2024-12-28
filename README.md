@@ -75,8 +75,24 @@ Check the folder USB Drive (GoldHEN_v2.4b18.2) for additional information.
 
 Using stage2 version 1.03 by SiSTR0. GoldHEN is still in development for 9.50, 9.51 (TBD).
 Next fw version to be added will be 9.03. A lite version for 9.00 is included.
+GoldHEN also supports firmwares 5.05 & 6.72.
 
-Credits to SiSTR0 and devs that contributed to his repository https://github.com/SiSTR0/PPPwn
+| Features | More Features |
+------------------------------|-----------------------------------------------------------------------------------------------
+| - Homebrew Enabler          | - Internal pkg installation support (/data/pkg) (Thanks to [OSM](https://github.com/OSM-Made)) |
+| - Debug Settings            | - Remote Package Install |
+| - VR Support                | - FTP Server on 2121 port (Thanks to [hippie68](https://github.com/hippie68)) |
+| - Rest Mode Support         | - External HDD Support |
+| - Debug Trophies Support    | - Official External HDD Format Support |
+| - UART Enabler              | - BinLoader Server on 9090 port |
+| - Remote Play Enabler       | - Klog Server on 3232 port  |
+| - FW Update Block           | - CE-30391-6 Error CMOS Fix |
+| - Integrated Cheat Menu     | - Scanlines overlay         |
+| - Integrated FPS Counter    | - Never Disable Screenshot  |
+| - TitleId label feature     | - sys_dynlib_dlsym Patch    |
+| - Plugins support           |                             |
+
+Credits to SiSTR0 and devs that contributed to his repository https://github.com/SiSTR0/PPPwn and on [Discord](https://discord.com/invite/pR5NTEVBGt)
 
 ### PS4HEN VTX  (7.00 to 11.00)
 Stage2 by @LightningMods & @EchoStrech with BinLoader integraded for normal and NOBD consoles.
@@ -89,11 +105,23 @@ This is only an alternative method to GoldHEN and a temporary solution specially
 PPPwnUI now copies the PS4-HEN-PPPwn-VTX payload to "USB Drive" folder. Or rename the one of the payloads in "Additional Payloads" by LightningMods as `payload.bin`
 Copy `payload.bin` to the root directory of USB EXFAT drive and start PPPwn from PS4HEN VTX or PS4HEN NODB tabs.
 
+| Features                 | More Features |
+|--------------------------|---------------|
+| - Homebrew Enabler       | - Jailbreak   |
+| - Debug Settings         | - Sandbox Escape |
+| - VR Support             | - Remote Package Install |
+| - Rest Mode Support      | - External HDD Support |
+| - Debug Trophies Support | - External HDD Format 7.xx Support |
+| - UART Enabler           | - Never Disable Screenshot |
+| - Remote Play Enabler    | - sys_dynlib_dlsym Patch |
+| - Bypass Firmware Checks |                          |
+
+
 Credits to all contributors in ps4-hen-vtx.
-Special thanks to xVortex, SiSTR0, EchoStrecth and BestPig for his releases in Discord and https://github.com/EchoStretch/ps4-hen-vtx
+Special thanks to xVortex, SiSTR0, EchoStrecth and BestPig for his releases in [Discord](https://discord.com/invite/E8MTqmYS4m) and https://github.com/EchoStretch/ps4-hen-vtx
 
 ### PPPwn Linux Payloads (Available only for 11.00)
-This payload lets run PS4 Linux on 11.0 firmware. If you're on 9.00, it's recommended to stay in that version.
+This payload lets run PS4 Linux on 11.00 firmware. If you're on 9.00, it's recommended to stay in that version.
 Check https://ps4linux.com/ps4-linux-11-0-payloads-pppwn-tutorial/ for detailed information.
 
 Credits to EinTim23, LightningMods, sleirsgolvy, the Psxita Team, TheFlow0 and all the contributos to https://github.com/EinTim23/PS4-Linux-Loader
