@@ -13,7 +13,7 @@ import shutil
 import urllib
 import random
 
-GUI_VERSION = "3.32a"
+GUI_VERSION = "3.32b"
 destination_path = "USB_Drive"
 
 # Tabs
@@ -26,6 +26,8 @@ CUSTOM  = "Custom"
 
 # GOLDHEN Options
 GOLDHEN_900 = "Goldhen for 9.00"
+GOLDHEN_903 = "Goldhen for 9.03"
+GOLDHEN_904 = "Goldhen for 9.04"
 GOLDHEN_950 = "Goldhen for 9.50"
 GOLDHEN_951 = "Goldhen for 9.51"
 GOLDHEN_960 = "Goldhen for 9.60"
@@ -394,7 +396,7 @@ class App:
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
         elif current_tab == GOLDHEN:
             # Options de firmware pour PPPwn PS4HEN
-            return [GOLDHEN_900,
+            return [GOLDHEN_900, GOLDHEN_903, GOLDHEN_904,
                     GOLDHEN_950, GOLDHEN_951, GOLDHEN_960,
                     GOLDHEN_1000, GOLDHEN_1001,
                     GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071,
