@@ -55,6 +55,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### PPPwn-1.0332
+Fix offsets for 10.00 and 10.01
+
 ### PPPwn-1.0331
 Added support for more payloads using Payload Guest application.
 
