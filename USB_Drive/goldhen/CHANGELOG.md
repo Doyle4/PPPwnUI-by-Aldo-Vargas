@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.4b18.3
+- Added Auto-Apply Cheats on game start
+- Added support for 9.03
+- Improved Klog server
+
 ## v2.4b18.2
 - Added PPPoE Patch to avoid multiple exploitations
 - Package Scanning Improvements:

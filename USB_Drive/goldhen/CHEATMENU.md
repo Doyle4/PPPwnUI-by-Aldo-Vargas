@@ -25,11 +25,15 @@ While we make every effort to deliver high quality products, we do not guarantee
   - `/user/data/GoldHEN/cheats/json/`
   - `/user/data/GoldHEN/cheats/shn/`
   - `/user/data/GoldHEN/cheats/mc4/`
-- Naming convension: `{titleid}_{version}*.{format}`
-  - e.g. `CUSA001234_01.01_anything_really_before.json`
-  - e.g. `CUSA001234_01.01_abc_def_ghi.shn`
-  - e.g. `CUSA001234_01.01.mc4`
- - **Note:** Maximum of 8 cheat files.
+- Naming convension: 
+  - `{titleid}_{version}.{format}` (e.g.`CUSA001234_01.00.mc4`)
+  - `{titleid}_{version}_{index}.{format}` (e.g.`CUSA001234_01.00_2.mc4`)
+  - `{titleid}_{version}_{processname}.{format}` (e.g.`CUSA001234_01.00_game.elf.mc4`)
+  - `{titleid}_{version}_{processname}_{index}.{format}` (e.g.`CUSA001234_01.00_game.elf_2.mc4`)
+
+ - **Note:**
+   - Indices 2-8 are allowed.
+   - Maximum of 8 cheat files.
 
 ### Format Changes:
 - Cheat descriptions:
