@@ -1,6 +1,6 @@
 # PS4HEN v2.1.5
 
-Copy the payload file `ps4-hen-xxxx-PPPwn-vtx-1.0xxx.bin` corresponding to the PS4 firmware to the root directory of USB drive exFAT.
+Copy the payload file `ps4-hen-xxxx-PPPwn-vtx.bin` corresponding to the PS4 firmware to the root directory of USB drive exFAT.
 
 Rename the payload file to `payload.bin`.
 
@@ -54,6 +54,9 @@ Massive Thanks to the following:
 - [illusion0001](https://twitter.com/illusion0002)
 
 ## Changelog:
+
+### PPPwn-1.0333
+Update 750.h Fix
 
 ### PPPwn-1.0332
 Fix offsets for 10.00 and 10.01
