@@ -76,6 +76,18 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### HEN-1.0358
+Update 1200-1202.h
+
+### HEN-1.0357
+Fix 1200-1202
+
+### HEN-1.0356
+Fixed offset RsaesPkcs1v15Dec2048CRT_addr for 11.02
+
+### HEN-1.0355
+Fixed offset DT_HASH_SEGMENT_addr for 11.02
+
 ### HEN-1.0354
 added back 5.05 fix
 
