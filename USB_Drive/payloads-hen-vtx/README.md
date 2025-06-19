@@ -76,6 +76,10 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### HEN-1.0360
+Fix eventhandler_register_addr
+Merge pull request from StevenMiller123/fix-offsets
+
 ### HEN-1.0358
 Update 1200-1202.h
 

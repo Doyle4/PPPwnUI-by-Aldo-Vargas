@@ -13,7 +13,7 @@ import shutil
 import urllib
 import random
 
-GUI_VERSION = "3.32c"
+GUI_VERSION = "3.33"
 destination_path = "USB_Drive"
 
 # Tabs
@@ -113,6 +113,7 @@ class App:
             pass
         else :
             window.iconbitmap("media/logo.ico")
+            window.protocol("WM_DELETE_WINDOW", self.menu_exit)
 
         self.menu = tk.Menu(window)
         window.config(menu=self.menu)
@@ -173,8 +174,11 @@ class App:
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit         Esc", command=self.menu_exit)
 
-        self.download_ps4hen = tk.StringVar(window)
-        self.download_ps4hen.set("1")
+        self.download_ps4hen_vtx = tk.StringVar(window)
+        self.download_ps4hen_vtx.set("0")
+
+        self.download_ps4hen_pppwn = tk.StringVar(window)
+        self.download_ps4hen_pppwn.set("1")
 
         self.retry_var = tk.StringVar(window)
         self.retry_var.set("1")
@@ -187,7 +191,8 @@ class App:
 
         self.exploit_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label=PPPWN, menu=self.exploit_menu)
-        self.exploit_menu.add_checkbutton(label=f"  Download PS4HEN", onvalue="1", offvalue="0", variable=self.download_ps4hen)
+        self.exploit_menu.add_checkbutton(label=f"  Download PS4HEN VTX", onvalue="1", offvalue="0", variable=self.download_ps4hen_vtx, command=self.download_option1)
+        self.exploit_menu.add_checkbutton(label=f"  Download PS4HEN PPPwn", onvalue="1", offvalue="0", variable=self.download_ps4hen_pppwn, command=self.download_option2)
         self.exploit_menu.add_checkbutton(label=f"  Retry PPPwn ", onvalue="1", offvalue="0", variable=self.retry_var)
         self.exploit_menu.add_checkbutton(label=f"  Run {done_file} & Exit when done ", onvalue="1", offvalue="0", variable=self.runbat_var)
         if sys.platform == "win32":
@@ -453,7 +458,8 @@ class App:
                self.retry_var.set(self.read_line(f))
                self.runbat_var.set(self.read_line(f))
                self.tool_var.set(self.read_line(f))
-               self.download_ps4hen.set(self.read_line(f))
+               self.download_ps4hen_pppwn.set(self.read_line(f))
+               self.download_ps4hen_vtx.set(self.read_line(f))
                self.random_logo.set(self.read_line(f))
             f.close()
 
@@ -474,13 +480,24 @@ class App:
         f.write(self.retry_var.get() + '\n')
         f.write(self.runbat_var.get() + '\n')
         f.write(self.tool_var.get() + '\n')
-        f.write(self.download_ps4hen.get() + '\n')
+        f.write(self.download_ps4hen_pppwn.get() + '\n')
+        f.write(self.download_ps4hen_vtx.get() + '\n')
         f.write(self.random_logo.get() + '\n')
         f.close()
 
+    def download_option1(self):
+        if self.download_ps4hen_pppwn.get() == "1":
+           self.download_ps4hen_pppwn.set("0")
+
+    def download_option2(self):
+        if self.download_ps4hen_vtx.get() == "1":
+           self.download_ps4hen_vtx.set("0")
+
     def menu_exit(self):
         remove_file(retry_file)
+        self.save_last_options()
         self.window.quit()
+        root.destroy()
 
     def window_exit(self, event):
         self.menu_exit()
@@ -585,11 +602,14 @@ class App:
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/goldhen/{firmware_value}/stage2.bin"'
         elif firmware.find("payload.bin for ") != -1:
             firmware_value = firmware.replace("payload.bin for ","").replace(".", "")
-            source_payload = f"{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-vtx.bin"
+            if self.download_ps4hen_vtx.get() == "1":
+                source_payload = f"{destination_path}/payloads-hen-vtx/ps4-hen-{firmware_value}-vtx.bin"
+            else:
+                source_payload = f"{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-vtx.bin"
             command = f'--fw="{firmware_value}" --stage1="PPPwn/stage1/{firmware_value}/stage1.bin" --stage2="PPPwn/ps4hen/{firmware_value}/stage2.bin"'
 
             # Update payload folders
-            if self.download_ps4hen.get() == "1":
+            if self.download_ps4hen_pppwn.get() == "1" or self.download_ps4hen_vtx.get() == "1":
                 self.show_console()
 
                 try:
@@ -599,7 +619,11 @@ class App:
                     urlretrieve(url, stage2)
 
                     # Download payload for PS4HEN
-                    url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-vtx.bin'
+                    if self.download_ps4hen_vtx.get() == "1":
+                        url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/{destination_path}/payloads-hen-vtx/ps4-hen-{firmware_value}-vtx.bin'
+                    else:
+                        url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-vtx.bin'
+
                     urlretrieve(url, source_payload)
                 except urllib.error.HTTPError as e:
                     pass
