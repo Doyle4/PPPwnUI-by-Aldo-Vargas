@@ -76,6 +76,13 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### HEN-1.0373
+upload_prx_to_disk: show failure notification
+
+### HEN-1.0372
+Merge pull request #4 from illusion0001/plugin-loader
+- Load PRX into `ScePartyDaemon`
+
 ### HEN-1.0366
 Merge pull request from illusion0001/plugin-loader
 - Load plugins from dynlib_load_prx syscall
