@@ -76,6 +76,9 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### HEN-1.0374
+fixed 11.00 hash
+
 ### HEN-1.0373
 upload_prx_to_disk: show failure notification
 
