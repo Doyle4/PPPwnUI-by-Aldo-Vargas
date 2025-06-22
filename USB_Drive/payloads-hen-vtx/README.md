@@ -19,6 +19,12 @@ https://github.com/EchoStretch/ps4-hen-vtx
 ## Features
 - Current Supports 5.05, 6.72, 7.00 - 12.02
 - Homebrew Enabler
+- [Plugins System](https://github.com/illusion0001/ps4-hen-plugins)
+  - Load PRX into `ScePartyDaemon`
+    - (Starts klog server on port 3232, based on [klogsrv](https://github.com/ps5-payload-dev/klogsrv))
+    - (Starts FTP server on port 2121, based on [ftpsrv](https://github.com/ps5-payload-dev/ftpsrv))
+      - **Note: No SELF decryption yet.**
+  - Load PRX into retail apps (on startup in CRT `_init_env`) (Shows only notification for now)
 - Jailbreak
 - Sandbox Escape
 - Debug Settings
@@ -75,6 +81,20 @@ Massive Thanks to the following:
 - [illusion0001](https://twitter.com/illusion0002)
 
 ## Changelog:
+
+### HEN-1.0381
+Update README.md
+
+### HEN-1.0380
+Merge pull request #6 from illusion0001/plugin-loader
+- download_prx: fix path
+
+### HEN-1.0378
+Merge pull request #5 from illusion0001/plugin-loader
+- Ditch patterns for syscall and read syscall pointer directly
+
+### HEN-1.0385
+Update all submodules to latest commits
 
 ### HEN-1.0374
 fixed 11.00 hash
