@@ -82,7 +82,7 @@ Massive Thanks to the following:
 
 ## Changelog:
 
-### HEN-1.0381
+### HEN-1.0383
 Update README.md
 
 ### HEN-1.0380
@@ -93,7 +93,7 @@ Merge pull request #6 from illusion0001/plugin-loader
 Merge pull request #5 from illusion0001/plugin-loader
 - Ditch patterns for syscall and read syscall pointer directly
 
-### HEN-1.0385
+### HEN-1.0375
 Update all submodules to latest commits
 
 ### HEN-1.0374
