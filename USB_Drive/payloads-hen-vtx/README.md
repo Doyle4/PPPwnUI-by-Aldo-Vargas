@@ -1,4 +1,4 @@
-# PS4HEN v2.1.5
+# PS4HEN v2.1.6
 
 Copy the payload file `ps4-hen-xxxx-vtx.bin` corresponding to the PS4 firmware to the root directory of USB drive exFAT.
 
@@ -24,7 +24,7 @@ https://github.com/EchoStretch/ps4-hen-vtx
     - (Starts klog server on port 3232, based on [klogsrv](https://github.com/ps5-payload-dev/klogsrv))
     - (Starts FTP server on port 2121, based on [ftpsrv](https://github.com/ps5-payload-dev/ftpsrv))
       - **Note: No SELF decryption yet.**
-  - Load PRX into retail apps (on startup in CRT `_init_env`) (Shows only notification for now)
+  - Load PRX into retail apps (on startup in CRT `_init_env`) (Prints to TTY for now)
 - Jailbreak
 - Sandbox Escape
 - Debug Settings
@@ -32,7 +32,7 @@ https://github.com/EchoStretch/ps4-hen-vtx
 - VR Support
 - Remote Package Install
 - Rest Mode Support
-- External HDD Format 7.xx Support
+- External HDD Format Support
 - Bypass Firmware Checks
 - Debug Trophies Support
 - sys_dynlib_dlsym Patch
@@ -81,6 +81,9 @@ Massive Thanks to the following:
 - [illusion0001](https://twitter.com/illusion0002)
 
 ## Changelog:
+
+### HEN-1.0386
+Update Version 2.1.6
 
 ### HEN-1.0383
 Update README.md
