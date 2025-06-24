@@ -82,6 +82,12 @@ Massive Thanks to the following:
 
 ## Changelog:
 
+### HEN-1.0388
+Updated ftpsrv in plugin with fixed filesize and file timestamps
+
+### HEN-1.0387
+Update README.md
+
 ### HEN-1.0386
 Update Version 2.1.6
 
