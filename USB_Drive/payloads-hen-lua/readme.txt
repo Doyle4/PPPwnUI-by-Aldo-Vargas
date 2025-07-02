@@ -1,6 +1,12 @@
 PS4 HEN
 https://github.com/Scene-Collective/ps4-hen/releases
 
+pre-release-exploit_fixes-94
+Should be "done" with fixes, just needs testing/verification
+
+pre-release-exploit_fixes-93
+Update comment for exploit_fixes in the ini
+
 pre-release-exploit_fixes-92
 Add exploit_fixes" for 5.05
 - Now to test all of them and find patches made outside of these that are wrong
