@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.4b18.4
+- Added support for 12.00 and 12.02
+
 ## v2.4b18.3
 - Added Auto-Apply Cheats on game start
 - Added support for 9.03

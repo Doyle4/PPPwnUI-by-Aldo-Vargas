@@ -43,6 +43,16 @@
 - Scanlines overlay
 - Internal pkg installation support (/data/pkg) (Thanks to [OSM](https://github.com/OSM-Made))
 
+### Supported Firmwares
+
+- FW 5.05
+- FW 6.71 / 6.72
+- FW 9.00 / 9.03 / 9.60
+- FW 10.00 / 10.01
+- FW 10.50 / 10.70 / 10.71
+- FW 11.00
+- FW 12.00 / 12.02
+
 ### :warning: Warnings
 
 The BinLoader server is in an experimental phase but in any case there are several payloads around, some even not very well done, which can also be harmful and in the best case only crash the console. So use it with caution.
