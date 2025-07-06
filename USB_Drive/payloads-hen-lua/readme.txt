@@ -28,6 +28,13 @@ https://github.com/Scene-Collective/ps4-hen/releases
 - Disable ASLR
 
 # Changelog
+
+## pre-release-exploit_fixes-105
+How the... more off by ones
+
+## pre-release-exploit_fixes-104
+Unpatch last bytes of copyin, copyout, copinstr
+
 ## pre-release-exploit_fixes-100
 Add 12.50 support (#19) by Al-Azif
 
