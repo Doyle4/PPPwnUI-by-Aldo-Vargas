@@ -28,6 +28,46 @@ https://github.com/Scene-Collective/ps4-hen/releases
 - Disable ASLR
 
 # Changelog
+## pre-release-exploit_fixes-130
+Enable exploit fixes by default (#25)
+
+## pre-release-exploit_fixes-129
+[DRAFT] WIP NoBD Support (#26)
+
+## pre-release-exploit_fixes-124
+Reparse config after updating it (#23)
+
+## pre-release-exploit_fixes-123
+Fix warn about missing default value usage
+
+## pre-release-main-119
+Link shellui to plugin mono section in plugins (#22)
+
+## pre-release-main-118
+Exploit fixes (#21)
+
+## pre-release-exploit_fixes-116
+Merge branch 'main' into exploit_fixes
+
+## pre-release-main-115
+Check if HEN is already installed (#20)
+
+Skip reinstalling if it is
+
+pre-release-main-113
+Load ShellUI Plugin (#18)
+
+Needs testing on other firmwares
+Plugin source:
+https://github.com/Scene-Collective/ps4-hen-plugins/tree/main/plugin_mono/source
+
+# Confirmed working firmwares
+
+- 5.05
+- 6.72
+- 9.00
+- 11.00
+- 12.02
 
 ## pre-release-exploit_fixes-105
 How the... more off by ones
@@ -92,3 +132,29 @@ git clone https://github.com/Scene-Collective/ps4-hen.git
 Compile the payload:
 
 ./build.sh
+
+#Contributors
+Massive credits to the following:
+
+- qwertyoruiopz
+- Specter
+- flat_z
+- idc
+- Joonie
+- Vortex
+- zecoxao
+- SiSTRo
+- SocraticBliss
+- ChendoChap
+- Biorn1950
+- Al-Azif
+- Anonymous
+- illusiony
+
+# Helped With Porting
+Massive Thanks to the following:
+
+- BestPig
+- LM
+- Al-Azif
+- zecoxao

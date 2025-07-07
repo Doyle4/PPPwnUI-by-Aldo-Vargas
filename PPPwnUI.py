@@ -620,7 +620,8 @@ class App:
 
                     # Download payload for PS4HEN
                     if self.download_ps4hen_vtx.get() == "1":
-                        url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/{destination_path}/payloads-hen-vtx/ps4-hen-{firmware_value}-vtx.bin'
+                        # url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/{destination_path}/payloads-hen-vtx/ps4-hen-{firmware_value}-vtx.bin'
+                        url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/{destination_path}/payloads-hen-lua/hen.bin'
                     else:
                         url = f'https://raw.githubusercontent.com/aldostools/PPPwnUI/master/{destination_path}/payloads/ps4-hen-{firmware_value}-PPPwn-vtx.bin'
 
