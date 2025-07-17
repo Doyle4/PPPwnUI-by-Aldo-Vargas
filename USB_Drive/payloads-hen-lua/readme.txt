@@ -39,10 +39,7 @@ https://github.com/Scene-Collective/ps4-hen-plugins/releases
 
 # Changelog
 
-## pre-release-temp-154
-Merge branch 'zlib-prx' into temp
-
-## pre-release-temp-153
+pre-release-main-151
 Clean.sh: delete only files in `tmp` (#34)
 
 ## pre-release-main-149
