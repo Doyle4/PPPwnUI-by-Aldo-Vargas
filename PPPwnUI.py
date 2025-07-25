@@ -13,7 +13,7 @@ import shutil
 import urllib
 import random
 
-GUI_VERSION = "3.33"
+GUI_VERSION = "3.35"
 destination_path = "USB_Drive"
 
 # Tabs
@@ -25,6 +25,17 @@ LINUX   = "Linux"
 CUSTOM  = "Custom"
 
 # GOLDHEN Options
+GOLDHEN_700 = "Goldhen for 7.00"
+GOLDHEN_701 = "Goldhen for 7.01"
+GOLDHEN_702 = "Goldhen for 7.02"
+GOLDHEN_750 = "Goldhen for 7.50"
+GOLDHEN_751 = "Goldhen for 7.51"
+GOLDHEN_755 = "Goldhen for 7.55"
+GOLDHEN_800 = "Goldhen for 8.00"
+GOLDHEN_801 = "Goldhen for 8.01"
+GOLDHEN_803 = "Goldhen for 8.03"
+GOLDHEN_850 = "Goldhen for 8.50"
+GOLDHEN_852 = "Goldhen for 8.52"
 GOLDHEN_900 = "Goldhen for 9.00"
 GOLDHEN_903 = "Goldhen for 9.03"
 GOLDHEN_904 = "Goldhen for 9.04"
@@ -350,7 +361,7 @@ class App:
             self.selected_tab = PPPWN
             self.firmware_var.set(self.selected_fw1)
         elif current_tab == GOLDHEN:
-            num_columns = 2
+            num_columns = 3
             self.selected_tab = GOLDHEN
             self.firmware_var.set(self.selected_fw2)
         elif current_tab == PS4HEN:
@@ -401,11 +412,10 @@ class App:
                     "10.00", "10.01", "10.50", "10.70", "10.71", "11.00"]
         elif current_tab == GOLDHEN:
             # Options de firmware pour PPPwn PS4HEN
-            return [GOLDHEN_900, GOLDHEN_903, GOLDHEN_904,
-                    GOLDHEN_950, GOLDHEN_951, GOLDHEN_960,
-                    GOLDHEN_1000, GOLDHEN_1001,
-                    GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071,
-                    GOLDHEN_1100]
+            return [GOLDHEN_700, GOLDHEN_701, GOLDHEN_702, GOLDHEN_750, GOLDHEN_751, GOLDHEN_755,
+                    GOLDHEN_800, GOLDHEN_801, GOLDHEN_803, GOLDHEN_850, GOLDHEN_852, "",
+                    GOLDHEN_900, GOLDHEN_903, GOLDHEN_904, GOLDHEN_950, GOLDHEN_951, GOLDHEN_960,
+                    GOLDHEN_1000, GOLDHEN_1001, GOLDHEN_1050, GOLDHEN_1070, GOLDHEN_1071, GOLDHEN_1100]
         elif current_tab == PS4HEN or current_tab == NOBD:
             # Options de firmware pour PS4HEN VTX + USB BinLoader
             return [PS4HEN_700, PS4HEN_701, PS4HEN_702, PS4HEN_750, PS4HEN_751, PS4HEN_755,
