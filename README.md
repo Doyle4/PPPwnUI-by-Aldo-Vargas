@@ -71,12 +71,13 @@ PPPwn is available for the following 23 firmwares:
 Put golden.bin in the root of USB Drive and plug it in USB port before start the payload.
 If found, it is copied to the internal HDD at this path: /data/GoldHEN/payloads/goldhen.bin.
 After the installation, the file is not longer needed in the USB drive.
-Check the folder USB Drive (GoldHEN_v2.4b18.4) for additional information.
+Check the folder USB Drive (GoldHEN_v2.4b18.5) for additional information.
 
 Using stage2 version 1.05 by SiSTR0. This loader only supports payloads with a kernel entrypoint.
 A lite version for 9.00 is included.
 
-GoldHEN also supports firmwares 5.05 & 6.72.
+GoldHEN also supports firmwares 5.05, 5.07, 6.71, 6.72, 11.02, 11.50, 11.52, 12.00 and 12.02.
+Firmwares from 11.02 up to 12.02 require a Lua exploit. Use Remote Lua Loader
 
 | Features | More Features |
 ------------------------------|-----------------------------------------------------------------------------------------------
