@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.4b18.5
+- Added support for 7.0x, 7.5x, 8.0x, 8.5x, 9.0x, 9.5x, 11.0x, 11.5x
+- Added Game Stats support
+- Added Date/Time auto update
+- Improved BinLoader server (ELF support)
+
 ## v2.4b18.4
 - Added support for 12.00 and 12.02
 
