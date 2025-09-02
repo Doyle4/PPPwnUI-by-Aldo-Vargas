@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.4b18.6
+- Added BD-App AutoKill and Disc AutoEject
+- Added Plugins Downloader (Thanks to [ctn](https://github.com/ctn123))
+- Added AIO fix plugin support (Thanks to [jocover](https://github.com/jocover))
+- Updated GoldHEN top supporters page (Thanks to all)
+
 ## v2.4b18.5
 - Added support for 7.0x, 7.5x, 8.0x, 8.5x, 9.0x, 9.5x, 11.0x, 11.5x
 - Added Game Stats support
